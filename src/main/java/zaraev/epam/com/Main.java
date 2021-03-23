@@ -2,6 +2,6 @@ package zaraev.epam.com;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("dssd");
+        System.out.println("dssd1");
     }
 }
