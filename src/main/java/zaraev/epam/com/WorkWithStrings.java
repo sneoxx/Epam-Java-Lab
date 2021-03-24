@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class WorkWithStrings {
     /**
      * Получить длину строки
-     * @param string
-     * @return int
+     * @param string - принимает строку на вход
+     * @return int возвращает число int
      */
     public int getLength(String string){
         return string.length();
@@ -14,9 +14,9 @@ public class WorkWithStrings {
 
     /**
      * Сравнить 2 строки без учета регистра
-     * @param string
-     * @param string2
-     * @return boolean
+     * @param string принимает строку на вход
+     * @param string2 принимает строку на вход
+     * @return boolean возвращает true или false
      */
     public boolean getEqualsIgnoreCase(String string, String string2){
         return string.equalsIgnoreCase(string2);
@@ -24,8 +24,8 @@ public class WorkWithStrings {
 
     /**
      * Получить из строки массив символов
-     * @param string
-     * @return char[]
+     * @param string принимает строку на вход
+     * @return char[] мозвращает массив символов
      */
     public char[] getToCharArray(String string){
         return string.toCharArray();
@@ -33,8 +33,8 @@ public class WorkWithStrings {
 
     /**
      * Получить из строки массив байтов
-     * @param string
-     * @return byte[]
+     * @param string принимает строку на вход
+     * @return byte[] возвращает массив байтов
      */
     public byte[] getBytesString(String string){
         return string.getBytes();
@@ -42,8 +42,8 @@ public class WorkWithStrings {
 
     /**
      * Привести строку к верхнему регистру
-     * @param string
-     * @return String
+     * @param string принимает строку на вход
+     * @return String возвращает строку
      */
     public String getToUpperCase(String string){
         return string.toUpperCase();
@@ -51,9 +51,9 @@ public class WorkWithStrings {
 
     /**
      * Найти первую позицию символа
-     * @param string
-     * @param string2
-     * @return int
+     * @param string принимает строку в которой будем искать
+     * @param string2 принимает строку, которую будем искать
+     * @return int возвращает позицию символа
      */
     public int getIndexOf(String string, String string2){
         return string.indexOf(string2);
@@ -61,9 +61,9 @@ public class WorkWithStrings {
 
     /**
      * Найти последнюю позицию символа
-     * @param string
-     * @param string2
-     * @return int
+     * @param string принимает строку в которой будем искать
+     * @param string2 принимает строку, которую будем искать
+     * @return int возвращает позицию символа
      */
     public int getLastIndexOf(String string, String string2){
         return string.lastIndexOf(string2);
@@ -71,9 +71,9 @@ public class WorkWithStrings {
 
     /**
      * Проверить оканчивается-ли строка на слово
-     * @param string
-     * @param string2
-     * @return boolean
+     * @param string принимает строку в которой будем искать
+     * @param string2 принимает строку, которую будем искать
+     * @return boolean возвращает true или false
      */
     public boolean getEndsWith(String string, String string2){
         return string.endsWith(string2);
@@ -81,9 +81,9 @@ public class WorkWithStrings {
 
     /**
      * Проверить начинается-ли строка на слово
-     * @param string
-     * @param string2
-     * @return boolean
+     * @param string принимает строку в которой будем искать
+     * @param string2 принимает строку, которую будем искать
+     * @return boolean возвращает true или false
      */
     public boolean getStartsWith(String string, String string2){
         return string.startsWith(string2);
@@ -91,10 +91,10 @@ public class WorkWithStrings {
 
     /**
      * Заменить все символы в строке
-     * @param string
-     * @param char1
-     * @param char2
-     * @return String
+     * @param string принимает строку на вход
+     * @param char1 принимает символ который будем менять
+     * @param char2 принимает символ на который будем менять
+     * @return String возвращает строку
      */
     public String getReplace(String string, char char1, char char2){
         return string.replace(char1, char2);
@@ -102,20 +102,20 @@ public class WorkWithStrings {
 
     /**
      * Получить подстроку с index1 символа по index2 символ:
-     * @param string
-     * @param index1
-     * @param index2
-     * @return String
+     * @param string принимает строку на вход
+     * @param index1 принимает индекс первого символа
+     * @param index2 принимает индекс второго символа
+     * @return String возвращает строку
      */
     public String getSubstring(String string, int index1, int index2){
         return string.substring(index1, index2);
     }
 
     /**
-     * азбить строку по символу
-     * @param string
-     * @param regex
-     * @return String[]
+     * разбить строку по символу
+     * @param string принимает строку на вход
+     * @param regex по какому символу разбить
+     * @return String[] возвращает массив строк
      */
     public String[] getsSplit(String string, String regex){
         return string.split(regex);
@@ -123,8 +123,8 @@ public class WorkWithStrings {
 
     /**
      * Поменять последовательность символов в строке на обратную
-     * @param string
-     * @return String
+     * @param string принимает строку на вход
+     * @return String возвращает строку
      */
     public String getReverseString(String string) {
         StringBuilder builder = new StringBuilder(string);

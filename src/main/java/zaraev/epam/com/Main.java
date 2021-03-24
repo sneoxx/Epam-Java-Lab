@@ -3,14 +3,11 @@ package zaraev.epam.com;
 import java.util.Arrays;
 
 public class Main {
-
-
     public static void main(String[] args) {
         String string = "Hello World - это моя первая программа!";
         String string2 = new String("Я крутой Java программист");
         String string3 = string2.concat(string2.concat((string2.concat(string2.concat(string2)))));
         WorkWithStrings myString = new WorkWithStrings();
-
         System.out.println("1. Получить длину строки : " + myString.getLength(string));
         System.out.println("2. Сравнить 2 строки без учета регистра: " + myString.getEqualsIgnoreCase(string, string2));
         System.out.println("4. Получить из строки массив символов:  " + Arrays.toString(myString.getToCharArray(string)));
@@ -25,7 +22,5 @@ public class Main {
         System.out.println("13. Получить подстроку с 44 символа по 90 символ: " + myString.getSubstring(string3,39, 91));
         System.out.println("14. Разбить строку по символу пробел (т.е. чтобы каждое слово было отдельным элементом массива): " + Arrays.toString(myString.getsSplit(string," ")));
         System.out.println("15. Поменять последовательность символов в строке на обратную: " + myString.getReverseString(string));
-
     }
-
 }
