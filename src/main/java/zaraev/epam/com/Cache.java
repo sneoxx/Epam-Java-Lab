@@ -4,6 +4,10 @@ public class Cache<T> {
     public int capacity;
     public Object[] cache;
 
+    /**
+     * Конструктор параметризированного класса Cache, содержащий поле capacity с размером массива и поле Object[] cache - содержащее массив Object
+     * @param capacity - размер массива
+     */
     public Cache(int capacity) {
         cache = new Object[capacity];
         this.capacity = capacity;
