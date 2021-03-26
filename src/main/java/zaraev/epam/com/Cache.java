@@ -1,6 +1,6 @@
 package zaraev.epam.com;
 
-public class Cache <T> {
+public class Cache<T> {
     public int capacity;
     public Object[] cache;
 
@@ -9,71 +9,83 @@ public class Cache <T> {
         this.capacity = capacity;
     }
 
-
-    //   voidadd(element) метод добавления элемента в кэш (наш массив). ВАЖНО добавление всегда происходит в конец массива. Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива.
+    /**
+     * добавление элемента в кэш
+     * добавление всегда происходит в конец массива. Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива
+     * @param element - искомый элемент добавлемый в кеш
+     */
     public void add(T element) {
-        if (cache[capacity] != null) {
+        if (cache[capacity - 1] != null) {
             for (int i = 0; i < capacity; i++) {
-                if (cache[i] == null)
+                if (cache[i] == null && !cache[i].equals(element)) {
                     cache[i] = element;
-
+                    break;
+                }
             }
-        } else{
-                Object[] tempArray = new Object[capacity];
-                System.arraycopy(cache, 1, tempArray, 0, 9);
-                System.arraycopy(tempArray, 0, cache, 0, 10);
-                cache[capacity] = element;
-            }
-
+        } else {
+            shiftElementsLeft(capacity - 1);
+            cache[capacity - 1] = element;
+        }
     }
 
-
-    //  void delete(element) метод удаления элемента из кэша. При удалении мы должны будем сдвинуть оставшуюся часть массива влево.
-    public <T> void delete(T element) {
-        if (this.isPresent(element)) {
-            for (int i = 0; i < capacity; i++) {
-                if (cache[i].equals(element)) {
-                    cache[i] = null;
-                    Object[] tempArray = new Object[capacity - i - 1];
-                    System.arraycopy(cache, i + 1, tempArray, 0, capacity - i - 1);
-                    System.arraycopy(tempArray, 0, cache, i + 1, capacity - i - 1);
-                    }
+    /**
+     * Удаление элемента из кэша, с последующим сдвигом всех элементов правее его влево
+     * @param element - удаляемый элемент
+     */
+    public void delete(T element) {
+        for (int i = 0; i < capacity; i++) {
+            if (cache[i].equals(element)) {
+                cache[i] = null;
+                shiftElementsLeft(i);
+                break;
             }
         }
     }
 
-    // boolean isPresent(element) метод определения есть ли искомый элемент в кэше.
-    public <T> boolean isPresent(T element) {
+    /**
+     * Поиск элемента в кэше
+     * @param element - элемент, который ищем
+     * @return - вернет true при наличии элемента, при отсутствии элемента false
+     */
+    public boolean isPresent(T element) {
         for (int i = 0; i < capacity; i++) {
             if (cache[i].equals(element))
-            return true;
+                return true;
         }
         return false;
     }
 
-    // elementget(element) метод получения объекта из кэша. При нахождении элемента в кэше его необходимо поместить в конец массива, с учетом сдвига остальных элементов влево.
-
-    @SuppressWarnings("unchecked")
-    public <T> T get(T element) {
-        Object tmpCache = null;
-        if (this.isPresent(element)) {
-            for (int i = 0; i < capacity; i++) {
-                if (cache[i].equals(element)) {
-                    tmpCache = cache[i];
-                    Object[] tempArray = new Object[capacity - i - 1];
-                    System.arraycopy(cache, i + 1, tempArray, 0, capacity - i - 1);
-                    System.arraycopy(tempArray, 0, cache, i + 1, capacity - i - 1);
-                    this.get(element);
-                }
-
-            }
+    /**
+     * Получение элемента из кеша, при нахождении объекта переместить его в конец кеша, со сдвигом всех элементов правее его влево
+     * @param element - получаемый элемент
+     * @return - вернет элемент при наличии, при отсутствии вернет null
+     */
+   @SuppressWarnings("unchecked")
+    public T get(T element) {
+        if (!isPresent(element)) {
+            return null;
         }
-        return (T) tmpCache;
+        delete(element);
+        add(element);
+        return element;
     }
 
+    /**
+     * очистка кэша от всех элементов
+     */
     void clear() {
         for (int i = 0; i < capacity; i++) {
             cache[i] = null;
+        }
+    }
+
+    /**
+     * Сдвиг всех элементов массива влево с удалением элемента стоящем на индексе из входного параметра
+     * @param a - индес удаляемого элемента в массиве
+     */
+    public void shiftElementsLeft(int a) {
+        for (int i = a; i < capacity - 1; i++) {
+            cache[i] = cache[i + 1];
         }
     }
 
