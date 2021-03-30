@@ -1,5 +1,7 @@
 package zaraev.epam.com;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -41,21 +43,71 @@ public class Main {
         myCache.printCache();
         System.out.println("Очищаем кеш");
         myCache.clear();
+        myCache.printCache();
+        System.out.println("Добавляем 3 элемента");
         myCache.add(84, 14);
         myCache.add(94, 15);
         myCache.add(104, 16);
         myCache.printCache();
+        System.out.println();
+        System.out.println();
         System.out.println("Работа с Storage");
         Storage<Integer> myStorage = new Storage<>();
+        System.out.println("Создаем хранилище по умолчанию и получаем его длину");
         System.out.println(myStorage.capacity);
         myStorage.printStorage();
+        System.out.println("Создаем новое хранилище и сразу заполняем его");
         Storage<Integer> myStorage1 = new Storage<>(new Integer[]{1, 2, 3, 4, 5});
         myStorage1.printStorage();
+        System.out.println("Добавляем элемент");
+        myStorage1.add(6);
+        myStorage1.printStorage();
+        System.out.println("Получаем последний элемент");
+        System.out.println(myStorage1.getLast());
+        System.out.println("Добавляем элемент");
+        myStorage1.add(7);
+        myStorage1.printStorage();
+        System.out.println("Получаем последний элемент");
+        System.out.println(myStorage1.getLast());
+        myStorage1.printStorage();
+        System.out.println("Содержимое кеша");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Получение элемента из массива по индексу, если его нет в кеше занесем в кеш");
+        System.out.println(myStorage1.get(5));
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Получение элемента из массива по индексу, если его нет в кеше занесем в кеш");
+        System.out.println(myStorage1.get(6));
+        System.out.print("Cashe");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Получение элемента из массива по индексу, который уже есть к кеше");
+        System.out.println(myStorage1.get(6));
+        System.out.print("Cashe");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Получение элемента из массива по индексу, которого вообще нет");
+        System.out.println(myStorage1.get(6));
+        myStorage1.printStorage();
+        System.out.print("Cashe");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Удаление последнего элемента из массива и удаление его из кеша");
+        myStorage1.delete();
+        myStorage1.printStorage();
+        System.out.print("Cashe");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Очистка массива и кеша");
+        myStorage1.clear();
+        myStorage1.printStorage();
+        System.out.print("Cashe");
+        myStorage1.cacheStorage.printCache();
+        System.out.println("Создаем новое хранилище и сразу заполняем его до максимума");
+        Storage<String> myStorage2 = new Storage<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
+        myStorage2.printStorage();
+        System.out.println(myStorage2.capacity);
+        System.out.println("Добавляем элемент");
+        myStorage2.add("6");
+        myStorage2.printStorage();
+        System.out.println(myStorage2.capacity);
+        //myStorage.printStorage();
         //System.out.println(myStorage1.toString());
-        //myStorage1.printStorage();
-        //myStorage.printStorage();
-        //myStorage =  new Storage();
-        //myStorage.printStorage();
     }
 }
 

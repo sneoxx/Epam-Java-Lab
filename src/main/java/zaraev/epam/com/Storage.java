@@ -1,6 +1,7 @@
 package zaraev.epam.com;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Storage<T> {
     public Object[] storage;
@@ -22,6 +23,22 @@ public class Storage<T> {
     public Storage(Object[] arrayElements) {
         this.storage = arrayElements;
         this.capacity = arrayElements.length;
+        cacheStorage = new Cache<>(arrayElements.length);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Storage<?> storage1 = (Storage<?>) o;
+        return capacity == storage1.capacity && Arrays.equals(storage, storage1.storage) && Objects.equals(cacheStorage, storage1.cacheStorage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(cacheStorage, capacity);
+        result = 31 * result + Arrays.hashCode(storage);
+        return result;
     }
 
     /**
@@ -31,15 +48,14 @@ public class Storage<T> {
      * @param element - искомый элемент
      */
     public void add(T element) {
-        if (storage[capacity - 1] == null) {
-            for (int i = 0; i < capacity; i++) {
-                if (storage[i] == null) {
-                    storage[i] = element;
-                }
+        for (int i = 0; i < capacity; i++)
+            if (storage[i] == null) {
+                storage[i] = element;
+                return;
             }
-        } else {
+        if (storage[capacity - 1] != null) {
             int tempLength = capacity;
-            this.capacity = (int) (capacity * 1.5);
+            capacity = (int) (capacity * 1.5);
             Object[] tempStorage = new Object[(int) (capacity * 1.5)];
             for (int i = 0; i < tempLength; i++) {
                 tempStorage[i] = storage[i];
@@ -48,6 +64,7 @@ public class Storage<T> {
             storage[tempLength] = element;
         }
     }
+
 
     /**
      * Удаление последнего элемента из массива storage и удаления его из кеша
@@ -58,11 +75,10 @@ public class Storage<T> {
             cacheStorage.delete(element);
         }
         for (int i = 0; i < capacity; i++) {
-            if (storage.equals(element)) {
+            if (storage[i].equals(element)) {
                 storage[i] = null;
             }
         }
-
     }
 
     /**
@@ -81,27 +97,36 @@ public class Storage<T> {
      * @return - вернет элемент класса T
      */
     public T getLast() {
-        for (int i = 0; i < capacity; i++) {
-            if (storage[i] == null) {
-                return (T) storage[i - 1];
+        for (int i = capacity - 1; i >= 0; i--) {
+            if (storage[i] != null) {
+                return (T) storage[i];
             }
         }
-        return (T) storage[capacity - 1];
+        return null;
     }
 
     /**
      * Получения элемента из массива Storage по индексу
      * Если такой элемент уже есть в кеше, возвращаем его из кеша
-     * Если его нет в кеше, добавляаем объект из массива  в кеш и возвращаем его
+     * Если его нет в кеше, добавляаем объект из массива в кеш и возвращаем его
      *
      * @param index - индекс элемента в массиве
      * @return - вернет элемент класса T, найденный по индексу
      */
+    /*
     public T get(int index) {
-        if (cacheStorage.isPresent((T) storage[index]))
+        if (cacheStorage.isPresent((T) storage[index])) {
             return cacheStorage.get(index);
-        else
-            cacheStorage.add((T) storage[index], index);
+        }
+         cacheStorage.add((T) storage[index], index);
+         return (T) storage[index];
+        }
+     */
+    public T get(int index) {
+        if (cacheStorage.isPresent(index)) {
+            return cacheStorage.get(index);
+        }
+        cacheStorage.add((T) storage[index], index);
         return (T) storage[index];
     }
 
@@ -109,15 +134,18 @@ public class Storage<T> {
      * Вывод в консоль всех элементов Storage
      */
     public void printStorage() {
-        //for (int i = 0; i < capacity; i++) {
-        // if (storage[i] != null) {
         System.out.print(Arrays.toString(storage));
-        //  System.out.print("[" + storage[i] + "] ");
-        //  }
-        //}
         System.out.println();
     }
+
+    public String toString() {
+        return "Storage{" +
+                "storage=" + Arrays.toString(storage) +
+                ", cache=" + cacheStorage +
+                '}';
+    }
 }
+
 
 
 

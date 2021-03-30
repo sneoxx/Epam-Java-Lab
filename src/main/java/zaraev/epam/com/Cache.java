@@ -1,5 +1,7 @@
 package zaraev.epam.com;
 
+import java.util.Arrays;
+
 public class Cache<T> {
     public int capacity;
     public CacheElement<T>[] cache;
@@ -14,6 +16,26 @@ public class Cache<T> {
         this.capacity = capacity;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "cache=" + Arrays.toString(cache) +
+                ", cacheCapacity=" + capacity +
+                '}';
+
+
+    }
+
     /**
      * добавление элемента в кэш
      * добавление всегда происходит в конец массива. Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива
@@ -25,14 +47,13 @@ public class Cache<T> {
             for (int i = 0; i < capacity; i++) {
                 if (cache[i] == null) {
                     cache[i] = new CacheElement(element, index);
-                    break;
+                    return;
                 }
             }
-        } else {
-            if (!isPresent(element)) {
-                shiftElementsLeft(capacity - 1);
-                cache[capacity - 1] = new CacheElement(element, index);
-            }
+        }
+        if (!isPresent(element)) {
+            shiftElementsLeft(capacity - 1);
+            cache[capacity - 1] = new CacheElement(element, index);
         }
     }
 
@@ -43,13 +64,11 @@ public class Cache<T> {
      */
     public void delete(T element) {
         for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null) {
-                if (element.equals(cache[i].element)) {
-                    cache[i] = null;
-                    shiftElementsLeft(i);
-                    cache[capacity - 1] = null;
-                    break;
-                }
+            if (cache[i] != null && element.equals(cache[i].element)) {
+                cache[i] = null;
+                shiftElementsLeft(i);
+                cache[capacity - 1] = null;
+                return;
             }
         }
     }
@@ -62,9 +81,8 @@ public class Cache<T> {
      */
     public boolean isPresent(T element) {
         for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null) {
-                if (cache[i].element.equals(element))
-                    return true;
+            if (cache[i] != null && cache[i].element.equals(element)) {
+                return true;
             }
         }
         return false;
@@ -78,9 +96,8 @@ public class Cache<T> {
      */
     public boolean isPresent(int index) {
         for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null) {
-                if (cache[i].index == index)
-                    return true;
+            if (cache[i] != null && cache[i].index == index) {
+                return true;
             }
         }
         return false;
@@ -96,10 +113,10 @@ public class Cache<T> {
         if (isPresent(index)) {
             for (int i = 0; i < cache.length; i++) {
                 if (cache[i].index == index) {
-                    CacheElement tempCache = cache[i];
+                    CacheElement<T> tempCache = cache[i];
                     delete(cache[i].element);
-                    add((T) tempCache.element, tempCache.index);
-                    return (T) tempCache.element;
+                    add(tempCache.element, tempCache.index);
+                    return tempCache.element;
                 }
             }
         }
@@ -118,10 +135,10 @@ public class Cache<T> {
     /**
      * Сдвиг всех элементов массива влево с удалением элемента стоящем на индексе из входного параметра
      *
-     * @param a - индес удаляемого элемента в массиве
+     * @param index - индес удаляемого элемента в массиве
      */
-    public void shiftElementsLeft(int a) {
-        for (int i = a; i < capacity - 1; i++) {
+    public void shiftElementsLeft(int index) {
+        for (int i = index; i < capacity - 1; i++) {
             cache[i] = cache[i + 1];
         }
     }
@@ -130,10 +147,11 @@ public class Cache<T> {
      * Вывод в консоль всех элементов кеша
      */
     public void printCache() {
-        for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null)
-                System.out.print("[" + cache[i].element + "," + cache[i].index + "] ");
-        }
+        System.out.print(Arrays.toString(cache));
+      //  for (int i = 0; i < capacity; i++) {
+          //  if (cache[i] != null)
+     //           System.out.print("[" + cache[i].element + "," + cache[i].index + "] ");
+      //  }
         System.out.println();
     }
 }
