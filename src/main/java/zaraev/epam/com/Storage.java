@@ -64,11 +64,9 @@ public class Storage<T> {
                 storage[i] = element;
                 return;
             }
-        if (storage[capacity - 1] != null) {
             int addIndex = capacity;
             increaseArrayLength();
             storage[addIndex] = element;
-        }
     }
 
     public void increaseArrayLength () {
