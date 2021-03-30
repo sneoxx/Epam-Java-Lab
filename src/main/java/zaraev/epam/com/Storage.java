@@ -16,14 +16,17 @@ public class Storage<T> {
      */
     public Storage() {
         storage = new Object[10];
-        this.capacity = 10;
+        capacity = 10;
         cacheStorage = new Cache<>(10);
     }
 
-    public Storage(Object[] arrayElements) {
-        this.storage = arrayElements;
-        this.capacity = arrayElements.length;
-        cacheStorage = new Cache<>(arrayElements.length);
+    public Storage(T[] arrayElements) {
+        storage = new Object[10];
+        for (int i = 0; i < arrayElements.length; i++) {
+            storage[i] = arrayElements[i];
+        }
+        capacity = 10;
+        cacheStorage = new Cache<>(10);
     }
 
     @Override
@@ -41,6 +44,14 @@ public class Storage<T> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "storage=" + Arrays.toString(storage) +
+                ", cache=" + cacheStorage +
+                '}';
+    }
+
     /**
      * Добавления элемента в массив storage
      * Если мы достигли предела длины массива, увеличиваем емкость нашего массива storage в 1.5 раза.
@@ -48,7 +59,7 @@ public class Storage<T> {
      * @param element - искомый элемент
      */
     public void add(T element) {
-        for (int i = 0; i < capacity; i++)
+        for (int i = 0; i < storage.length; i++)
             if (storage[i] == null) {
                 storage[i] = element;
                 return;
@@ -56,7 +67,7 @@ public class Storage<T> {
         if (storage[capacity - 1] != null) {
             int tempLength = capacity;
             capacity = (int) (capacity * 1.5);
-            Object[] tempStorage = new Object[(int) (capacity * 1.5)];
+            Object[] tempStorage = new Object[capacity];
             for (int i = 0; i < tempLength; i++) {
                 tempStorage[i] = storage[i];
             }
@@ -64,7 +75,6 @@ public class Storage<T> {
             storage[tempLength] = element;
         }
     }
-
 
     /**
      * Удаление последнего элемента из массива storage и удаления его из кеша
@@ -74,9 +84,10 @@ public class Storage<T> {
         if (cacheStorage.isPresent(element)) {
             cacheStorage.delete(element);
         }
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(element)) {
                 storage[i] = null;
+                return;
             }
         }
     }
@@ -85,7 +96,7 @@ public class Storage<T> {
      * Очищение всех элементов из нашего массива storage и кэша
      */
     public void clear() {
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < storage.length; i++) {
             storage[i] = null;
         }
         cacheStorage.clear();
@@ -97,7 +108,7 @@ public class Storage<T> {
      * @return - вернет элемент класса T
      */
     public T getLast() {
-        for (int i = capacity - 1; i >= 0; i--) {
+        for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
                 return (T) storage[i];
             }
@@ -122,8 +133,9 @@ public class Storage<T> {
          return (T) storage[index];
         }
      */
-    public T get(int index) {
-        if (cacheStorage.isPresent(index)) {
+    @SuppressWarnings("unchecked")
+    protected T get(int index) {
+        if (cacheStorage.isPresent((T) storage[index])) {
             return cacheStorage.get(index);
         }
         cacheStorage.add((T) storage[index], index);
@@ -137,15 +149,4 @@ public class Storage<T> {
         System.out.print(Arrays.toString(storage));
         System.out.println();
     }
-
-    public String toString() {
-        return "Storage{" +
-                "storage=" + Arrays.toString(storage) +
-                ", cache=" + cacheStorage +
-                '}';
-    }
 }
-
-
-
-

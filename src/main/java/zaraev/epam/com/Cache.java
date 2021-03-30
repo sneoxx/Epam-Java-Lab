@@ -43,17 +43,19 @@ public class Cache<T> {
      * @param element - искомый элемент добавлемый в кеш
      */
     public void add(T element, int index) {
-        if (cache[capacity - 1] == null) {
-            for (int i = 0; i < capacity; i++) {
-                if (cache[i] == null) {
-                    cache[i] = new CacheElement(element, index);
-                    return;
+        if (element != null) {
+            if (cache[capacity - 1] == null) {
+                for (int i = 0; i < capacity; i++) {
+                    if (cache[i] == null) {
+                        cache[i] = new CacheElement(element, index);
+                        return;
+                    }
                 }
             }
-        }
-        if (!isPresent(element)) {
-            shiftElementsLeft(capacity - 1);
-            cache[capacity - 1] = new CacheElement(element, index);
+            if (!isPresent(element)) {
+                shiftElementsLeft(capacity - 1);
+                cache[capacity - 1] = new CacheElement(element, index);
+            }
         }
     }
 
@@ -148,10 +150,10 @@ public class Cache<T> {
      */
     public void printCache() {
         System.out.print(Arrays.toString(cache));
-      //  for (int i = 0; i < capacity; i++) {
-          //  if (cache[i] != null)
-     //           System.out.print("[" + cache[i].element + "," + cache[i].index + "] ");
-      //  }
+        //  for (int i = 0; i < capacity; i++) {
+        //  if (cache[i] != null)
+        //           System.out.print("[" + cache[i].element + "," + cache[i].index + "] ");
+        //  }
         System.out.println();
     }
 }

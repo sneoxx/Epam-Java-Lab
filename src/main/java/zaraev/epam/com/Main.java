@@ -81,10 +81,11 @@ public class Main {
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, который уже есть к кеше");
         System.out.println(myStorage1.get(6));
+        myStorage1.printStorage();
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, которого вообще нет");
-        System.out.println(myStorage1.get(6));
+        System.out.println(myStorage1.get(7));
         myStorage1.printStorage();
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
@@ -102,12 +103,10 @@ public class Main {
         Storage<String> myStorage2 = new Storage<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
         myStorage2.printStorage();
         System.out.println(myStorage2.capacity);
-        System.out.println("Добавляем элемент");
+        System.out.println("Добавляем элемент и расширяем хранилище");
         myStorage2.add("6");
         myStorage2.printStorage();
         System.out.println(myStorage2.capacity);
-        //myStorage.printStorage();
-        //System.out.println(myStorage1.toString());
     }
 }
 
