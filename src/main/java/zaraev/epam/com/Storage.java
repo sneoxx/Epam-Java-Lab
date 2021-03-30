@@ -10,7 +10,7 @@ public class Storage<T> {
 
     /**
      * Параметризированный класс Storage
-     * Cодержит storage - массивтипа Т storage, capacity - длину массива storage, cacheStorage - объект типа Cache<T>
+     * Cодержит storage - массив типа Т storage, capacity - длину массива storage, cacheStorage - объект типа Cache<T>
      * Содержит дефолтный конструктор, в котором создается наш массив типа Т, а так же объект кэша.
      * Второй конструктор принимает на вход массив элементов типа Т и сразузаполняет массив storage.
      */
@@ -65,15 +65,19 @@ public class Storage<T> {
                 return;
             }
         if (storage[capacity - 1] != null) {
-            int tempLength = capacity;
-            capacity = (int) (capacity * 1.5);
-            Object[] tempStorage = new Object[capacity];
-            for (int i = 0; i < tempLength; i++) {
-                tempStorage[i] = storage[i];
-            }
-            storage = tempStorage;
-            storage[tempLength] = element;
+            int addIndex = capacity;
+            increaseArrayLength();
+            storage[addIndex] = element;
         }
+    }
+
+    public void increaseArrayLength () {
+        capacity = (int) (capacity * 1.5);
+        Object[] tempStorage = new Object[capacity];
+        for (int i = 0; i < storage.length; i++) {
+            tempStorage[i] = storage[i];
+        }
+       storage = tempStorage;
     }
 
     /**
