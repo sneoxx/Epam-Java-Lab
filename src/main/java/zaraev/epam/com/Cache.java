@@ -40,8 +40,8 @@ public class Cache<T> {
                     }
                 }
             }
-                shiftElementsLeft(capacity - 1);
-                cache[capacity - 1] = new CacheElement(element, index);
+            shiftElementsLeft(capacity - 1);
+            cache[capacity - 1] = new CacheElement(element, index);
         }
     }
 
@@ -139,7 +139,3 @@ public class Cache<T> {
         System.out.println();
     }
 }
-
-
-
-

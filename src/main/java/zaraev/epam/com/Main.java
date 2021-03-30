@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-
         Cache<Integer> myCache = new Cache<>(10);
         System.out.println("Работа с кешем");
         myCache.add(11, 0);
@@ -109,6 +108,3 @@ public class Main {
         System.out.println(myStorage2.capacity);
     }
 }
-
-
-

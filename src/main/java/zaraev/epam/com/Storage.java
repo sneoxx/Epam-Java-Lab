@@ -1,7 +1,6 @@
 package zaraev.epam.com;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Storage<T> {
     public Object[] storage;
@@ -39,8 +38,8 @@ public class Storage<T> {
 
     /**
      * Добавления элемента в массив storage
-     * Если мы достигли предела длины массива, увеличиваем емкость нашего массива storage в 1.5 раза.
-     *
+     * Если мы достигли предела длины массива,
+     * увеличиваем емкость нашего массива storage в 1.5 раза через отдельный метод.
      * @param element - искомый элемент
      */
     public void add(T element) {
@@ -49,18 +48,21 @@ public class Storage<T> {
                 storage[i] = element;
                 return;
             }
-            int addIndex = capacity;
-            increaseArrayLength();
-            storage[addIndex] = element;
+        int addIndex = capacity;
+        increaseArrayLength();
+        storage[addIndex] = element;
     }
 
-    public void increaseArrayLength () {
+    /**
+     * Увеличение емкости нашего массива storage в 1.5 раза
+     */
+    public void increaseArrayLength() {
         capacity = (int) (capacity * 1.5);
         Object[] tempStorage = new Object[capacity];
         for (int i = 0; i < storage.length; i++) {
             tempStorage[i] = storage[i];
         }
-       storage = tempStorage;
+        storage = tempStorage;
     }
 
     /**
