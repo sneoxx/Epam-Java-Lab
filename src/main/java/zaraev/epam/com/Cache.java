@@ -17,23 +17,11 @@ public class Cache<T> {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
     public String toString() {
         return "{" +
                 "cache=" + Arrays.toString(cache) +
                 ", cacheCapacity=" + capacity +
                 '}';
-
-
     }
 
     /**
@@ -43,7 +31,7 @@ public class Cache<T> {
      * @param element - искомый элемент добавлемый в кеш
      */
     public void add(T element, int index) {
-        if (element != null) {
+        if (element != null && !isPresent(element)) {
             if (cache[capacity - 1] == null) {
                 for (int i = 0; i < capacity; i++) {
                     if (cache[i] == null) {
@@ -52,10 +40,8 @@ public class Cache<T> {
                     }
                 }
             }
-            if (!isPresent(element)) {
                 shiftElementsLeft(capacity - 1);
                 cache[capacity - 1] = new CacheElement(element, index);
-            }
         }
     }
 
@@ -116,8 +102,8 @@ public class Cache<T> {
             for (int i = 0; i < cache.length; i++) {
                 if (cache[i].index == index) {
                     CacheElement<T> tempCache = cache[i];
-                    delete(cache[i].element);
-                    add(tempCache.element, tempCache.index);
+                    shiftElementsLeft(index);
+                    cache[capacity - 1] = tempCache;
                     return tempCache.element;
                 }
             }
@@ -150,10 +136,6 @@ public class Cache<T> {
      */
     public void printCache() {
         System.out.print(Arrays.toString(cache));
-        //  for (int i = 0; i < capacity; i++) {
-        //  if (cache[i] != null)
-        //           System.out.print("[" + cache[i].element + "," + cache[i].index + "] ");
-        //  }
         System.out.println();
     }
 }

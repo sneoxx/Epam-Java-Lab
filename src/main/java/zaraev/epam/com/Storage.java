@@ -30,21 +30,6 @@ public class Storage<T> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Storage<?> storage1 = (Storage<?>) o;
-        return capacity == storage1.capacity && Arrays.equals(storage, storage1.storage) && Objects.equals(cacheStorage, storage1.cacheStorage);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(cacheStorage, capacity);
-        result = 31 * result + Arrays.hashCode(storage);
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "Storage{" +
                 "storage=" + Arrays.toString(storage) +
@@ -125,15 +110,6 @@ public class Storage<T> {
      *
      * @param index - индекс элемента в массиве
      * @return - вернет элемент класса T, найденный по индексу
-     */
-    /*
-    public T get(int index) {
-        if (cacheStorage.isPresent((T) storage[index])) {
-            return cacheStorage.get(index);
-        }
-         cacheStorage.add((T) storage[index], index);
-         return (T) storage[index];
-        }
      */
     @SuppressWarnings("unchecked")
     protected T get(int index) {
