@@ -29,8 +29,7 @@ public class WorkWithCollections {
      * Вывод на консоль коллекции mapHuman
      */
     public void printHumanMap() {
-        for (Map.Entry<Integer, String> pair : mapHuman.entrySet())
-        {
+        for (Map.Entry<Integer, String> pair : mapHuman.entrySet()) {
             String key = pair.getKey().toString();
             String value = pair.getValue();
             System.out.println(key + ":" + value);
@@ -140,17 +139,18 @@ public class WorkWithCollections {
     /**
      * Сортирует коллекцию mapHuman по полю значение
      */
-    public void sortMapByValue() {
+    public void sortByValue() {
         System.out.println("Сортировка Мапы по значению");
-//        List<Integer> mapKeys = new ArrayList<>(mapHuman.keySet());
-//        List<String> mapValues = new ArrayList<>(mapHuman.values());
-//
-//        System.out.println(mapValues);
-//        System.out.println(mapKeys);
-        SortedSet mapValues = new TreeSet<>(mapHuman.values());
-        System.out.println(mapValues);
-        //List<String> mapValues = new ArrayList<>(mapHuman.values());
-        //Collections.sort(mapValues);
-        //System.out.println(mapValues);
+        List<Map.Entry<Integer, String>> list = new LinkedList<Map.Entry<Integer, String>>(mapHuman.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, String>>() {
+            public int compare(Map.Entry<Integer, String> o1,
+                               Map.Entry<Integer, String> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+        mapHuman.clear();
+        for (Map.Entry<Integer, String> aa : list) {
+            mapHuman.put(aa.getKey(), aa.getValue());
+        }
     }
 }

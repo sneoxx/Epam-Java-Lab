@@ -24,5 +24,7 @@ public class Main {
         myWorkWithCollections.printHumanMap();
         myWorkWithCollections.sortMapByKey();
         myWorkWithCollections.printHumanMap();
+        myWorkWithCollections.sortByValue();
+        myWorkWithCollections.printHumanMap();
     }
 }
