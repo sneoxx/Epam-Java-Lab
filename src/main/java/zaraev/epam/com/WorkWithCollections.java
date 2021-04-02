@@ -4,22 +4,12 @@ package zaraev.epam.com;
 import java.util.*;
 
 public class WorkWithCollections {
-    ArrayList<Human> listHuman = new ArrayList<Human>();
-    HashMap<Integer, String> mapHuman = new HashMap<>();
-    Set<Integer> setHuman = new HashSet<>();
-
-    @Override
-    public String toString() {
-        return "WorkWithCollections{" +
-                "listHuman=" + listHuman +
-                '}';
-    }
 
     /**
      * Вывод на консоль коллекций listHuman
      */
-    public void printHumanList() {
-        for (Human human : listHuman) {
+    public void printHumanList(List<Human> list) {
+        for (Human human : list) {
             System.out.println(human);
         }
         System.out.println();
@@ -28,8 +18,8 @@ public class WorkWithCollections {
     /**
      * Вывод на консоль коллекции mapHuman
      */
-    public void printHumanMap() {
-        for (Map.Entry<Integer, String> pair : mapHuman.entrySet()) {
+    public void printHumanMap(Map<Integer, String> map) {
+        for (Map.Entry<Integer, String> pair : map.entrySet()) {
             String key = pair.getKey().toString();
             String value = pair.getValue();
             System.out.println(key + ":" + value);
@@ -38,62 +28,27 @@ public class WorkWithCollections {
     }
 
     /**
-     * Заполняет коллекцию listHuman 10 элементами с 3 дублями, по 1 дублю на каждого
-     */
-    public void createHumanList() {
-        System.out.println("Заполняем коллекцию");
-        listHuman.add(new Human("Минаев Елисей Платонович", 23, new Address("Москва", "Ленина", 5, 6)));
-        listHuman.add(new Human("Николаева Дарина Тимофеевна", 33, new Address("Омск", "Октябрьская", 34, 2)));
-        listHuman.add(new Human("Софронова Варвара Константиновна", 37, new Address("Тольятти", "Московская", 12, 63)));
-        listHuman.add(new Human("Каев Арсений Георгиевич", 41, new Address("Самара", "Рябиновый", 26, 57)));
-        listHuman.add(new Human("Марва Арина Егоровна", 59, new Address("Орел", "Тополиная", 57, 98)));
-        listHuman.add(new Human("Захаров Даниил Максимович", 51, new Address("Киев", "Космонавтов", 46, 106)));
-        listHuman.add(new Human("Лопатин Артём Маркович", 28, new Address("Оскол", "Дзержинского", 85, 73)));
-        listHuman.add(new Human("Минаев Елисей Платонович", 23, new Address("Москва", "Ленина", 5, 6)));
-        listHuman.add(new Human("Николаева Дарина Тимофеевна", 33, new Address("Омск", "Октябрьская", 34, 2)));
-        listHuman.add(new Human("Софронова Варвара Константиновна", 37, new Address("Тольятти", "Московская", 12, 63)));
-    }
-
-    /**
-     * Заполняет коллекцию mapHuman
-     */
-    public void createHumanMap() {
-        System.out.println("Заполняем коллекцию мапы ");
-        mapHuman.put(55, "Минаев Елисей Платонович");
-        mapHuman.put(82, "Николаева Дарина Тимофеевна");
-        mapHuman.put(16, "Софронова Варвара Константиновна");
-        mapHuman.put(24, "Каев Арсений Георгиевич");
-        mapHuman.put(4, "Марва Арина Егоровна");
-        mapHuman.put(94, "Захаров Даниил Максимович");
-        mapHuman.put(27, "Лопатин Артём Маркович");
-    }
-
-    /**
      * Находит дубли в коллекции listHuman и выводит их в консоль.
      */
-    public void viewDuplicatesListHuman() {
+    public void viewDuplicatesListHuman(List<Human> listHuman) {
         System.out.println("Выводим дубли");
         Set<Human> humanDuplicateSet = new HashSet<>();
-        for (int i = 0; i < listHuman.size(); i++) {
-            Human e1 = listHuman.get(i);
-            for (int j = 0; j < listHuman.size(); j++) {
-                if (i == j) continue;
-                Human e2 = listHuman.get(j);
-                if (e1.equals(e2)) {
-                    humanDuplicateSet.add(e2);
-                }
+        for (Human human : listHuman) {
+            if (listHuman.indexOf(human) != listHuman.lastIndexOf(human)) {
+                humanDuplicateSet.add(human);
             }
         }
         for (Human human : humanDuplicateSet) {
             System.out.println(human);
         }
         System.out.println();
+
     }
 
-    /**
+     /**
      * Удяляет дубли в коллекции listHuman
      */
-    public void removeDuplicatesListHuman() {
+    public void removeDuplicatesListHuman(List<Human> listHuman) {
         System.out.println("Удаляем дубли");
         Set<Human> tempSet = new LinkedHashSet<>(listHuman);
         listHuman.clear();
@@ -103,15 +58,15 @@ public class WorkWithCollections {
     /**
      * Сортирует коллекцию listHuman по ФИО
      */
-    public void sortByFioHuman() {
+    public void sortByFullNameHuman(List<Human> listHuman) {
         System.out.println("Сортировка по ФИО");
-        listHuman.sort(Comparator.comparing(Human::getFio));
+        listHuman.sort(Comparator.comparing(Human::getFullName));
     }
 
     /**
      * Сортирует коллекцию listHuman по возрасту
      */
-    public void sortByAgeHuman() {
+    public void sortByAgeHuman(List<Human> listHuman) {
         System.out.println("Сортировка по возрасту");
         listHuman.sort(Comparator.comparing(Human::getAge));
     }
@@ -119,9 +74,8 @@ public class WorkWithCollections {
     /**
      * Сортирует коллекцию listHuman по адресу
      */
-    public void sortByAddressHuman() {
+    public void sortByAddressHuman(List<Human> listHuman) {
         System.out.println("Сортировка по адресу");
-        //listHuman.sort(Comparator.comparing(Human::getAddress));
         Comparator comparator = Comparator.comparing(Human::getAddress);
         Collections.sort(listHuman, comparator);
     }
@@ -129,17 +83,17 @@ public class WorkWithCollections {
     /**
      * Сортирует коллекцию mapHuman по полю ключ
      */
-    public void sortMapByKey() {
+    public <K, V> HashMap<K, V> sortMapByKey(HashMap<K, V> mapHuman) {
         System.out.println("Сортировка Мапы по ключу");
-        TreeMap<Integer, String> sortedTreeMap = new TreeMap<>(mapHuman);
-        mapHuman.clear();
-        mapHuman = new LinkedHashMap<>(sortedTreeMap);
+        TreeMap<K, V> sortedTreeMap = new TreeMap<>(mapHuman);
+        HashMap<K, V> sortedMapHuman = new LinkedHashMap<>(sortedTreeMap);
+        return sortedMapHuman;
     }
 
     /**
      * Сортирует коллекцию mapHuman по полю значение
      */
-    public void sortByValue() {
+    public <T, V> HashMap<Integer, String> sortByValue(HashMap<Integer, String> mapHuman) {
         System.out.println("Сортировка Мапы по значению");
         List<Map.Entry<Integer, String>> list = new LinkedList<Map.Entry<Integer, String>>(mapHuman.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<Integer, String>>() {
@@ -148,9 +102,10 @@ public class WorkWithCollections {
                 return (o1.getValue()).compareTo(o2.getValue());
             }
         });
-        mapHuman.clear();
+        HashMap<Integer, String> temp = new LinkedHashMap<Integer, String>();
         for (Map.Entry<Integer, String> aa : list) {
-            mapHuman.put(aa.getKey(), aa.getValue());
+            temp.put(aa.getKey(), aa.getValue());
         }
+        return temp;
     }
 }

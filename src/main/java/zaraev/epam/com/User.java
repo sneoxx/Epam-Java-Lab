@@ -8,17 +8,12 @@ import java.util.HashMap;
 public class User {
     private String fio;
     private Role role;
-    static private HashMap<Role, String> roleMap = new HashMap<>();
+    private HashMap<Role, String> roleMap;
 
-    static{
-        roleMap.put(Role.ADMIN, "Полные админские права");
-        roleMap.put(Role.USER, "Стандартные права пользователя");
-        roleMap.put(Role.MODERATOR, "Права по модерированию контента");
-    }
-
-    public User(String fio, Role role) {
+    public User(String fio, Role role, HashMap map) {
         this.fio = fio;
         this.role = role;
+        this.roleMap = map;
     }
 
     public String getFio() {
@@ -41,7 +36,6 @@ public class User {
      * Вывести приветственное сообщение на основании роли пользователя
      * @param user - Обьект класса user
      */
-
     public void welcomeMessage(User user){
         System.out.println("Приветствуем Вас " + user.fio + ". Ваша роль - " + user.role + ". Вам предоставлены - " + roleMap.get(user.role));
     }
