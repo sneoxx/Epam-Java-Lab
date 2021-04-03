@@ -1,7 +1,10 @@
 package zaraev.epam.com;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 
+@Slf4j
 public class Storage<T> {
     public Object[] storage;
     public Cache<T> cacheStorage;
@@ -11,12 +14,13 @@ public class Storage<T> {
      * Параметризированный класс Storage
      * Cодержит storage - массив типа Т storage, capacity - длину массива storage, cacheStorage - объект типа Cache<T>
      * Содержит дефолтный конструктор, в котором создается наш массив типа Т, а так же объект кэша.
-     * Второй конструктор принимает на вход массив элементов типа Т и сразузаполняет массив storage.
+     * Второй конструктор принимает на вход массив элементов типа Т и сразу заполняет массив storage.
      */
     public Storage() {
         storage = new Object[10];
         capacity = 10;
         cacheStorage = new Cache<>(10);
+        log.debug("Успешное создание и инициализация пустого хранилища размером в 10 элементов");
     }
 
     public Storage(T[] arrayElements) {
@@ -26,6 +30,7 @@ public class Storage<T> {
         }
         capacity = 10;
         cacheStorage = new Cache<>(10);
+        log.debug("Успешное создание, инициализация и заполнение хранилища размером в 10 элементов");
     }
 
     @Override
@@ -40,6 +45,7 @@ public class Storage<T> {
      * Добавления элемента в массив storage
      * Если мы достигли предела длины массива,
      * увеличиваем емкость нашего массива storage в 1.5 раза через отдельный метод.
+     *
      * @param element - искомый элемент
      */
     public void add(T element) {
@@ -51,6 +57,7 @@ public class Storage<T> {
         int addIndex = capacity;
         increaseArrayLength();
         storage[addIndex] = element;
+        log.debug("Элемент " + element + " успешно добавлен в хранилище storage");
     }
 
     /**
@@ -63,6 +70,7 @@ public class Storage<T> {
             tempStorage[i] = storage[i];
         }
         storage = tempStorage;
+        log.debug("Размер хранилища Storage увеличен в 1.5 раза и состовляет" + capacity);
     }
 
     /**
@@ -76,6 +84,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(element)) {
                 storage[i] = null;
+                log.debug("Элемент " + element + " удален из хранилища storage");
                 return;
             }
         }
@@ -88,6 +97,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             storage[i] = null;
         }
+        log.info("Хранилище Storage очищено");
         cacheStorage.clear();
     }
 
@@ -99,9 +109,11 @@ public class Storage<T> {
     public T getLast() {
         for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
+                log.debug("Последний не null элемент " + storage[i] + " из Storage успешно получен");
                 return (T) storage[i];
             }
         }
+        log.debug("Последний элемент из Storage не получен - хранилище Storage пустое");
         return null;
     }
 
@@ -114,12 +126,26 @@ public class Storage<T> {
      * @return - вернет элемент класса T, найденный по индексу
      */
     @SuppressWarnings("unchecked")
-    protected T get(int index) {
-        if (cacheStorage.isPresent((T) storage[index])) {
-            return cacheStorage.get(index);
+    public T get(int index) {
+        if (storage[index] != null) {
+            if (cacheStorage.isPresent((T) storage[index])) {
+                log.debug("Элемент массива storage " + cacheStorage.get(index) + " уже был в кеше и успешно получен из него");
+                return cacheStorage.get(index);
+            } else {
+                cacheStorage.add((T) storage[index], index);
+                return (T) storage[index];
+            }
+        } else {
+            WorkWithException myCheckedException = new WorkWithException();
+            log.warn("Попытка получения null элемента");
+            try {
+                myCheckedException.myCheckedExceptionNotGetNull();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        cacheStorage.add((T) storage[index], index);
-        return (T) storage[index];
+        log.debug("Элемента с индексом " + index + " в хранилище Storage нет");
+        return null;
     }
 
     /**

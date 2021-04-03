@@ -1,7 +1,11 @@
 package zaraev.epam.com;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
     public static void main(String[] args) {
+        log.info("Старт программы");
         Cache<Integer> myCache = new Cache<>(10);
         System.out.println("Работа с кешем");
         myCache.add(11, 0);
@@ -14,6 +18,8 @@ public class Main {
         myCache.add(84, 8);
         myCache.add(94, 9);
         myCache.add(104, 10);
+        log.info("Кеш заполнен полностью");
+        myCache.add(null, 10);
         System.out.println("Заполнили кеш полностью разными элементами");
         myCache.printCache();
         myCache.add(114, 11);
@@ -33,6 +39,9 @@ public class Main {
         System.out.println("Удаляем элемент 11");
         myCache.delete(11);
         myCache.printCache();
+        System.out.println("Удаляем null элемент ");
+        myCache.delete(null);
+        myCache.printCache();
         System.out.println("Получение элемента по несуществующему полю индекс 99");
         System.out.println(myCache.get(99));
         System.out.println("Получение элемента по полю индекс 9");
@@ -40,6 +49,7 @@ public class Main {
         myCache.printCache();
         System.out.println("Очищаем кеш");
         myCache.clear();
+        log.info("Очистка кеша");
         myCache.printCache();
         System.out.println("Добавляем 3 элемента");
         myCache.add(84, 14);
@@ -50,11 +60,13 @@ public class Main {
         System.out.println();
         System.out.println("Работа с Storage");
         Storage<Integer> myStorage = new Storage<>();
+        log.info("Создано новое хранилище myStorage");
         System.out.println("Создаем хранилище по умолчанию и получаем его длину");
         System.out.println(myStorage.capacity);
         myStorage.printStorage();
         System.out.println("Создаем новое хранилище и сразу заполняем его");
         Storage<Integer> myStorage1 = new Storage<>(new Integer[]{1, 2, 3, 4, 5});
+        log.info("Создано новое хранилище myStorage1");
         myStorage1.printStorage();
         System.out.println("Добавляем элемент");
         myStorage1.add(6);
@@ -93,15 +105,18 @@ public class Main {
         myStorage1.cacheStorage.printCache();
         System.out.println("Очистка массива и кеша");
         myStorage1.clear();
+        log.info("Очистка хранилища myStorage1 и его кеша");
         myStorage1.printStorage();
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
         System.out.println("Создаем новое хранилище и сразу заполняем его до максимума");
         Storage<String> myStorage2 = new Storage<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
+        log.info("Создано новое хранилище myStorage1 и заполнено до максимума");
         myStorage2.printStorage();
         System.out.println(myStorage2.capacity);
         System.out.println("Добавляем элемент и расширяем хранилище");
         myStorage2.add("6");
+        log.info("Хранилище myStorage1 расширено в 1,5 раза после добавления нового элемента");
         myStorage2.printStorage();
         System.out.println(myStorage2.capacity);
     }
