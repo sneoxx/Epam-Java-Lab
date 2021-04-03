@@ -28,24 +28,38 @@ public class WorkWithCollections {
     }
 
     /**
+     * Создает и заполняет коллекцию list 10 элементами с 3 дублями, по 1 дублю на каждого
+     */
+    public ArrayList<Human> createCollectionList() {
+        ArrayList<Human> list = new ArrayList<Human>();
+        list.add(new Human("Минаев Елисей Платонович", 23, new Address("Москва", "Ленина", 5, 6)));
+        list.add(new Human("Николаева Дарина Тимофеевна", 33, new Address("Омск", "Октябрьская", 34, 2)));
+        list.add(new Human("Софронова Варвара Константиновна", 37, new Address("Тольятти", "Московская", 12, 63)));
+        list.add(new Human("Каев Арсений Георгиевич", 41, new Address("Самара", "Рябиновый", 26, 57)));
+        list.add(new Human("Марва Арина Егоровна", 59, new Address("Орел", "Тополиная", 57, 98)));
+        list.add(new Human("Захаров Даниил Максимович", 51, new Address("Киев", "Космонавтов", 46, 106)));
+        list.add(new Human("Лопатин Артём Маркович", 28, new Address("Оскол", "Дзержинского", 85, 73)));
+        list.add(new Human("Минаев Елисей Платонович", 23, new Address("Москва", "Ленина", 5, 6)));
+        list.add(new Human("Николаева Дарина Тимофеевна", 33, new Address("Омск", "Октябрьская", 34, 2)));
+        list.add(new Human("Софронова Варвара Константиновна", 37, new Address("Тольятти", "Московская", 12, 63)));
+        return list;
+    }
+
+    /**
      * Находит дубли в коллекции listHuman и выводит их в консоль.
      */
     public void viewDuplicatesListHuman(List<Human> listHuman) {
         System.out.println("Выводим дубли");
         Set<Human> humanDuplicateSet = new HashSet<>();
         for (Human human : listHuman) {
-            if (listHuman.indexOf(human) != listHuman.lastIndexOf(human)) {
-                humanDuplicateSet.add(human);
+            if (!humanDuplicateSet.add(human)) {
+                System.out.println(human);
             }
         }
-        for (Human human : humanDuplicateSet) {
-            System.out.println(human);
-        }
         System.out.println();
-
     }
 
-     /**
+    /**
      * Удяляет дубли в коллекции listHuman
      */
     public void removeDuplicatesListHuman(List<Human> listHuman) {
@@ -56,29 +70,63 @@ public class WorkWithCollections {
     }
 
     /**
-     * Сортирует коллекцию listHuman по ФИО
+     * Сортирует коллекцию listHuman по ФИО, создан отдельный класс компаратора
      */
     public void sortByFullNameHuman(List<Human> listHuman) {
         System.out.println("Сортировка по ФИО");
-        listHuman.sort(Comparator.comparing(Human::getFullName));
+        Comparator<Human> comparator = new SortFullNameComparator();
+        Collections.sort(listHuman, comparator);
     }
 
     /**
-     * Сортирует коллекцию listHuman по возрасту
+     * Сортирует коллекцию listHuman по возрасту, компаратор создали и переопеределили прямо в main
      */
     public void sortByAgeHuman(List<Human> listHuman) {
         System.out.println("Сортировка по возрасту");
-        listHuman.sort(Comparator.comparing(Human::getAge));
+        Comparator<Human> comparator = new Comparator<Human>() {
+            @Override
+            public int compare(Human o1, Human o2) {
+                return o1.getAge() - o2.getAge();
+            }
+        };
+        listHuman.sort(comparator);
     }
 
     /**
-     * Сортирует коллекцию listHuman по адресу
+     * Сортирует коллекцию listHuman по адресу, компаратор создали прямо в main по сокращенной записи
      */
     public void sortByAddressHuman(List<Human> listHuman) {
         System.out.println("Сортировка по адресу");
-        Comparator comparator = Comparator.comparing(Human::getAddress);
-        Collections.sort(listHuman, comparator);
+        Comparator<Human> comparator = (o1, o2) -> o1.getAddress().compareTo(o2.getFullName());
+        listHuman.sort(comparator);
     }
+
+    /**
+     * Создает и заполняет коллекцию map 10 элементами с 3 дублями, по 1 дублю на каждого
+     */
+    public HashMap<Integer, String> createCollectionMap() {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(55, "Минаев Елисей Платонович");
+        map.put(82, "Николаева Дарина Тимофеевна");
+        map.put(16, "Софронова Варвара Константиновна");
+        map.put(24, "Каев Арсений Георгиевич");
+        map.put(4, "Марва Арина Егоровна");
+        map.put(94, "Захаров Даниил Максимович");
+        map.put(27, "Лопатин Артём Маркович");
+        return map;
+    }
+
+    /**
+     * Создает и заполняет коллекцию map с правами пользователя
+     */
+    public HashMap<Role, String> createCollectionMapUser() {
+        HashMap<Role, String> map = new HashMap<>();
+        map.put(Role.ADMIN, "Полные админские права");
+        map.put(Role.USER, "Стандартные права пользователя");
+        map.put(Role.MODERATOR, "Права по модерированию контента");
+        return map;
+    }
+
 
     /**
      * Сортирует коллекцию mapHuman по полю ключ
