@@ -1,7 +1,5 @@
 package zaraev.epam.com;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Cache<Integer> myCache = new Cache<>(10);
