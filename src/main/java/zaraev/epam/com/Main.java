@@ -39,7 +39,7 @@ public class Main {
         System.out.println("Удаляем элемент 11");
         myCache.delete(11);
         myCache.printCache();
-        System.out.println("Удаляем null элемент ");
+        System.out.println("Пытаемся удалить null элемент ");
         myCache.delete(null);
         myCache.printCache();
         System.out.println("Получение элемента по несуществующему полю индекс 99");
@@ -55,6 +55,7 @@ public class Main {
         myCache.add(84, 14);
         myCache.add(94, 15);
         myCache.add(104, 16);
+        myCache.printCache();
         myCache.printCache();
         System.out.println();
         System.out.println();
@@ -75,6 +76,7 @@ public class Main {
         System.out.println(myStorage1.getLast());
         System.out.println("Добавляем элемент");
         myStorage1.add(7);
+        myStorage1.add(null);
         myStorage1.printStorage();
         System.out.println("Получаем последний элемент");
         System.out.println(myStorage1.getLast());
@@ -112,6 +114,8 @@ public class Main {
         System.out.println("Создаем новое хранилище и сразу заполняем его до максимума");
         Storage<String> myStorage2 = new Storage<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
         log.info("Создано новое хранилище myStorage1 и заполнено до максимума");
+        System.out.println("Попытка создания хранилища на 11 элементов");
+        Storage<String> myStorage3 = new Storage<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"});
         myStorage2.printStorage();
         System.out.println(myStorage2.capacity);
         System.out.println("Добавляем элемент и расширяем хранилище");

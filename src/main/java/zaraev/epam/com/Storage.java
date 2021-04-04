@@ -24,12 +24,17 @@ public class Storage<T> {
     }
 
     public Storage(T[] arrayElements) {
-        storage = new Object[10];
-        for (int i = 0; i < arrayElements.length; i++) {
-            storage[i] = arrayElements[i];
+        try {
+            storage = new Object[10];
+            for (int i = 0; i < arrayElements.length; i++) {
+                storage[i] = arrayElements[i];
+            }
+            capacity = 10;
+            cacheStorage = new Cache<>(10);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.warn("Попытка превышения размера хранилища при создании");
+            e.printStackTrace();
         }
-        capacity = 10;
-        cacheStorage = new Cache<>(10);
         log.debug("Успешное создание, инициализация и заполнение хранилища размером в 10 элементов");
     }
 
@@ -49,15 +54,24 @@ public class Storage<T> {
      * @param element - искомый элемент
      */
     public void add(T element) {
-        for (int i = 0; i < storage.length; i++)
-            if (storage[i] == null) {
-                storage[i] = element;
-                return;
+        if (element != null) {
+            for (int i = 0; i < storage.length; i++)
+                if (storage[i] == null) {
+                    storage[i] = element;
+                    return;
+                }
+            int addIndex = capacity;
+            increaseArrayLength();
+            storage[addIndex] = element;
+            log.debug(String.format("Элемент [%s] успешно добавлен в хранилище storage", element));
+        } else {
+            try {
+                log.warn("Попытка получения null элемента");
+                throw new NotAddNull("Не добавляй нулевой элемент");
+            } catch (NotAddNull e) {
+                e.printStackTrace();
             }
-        int addIndex = capacity;
-        increaseArrayLength();
-        storage[addIndex] = element;
-        log.debug("Элемент " + element + " успешно добавлен в хранилище storage");
+        }
     }
 
     /**
@@ -84,7 +98,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(element)) {
                 storage[i] = null;
-                log.debug("Элемент " + element + " удален из хранилища storage");
+                log.debug(String.format("Элемент [%s] удален из хранилища storage", element));
                 return;
             }
         }
@@ -109,7 +123,7 @@ public class Storage<T> {
     public T getLast() {
         for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
-                log.debug("Последний не null элемент " + storage[i] + " из Storage успешно получен");
+                log.debug(String.format("Последний не null элемент [%s] из Storage успешно получен", storage[i]));
                 return (T) storage[i];
             }
         }
@@ -129,22 +143,21 @@ public class Storage<T> {
     public T get(int index) {
         if (storage[index] != null) {
             if (cacheStorage.isPresent((T) storage[index])) {
-                log.debug("Элемент массива storage " + cacheStorage.get(index) + " уже был в кеше и успешно получен из него");
+                log.debug(String.format("Элемент массива storage [%s] уже был в кеше и успешно получен из него", cacheStorage.get(index)));
                 return cacheStorage.get(index);
             } else {
                 cacheStorage.add((T) storage[index], index);
                 return (T) storage[index];
             }
         } else {
-            WorkWithException myCheckedException = new WorkWithException();
-            log.warn("Попытка получения null элемента");
             try {
-                myCheckedException.myCheckedExceptionNotGetNull();
-            } catch (Exception e) {
+                log.warn("Попытка получения null элемента");
+                throw new NotGetNull("Нельзя получить нулевой элемент");
+            } catch (NotGetNull e) {
                 e.printStackTrace();
             }
         }
-        log.debug("Элемента с индексом " + index + " в хранилище Storage нет");
+        log.debug(String.format("Элемента с индексом [%s] в хранилище Storage нет", index));
         return null;
     }
 
