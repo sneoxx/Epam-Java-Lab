@@ -63,10 +63,10 @@ public class Storage<T> {
             int addIndex = capacity;
             increaseArrayLength();
             storage[addIndex] = element;
-            log.debug(String.format("Элемент [%s] успешно добавлен в хранилище storage", element));
+            log.debug("Элемент {} успешно добавлен в хранилище storage", element);
         } else {
             try {
-                log.warn("Попытка получения null элемента");
+                log.warn("Попытка добавления null элемента");
                 throw new NotAddNull("Не добавляй нулевой элемент");
             } catch (NotAddNull e) {
                 e.printStackTrace();
@@ -84,7 +84,7 @@ public class Storage<T> {
             tempStorage[i] = storage[i];
         }
         storage = tempStorage;
-        log.debug("Размер хранилища Storage увеличен в 1.5 раза и состовляет" + capacity);
+        log.debug("Размер хранилища Storage увеличен в 1.5 раза и составляет " + capacity);
     }
 
     /**
@@ -98,7 +98,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(element)) {
                 storage[i] = null;
-                log.debug(String.format("Элемент [%s] удален из хранилища storage", element));
+                log.debug("Элемент {} удален из хранилища storage", element);
                 return;
             }
         }
@@ -123,7 +123,7 @@ public class Storage<T> {
     public T getLast() {
         for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
-                log.debug(String.format("Последний не null элемент [%s] из Storage успешно получен", storage[i]));
+                log.debug("Последний не null элемент {} из Storage успешно получен", storage[i]);
                 return (T) storage[i];
             }
         }
@@ -143,7 +143,7 @@ public class Storage<T> {
     public T get(int index) {
         if (storage[index] != null) {
             if (cacheStorage.isPresent((T) storage[index])) {
-                log.debug(String.format("Элемент массива storage [%s] уже был в кеше и успешно получен из него", cacheStorage.get(index)));
+                log.debug("Элемент массива storage {} уже был в кеше и успешно получен из него", cacheStorage.get(index));
                 return cacheStorage.get(index);
             } else {
                 cacheStorage.add((T) storage[index], index);
@@ -154,10 +154,11 @@ public class Storage<T> {
                 log.warn("Попытка получения null элемента");
                 throw new NotGetNull("Нельзя получить нулевой элемент");
             } catch (NotGetNull e) {
+                log.warn("Попытка получения null элемента");
                 e.printStackTrace();
             }
         }
-        log.debug(String.format("Элемента с индексом [%s] в хранилище Storage нет", index));
+        log.debug("Элемента с индексом {} в хранилище Storage нет", index);
         return null;
     }
 
