@@ -45,7 +45,7 @@
     <!--        <appender-ref ref="CONSOLE" />-->
     <!--    </logger>-->
 
-    <root level="infor">
+    <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
 
