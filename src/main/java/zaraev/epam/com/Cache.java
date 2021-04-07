@@ -36,21 +36,21 @@ public class Cache<T> {
      *
      * @param element - искомый элемент добавлемый в кеш
      */
-    public void add(T element, int index) throws NullPointerException{
-            if (!isPresent(element)) {
-                if (cache[capacity - 1] == null) {
-                    for (int i = 0; i < capacity; i++) {
-                        if (cache[i] == null) {
-                            cache[i] = new CacheElement(element, index);
-                            log.debug("[%s] добавлен в кеш по индексу ", cache[i]);
-                            return;
-                        }
+    public void add(T element, int index) throws NullPointerException {
+        if (!isPresent(element)) {
+            if (cache[capacity - 1] == null) {
+                for (int i = 0; i < capacity; i++) {
+                    if (cache[i] == null) {
+                        cache[i] = new CacheElement(element, index);
+                        log.debug("[%s] добавлен в кеш по индексу ", cache[i]);
+                        return;
                     }
                 }
-                shiftElementsLeft(capacity - 1);
-                cache[capacity - 1] = new CacheElement(element, index);
-                log.debug("[%s] добавлен в кеш по индексу ", cache[capacity - 1]);
             }
+            shiftElementsLeft(capacity - 1);
+            cache[capacity - 1] = new CacheElement(element, index);
+            log.debug("[%s] добавлен в кеш по индексу ", cache[capacity - 1]);
+        }
     }
 
     /**

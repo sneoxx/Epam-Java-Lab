@@ -1,7 +1,7 @@
 package zaraev.epam.com;
 
 /**
- * Класс непроверяемых исключений. Не добавляй null
+ * Класс непроверяемых исключений не равен ли элемент null
  */
 public class NotExistElementException extends RuntimeException{
     public NotExistElementException() {

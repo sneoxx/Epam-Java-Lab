@@ -96,7 +96,11 @@ public class Main {
         System.out.println("Содержимое кеша");
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, если его нет в кеше занесем в кеш");
-        System.out.println(myStorage1.get(5));
+        try {
+            System.out.println(myStorage1.get(5));
+        } catch (CasheIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, если его нет в кеше занесем в кеш");
         try {
