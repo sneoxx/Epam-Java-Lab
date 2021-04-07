@@ -32,8 +32,7 @@ public class Storage<T> {
             capacity = 10;
             cacheStorage = new Cache<>(10);
         } catch (ArrayIndexOutOfBoundsException e) {
-            log.warn("Попытка превышения размера хранилища при создании");
-            e.printStackTrace();
+            log.warn("Попытка превышения размера хранилища при создании", e);
         }
         log.debug("Успешное создание, инициализация и заполнение хранилища размером в 10 элементов");
     }
@@ -53,26 +52,21 @@ public class Storage<T> {
      *
      * @param element - искомый элемент
      */
-    public void add(T element) {
-        if (element != null) {
-            for (int i = 0; i < storage.length; i++)
-                if (storage[i] == null) {
-                    storage[i] = element;
-                    return;
-                }
-            int addIndex = capacity;
-            increaseArrayLength();
-            storage[addIndex] = element;
-            log.debug("Элемент {} успешно добавлен в хранилище storage", element);
-        } else {
-            try {
-                log.warn("Попытка добавления null элемента");
-                throw new NotAddNull("Не добавляй нулевой элемент");
-            } catch (NotAddNull e) {
-                e.printStackTrace();
-            }
+    public void add(T element) throws NotExistElementException {
+        if (element == null) {
+            throw new NotExistElementException("Не добавляй нулевой элемент");
         }
+        for (int i = 0; i < storage.length; i++)
+            if (storage[i] == null) {
+                storage[i] = element;
+                return;
+            }
+        int addIndex = capacity;
+        increaseArrayLength();
+        storage[addIndex] = element;
+        log.debug("Элемент {} успешно добавлен в хранилище storage", element);
     }
+
 
     /**
      * Увеличение емкости нашего массива storage в 1.5 раза
@@ -140,7 +134,7 @@ public class Storage<T> {
      * @return - вернет элемент класса T, найденный по индексу
      */
     @SuppressWarnings("unchecked")
-    public T get(int index) {
+    public T get(int index) throws CasheIndexOutOfBoundsException {
         if (storage[index] != null) {
             if (cacheStorage.isPresent((T) storage[index])) {
                 log.debug("Элемент массива storage {} уже был в кеше и успешно получен из него", cacheStorage.get(index));
@@ -149,17 +143,8 @@ public class Storage<T> {
                 cacheStorage.add((T) storage[index], index);
                 return (T) storage[index];
             }
-        } else {
-            try {
-                log.warn("Попытка получения null элемента");
-                throw new NotGetNull("Нельзя получить нулевой элемент");
-            } catch (NotGetNull e) {
-                log.warn("Попытка получения null элемента");
-                e.printStackTrace();
-            }
         }
-        log.debug("Элемента с индексом {} в хранилище Storage нет", index);
-        return null;
+        throw new CasheIndexOutOfBoundsException("Нельзя получить нулевой элемент");
     }
 
     /**

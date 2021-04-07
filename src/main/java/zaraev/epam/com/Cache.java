@@ -36,8 +36,7 @@ public class Cache<T> {
      *
      * @param element - искомый элемент добавлемый в кеш
      */
-    public void add(T element, int index) {
-        try {
+    public void add(T element, int index) throws NullPointerException{
             if (!isPresent(element)) {
                 if (cache[capacity - 1] == null) {
                     for (int i = 0; i < capacity; i++) {
@@ -52,9 +51,6 @@ public class Cache<T> {
                 cache[capacity - 1] = new CacheElement(element, index);
                 log.debug("[%s] добавлен в кеш по индексу ", cache[capacity - 1]);
             }
-        } catch (NullPointerException e) {
-            log.warn("Попытка добавления в кеш null элемента: ", e);
-        }
     }
 
     /**
@@ -63,7 +59,6 @@ public class Cache<T> {
      * @param element - удаляемый элемент
      */
     public void delete(T element) {
-//        if (element != null) {
         try {
             for (int i = 0; i < capacity; i++) {
                 if (cache[i] != null && element.equals(cache[i].element)) {
@@ -126,7 +121,7 @@ public class Cache<T> {
      * @param index - индекс получаемого элемента
      * @return - вернет элемент при наличии, при отсутствии вернет null
      */
-    public T get(int index) {
+    public T get(int index) throws CasheIndexOutOfBoundsException {
         if (isPresent(index)) {
             for (int i = 0; i < cache.length; i++) {
                 if (cache[i].index == index) {
@@ -138,10 +133,9 @@ public class Cache<T> {
                 }
             }
         }
-        {
-        }
         log.debug("Попытка получения элемента c индексом {} из кеша неудачна - такого элемента нет", index);
-        return null;
+        throw new CasheIndexOutOfBoundsException();
+        //       return null;
     }
 
     /**

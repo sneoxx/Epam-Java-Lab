@@ -39,13 +39,21 @@ public class Main {
         System.out.println("Удаляем элемент 11");
         myCache.delete(11);
         myCache.printCache();
-        System.out.println("Пытаемся удалить null элемент ");
+        log.warn("Попытка удаления null элемента");
         myCache.delete(null);
         myCache.printCache();
         System.out.println("Получение элемента по несуществующему полю индекс 99");
-        System.out.println(myCache.get(99));
+        try {
+            System.out.println(myCache.get(99));
+        } catch (CasheIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         System.out.println("Получение элемента по полю индекс 9");
-        System.out.println(myCache.get(9));
+        try {
+            System.out.println(myCache.get(9));
+        } catch (CasheIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         myCache.printCache();
         System.out.println("Очищаем кеш");
         myCache.clear();
@@ -76,7 +84,11 @@ public class Main {
         System.out.println(myStorage1.getLast());
         System.out.println("Добавляем элемент");
         myStorage1.add(7);
-        myStorage1.add(null);
+        try {
+            myStorage1.add(null);
+        } catch (NotExistElementException e) {
+            log.info("Попытка добавить null", e);
+        }
         myStorage1.printStorage();
         System.out.println("Получаем последний элемент");
         System.out.println(myStorage1.getLast());
@@ -87,16 +99,28 @@ public class Main {
         System.out.println(myStorage1.get(5));
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, если его нет в кеше занесем в кеш");
-        System.out.println(myStorage1.get(6));
+        try {
+            System.out.println(myStorage1.get(6));
+        } catch (CasheIndexOutOfBoundsException e) {
+            log.info("Элемента в хранилище Storage нет", e);
+        }
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, который уже есть к кеше");
-        System.out.println(myStorage1.get(6));
+        try {
+            System.out.println(myStorage1.get(6));
+        } catch (CasheIndexOutOfBoundsException e) {
+            log.info("Элемента в хранилище Storage нет", e);
+        }
         myStorage1.printStorage();
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
         System.out.println("Получение элемента из массива по индексу, которого вообще нет");
-        System.out.println(myStorage1.get(7));
+        try {
+            System.out.println(myStorage1.get(7));
+        } catch (CasheIndexOutOfBoundsException e) {
+            log.info("Элемента в хранилище Storage нет", e);
+        }
         myStorage1.printStorage();
         System.out.print("Cashe");
         myStorage1.cacheStorage.printCache();
