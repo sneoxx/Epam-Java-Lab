@@ -32,9 +32,22 @@
 
     </appender>
 
+    <logger name="zaraev.epam.com.MetodsForCommand" level="debug" additivity="false">-->
+        <appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="FILE-AUDIT" />-->
+    </logger>-->
 
+    <logger name="zaraev.epam.com.CommandPrintHandler" level="debug" additivity="false">-->
+        <appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="FILE-AUDIT" />-->
+    </logger>-->
 
-    <logger name="zaraev.epam.com.Main" level="debug" additivity="false">-->
+    <logger name="zaraev.epam.com.CommandDeleteHandler" level="debug" additivity="false">-->
+        <appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="FILE-AUDIT" />-->
+    </logger>-->
+
+    <logger name="zaraev.epam.com.CommandAddHandler" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
         <appender-ref ref="FILE-AUDIT" />-->
     </logger>-->
@@ -43,6 +56,11 @@
         <appender-ref ref="CONSOLE" />-->
         <appender-ref ref="FILE-AUDIT" />-->
     </logger>-->
+
+    <logger name="zaraev.epam.com.Main" level="debug" additivity="false">-->
+        <appender-ref ref="CONSOLE" />-->
+    </logger>-->
+
 
     <root level="debug">
         <appender-ref ref="CONSOLE" />
