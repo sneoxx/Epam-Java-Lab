@@ -13,19 +13,38 @@ public class MetodsForCommand {
 
     /**
      * Метод определения введен ли номер строки в команду
+     *
      * @param commandAddArray - массив с элементами команды в каждой ячейке
      * @return - false или true
      */
-    public boolean checkCommandWithLinePosition (String[] commandAddArray) {
-       // String[] commandAddArray = commandAddArray = commandAddString.split(" "); // считываем команду в массив строк по разделителю пробел
-        boolean commandWithLine = true;
+    public boolean checkCommandWithLinePosition(String[] commandAddArray) {
         try {
             Integer linePositionString = Integer.parseInt(commandAddArray[1]);//проверяем можно ли первый элемент массива привести к int, введен ли номер строки в команду?
         } catch (NumberFormatException e) {
             return false;
-         }
-        return true;
         }
+        return true;
+    }
+
+    public ArrayList<String> addTextInCommandAddArray(String[] commandAddArray, ArrayList<String> list, int linePositionString, String textToWrite) {
+        if (checkCommandWithLinePosition(commandAddArray)) {
+            if (list.size() > linePositionString) { //добавление в середину, если длина массива больше строки для записи
+                list.add(linePositionString - 1, textToWrite);
+                return list;
+            } else {
+                for (int i = list.size() - 1; i <= linePositionString - 1; i++) { //заполяем его на нужное количество пустыми элементами
+                    list.add("\n" );
+                }
+                list.set(linePositionString - 1, textToWrite); //вставляем нашу строку в конец текущего ArrayList
+                log.debug("Добавляем текст {} в ArrayList по номеру строки {}", textToWrite, linePositionString);
+                return list;
+            }
+        } else {
+            list.add(textToWrite);  // добавить строку в конец файла
+            log.debug("Добавляем текст {} в конец ArrayList", textToWrite);
+            return list;
+        }
+    }
 
     /**
      * Проверка - корректно ли введено в команде имя файла
@@ -77,7 +96,7 @@ public class MetodsForCommand {
     /**
      * Читает из указанного файла в ArrayList
      *
-     * @param fileNameToWrite - файл из которого будет произведено чтение в rrayList
+     * @param fileNameToWrite - файл из которого будет произведено чтение в ArrayList
      * @return - заполненный из файла ArrayList
      */
     public ArrayList<String> createArrayListfromFile(String fileNameToWrite) {
@@ -93,7 +112,8 @@ public class MetodsForCommand {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        ArrayList<String> list = new ArrayList<>();
+        return list;
     }
 
     /**
