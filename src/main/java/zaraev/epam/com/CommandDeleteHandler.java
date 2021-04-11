@@ -31,7 +31,6 @@ public class CommandDeleteHandler implements CommandHandler{
         } else {
             fileNameToDelete = commandAddArray[1];
         }
-        myMetodsForCommand.checkFileName(fileNameToDelete);
         File dir = new File(fileNameToDelete);
         if (!dir.exists()) {
             System.out.println("Файла " + fileNameToDelete +  " нет - Нечего удалять");
