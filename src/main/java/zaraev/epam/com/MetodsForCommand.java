@@ -11,7 +11,6 @@ import java.util.ArrayList;
 @Slf4j
 public class MetodsForCommand {
 
-
     /**
      * Метод определения введен ли номер строки в команду
      * @param commandAddArray - массив с элементами команды в каждой ячейке
@@ -34,15 +33,14 @@ public class MetodsForCommand {
      * @param commandAddString - строка "команда" введенная в консоль пользователем
      * @return - false или true
      */
-
     public boolean checkFileName(String commandAddString) {
         String fileNamePattern = ".txt";
         if (commandAddString.indexOf(fileNamePattern) == -1) {
-            log.debug("Имя файла в команду не введено: ", commandAddString);
+            log.debug("Имя файла в команду не введено: " + commandAddString);
             System.out.println("Вы не ввели имя файла");
             return false;
         } else if (!(commandAddString.indexOf(fileNamePattern) != -1) && commandAddString.indexOf(fileNamePattern) == commandAddString.lastIndexOf(fileNamePattern) && (commandAddString.charAt(commandAddString.indexOf(fileNamePattern) - 1) != ' ')) {
-            log.debug("Имя файла в команду не введено: ", commandAddString);
+            log.debug("Имя файла в команду не введено: " + commandAddString);
             System.out.println("Вы не ввели имя файла");
             return false;
         }
@@ -57,7 +55,7 @@ public class MetodsForCommand {
      */
     public boolean checkText(String commandAddString) {
         if (!(commandAddString.indexOf('"') != -1 && commandAddString.lastIndexOf('"') != -1) && commandAddString.lastIndexOf('"') - commandAddString.indexOf('"') < 1) {
-            log.debug("Текст в команду не введен: ", commandAddString);
+            log.debug("Текст в команду не введен: " + commandAddString);
             System.out.println("Вы не ввели текст");
             return false;
         }
@@ -76,7 +74,7 @@ public class MetodsForCommand {
             Integer.parseInt(s);
             return true;
         } catch (NumberFormatException e) {
-            log.debug("Номер строки: ", s);
+            log.debug("Номер строки: " + s);
             System.out.println("Номер строки введен неккоректно");
             return false;
         }
@@ -93,11 +91,11 @@ public class MetodsForCommand {
         if (commandAddArray.length > 2) {
             if (isDigit(commandAddArray[1])) {
                 int linePositionString = Integer.parseInt(commandAddArray[1]);
-                log.debug("Номер строки: ", linePositionString);
+                log.debug("Номер строки: " + linePositionString);
                 System.out.println("Номер строки: " + linePositionString);
                 return linePositionString;
             } else {
-                log.debug("Введен неверный номер строки: ", commandAddString);
+                log.debug("Введен неверный номер строки: " + commandAddString);
                 System.out.println("Вы ввели неверное значение строки");
                 return 0;
             }
@@ -116,7 +114,7 @@ public class MetodsForCommand {
         int firstIndexText = commandAddString.indexOf('"');
         int lasttIndexText = commandAddString.lastIndexOf('"');
         String textToWrite = commandAddString.substring(firstIndexText + 1, lasttIndexText);
-        log.debug("Текст: ", textToWrite);
+        log.debug("Текст: " + textToWrite);
         System.out.println("Текст: " + textToWrite);
         return textToWrite;
     }
@@ -132,7 +130,7 @@ public class MetodsForCommand {
         int firstIndexFileName = commandAddString.indexOf(fileNamePattern);
         int indexFileName = commandAddString.lastIndexOf(' ', firstIndexFileName);
         String fileName = commandAddString.substring(indexFileName + 1, indexFileName + 6);
-        log.debug("Имя файла: ", fileName);
+        log.debug("Имя файла: " + fileName);
         System.out.println("Имя файла: " + fileName);
         return fileName;
     }

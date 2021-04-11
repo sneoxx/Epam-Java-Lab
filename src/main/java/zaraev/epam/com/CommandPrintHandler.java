@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Класс для обработки команды print - печати текста из файла
  */
 @Slf4j
-public class CommandPrintHandler {
+public class CommandPrintHandler implements CommandHandler{
 
     /**
      * Метод для вывода на печать текста из файла
@@ -19,7 +19,7 @@ public class CommandPrintHandler {
      *
      * @param commandAddString - строка "команда" введенная в консоль пользователем
      */
-    public void print(String commandAddString) {
+    public void handle(String commandAddString) {
         String fileNameToPrint;
         int linePositionString = 0;
         MetodsForCommand myMetodsForCommand = new MetodsForCommand();
@@ -30,45 +30,34 @@ public class CommandPrintHandler {
         } else {
             fileNameToPrint = commandAddArray[1];
         }
-//        if (!myMetodsForCommand.checkFileName(commandAddString)) {
-//            return;
-//        } else {
-//            fileNameToPrint = myMetodsForCommand.findFileName(commandAddString);
-//        }
         File dir = new File(fileNameToPrint);
         if (!dir.exists()) {
             log.debug("Файла {} нет - Нечего печатать", fileNameToPrint);
             System.out.println("Такого файла нет - Нечего печатать");
             return;
         }
-        ArrayList<String> list = null;
-        // String[] commandAddArray = new String[0];
         try {
+            ArrayList<String> list = null;
             list = myMetodsForCommand.createArrayListfromFile(fileNameToPrint);
-            //     commandAddArray = commandAddString.split(" ");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            log.error("Выход за пределы массива при чтении из файла", e);
-        }
-        // switch (commandAddArray.length) {
-        //     case 3:
-        //         int linePositionString = myMetodsForCommand.findLinePositionString(commandAddString);
-        if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
-            if (list.size() < linePositionString) {
-                log.info("Cтроки {} в файле нет - Нечего печатать", linePositionString);
-                System.out.println("Такой строки в файле нет - Нечего печатать");
-                //             return;
-            }
+            if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
+                if (list.size() < linePositionString) {
+                    log.info("Cтроки {} в файле нет - Нечего печатать", linePositionString);
+                    System.out.println("Такой строки в файле нет - Нечего печатать");
+                }
                 if (list.get(linePositionString) != null) {
                     System.out.println("Строка равна: " + list.get(linePositionString - 1));
                     log.debug("Печатаем файл {} по номеру строки {}", fileNameToPrint, linePositionString);
                     //            break;
                 }
-        } else {
-//            default:
+            } else {
                 log.debug("Печатаем весь файл");
                 assert list != null;
                 System.out.println(list.toString());
-//                break;
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.error("Выход за пределы массива при чтении из файла", e);
+        } catch (NullPointerException e) {
+            log.error("Поптыка добавить null", e);
+        }
     }
 }

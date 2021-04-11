@@ -21,13 +21,13 @@ public class CommandFilter {
         try {
             if (command.startsWith("add")) {
                 System.out.println("Вы ввели команду: " + command);
-                commandAddHandler.add(command);
+                commandAddHandler.handle(command);
             } else if (command.startsWith("delete")) {
                 System.out.println("Вы ввели команду: " + command);
-                commandDeleteHandler.delete(command);
+                commandDeleteHandler.handle(command);
             } else if (command.startsWith("print")) {
                 System.out.println("Вы ввели команду: " + command);
-                commandPrintHandler.print(command);
+                commandPrintHandler.handle(command);
             } else {
                 System.out.println("Введена ошибочная команда, исправьте и введите еще раз");
             }
