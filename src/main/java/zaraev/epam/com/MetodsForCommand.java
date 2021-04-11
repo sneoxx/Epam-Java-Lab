@@ -12,7 +12,11 @@ import java.util.ArrayList;
 public class MetodsForCommand {
 
 
-
+    /**
+     * Метод определения введен ли номер строки в команду
+     * @param commandAddArray - массив с элементами команды в каждой ячейке
+     * @return - false или true
+     */
     public boolean checkCommandWithLinePosition (String[] commandAddArray) {
        // String[] commandAddArray = commandAddArray = commandAddString.split(" "); // считываем команду в массив строк по разделителю пробел
         boolean commandWithLine = true;
