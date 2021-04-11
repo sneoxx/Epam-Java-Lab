@@ -1,7 +1,10 @@
 package zaraev.epam.com;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 
+@Slf4j
 public class Cache<T> {
     public int capacity;
     public CacheElement<T>[] cache;
@@ -14,6 +17,8 @@ public class Cache<T> {
     public Cache(int capacity) {
         cache = new CacheElement[capacity];
         this.capacity = capacity;
+        log.debug("Кеш на [%s] элементов успешно создан", capacity);
+
     }
 
     @Override
@@ -24,24 +29,27 @@ public class Cache<T> {
                 '}';
     }
 
+
     /**
      * добавление элемента в кэш
      * добавление всегда происходит в конец массива. Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива
      *
      * @param element - искомый элемент добавлемый в кеш
      */
-    public void add(T element, int index) {
-        if (element != null && !isPresent(element)) {
+    public void add(T element, int index) throws NullPointerException {
+        if (!isPresent(element)) {
             if (cache[capacity - 1] == null) {
                 for (int i = 0; i < capacity; i++) {
                     if (cache[i] == null) {
                         cache[i] = new CacheElement(element, index);
+                        log.debug("[%s] добавлен в кеш по индексу ", cache[i]);
                         return;
                     }
                 }
             }
             shiftElementsLeft(capacity - 1);
             cache[capacity - 1] = new CacheElement(element, index);
+            log.debug("[%s] добавлен в кеш по индексу ", cache[capacity - 1]);
         }
     }
 
@@ -51,13 +59,19 @@ public class Cache<T> {
      * @param element - удаляемый элемент
      */
     public void delete(T element) {
-        for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null && element.equals(cache[i].element)) {
-                cache[i] = null;
-                shiftElementsLeft(i);
-                cache[capacity - 1] = null;
-                return;
+        try {
+            for (int i = 0; i < capacity; i++) {
+                if (cache[i] != null && element.equals(cache[i].element)) {
+                    log.debug("Удаление элемента {} из кеша", cache[i].element);
+                    cache[i] = null;
+                    shiftElementsLeft(i);
+                    cache[capacity - 1] = null;
+                    return;
+                }
             }
+        } catch (NullPointerException e) {
+            log.warn("Попытка удаления из кеша null элемента");
+            e.printStackTrace();
         }
     }
 
@@ -68,11 +82,18 @@ public class Cache<T> {
      * @return - вернет true при наличии элемента, при отсутствии элемента false
      */
     public boolean isPresent(T element) {
-        for (int i = 0; i < capacity; i++) {
-            if (cache[i] != null && cache[i].element.equals(element)) {
-                return true;
+        try {
+            for (int i = 0; i < capacity; i++) {
+                if (cache[i] != null && cache[i].element.equals(element)) {
+                    return true;
+                }
+                log.debug("Элемент {} в кэше найден", element);
             }
+        } catch (NullPointerException e) {
+            log.warn("Попытка поиска в кэше null элемента");
+            e.printStackTrace();
         }
+        log.debug("Элемента {} в кэше нет", element);
         return false;
     }
 
@@ -85,9 +106,12 @@ public class Cache<T> {
     public boolean isPresent(int index) {
         for (int i = 0; i < capacity; i++) {
             if (cache[i] != null && cache[i].index == index) {
+                log.debug("Элемент с индексом {} в кеше найден", index);
                 return true;
             }
+
         }
+        log.debug(String.format("Элемента с индексом {} в кеше нет", index));
         return false;
     }
 
@@ -97,18 +121,21 @@ public class Cache<T> {
      * @param index - индекс получаемого элемента
      * @return - вернет элемент при наличии, при отсутствии вернет null
      */
-    public T get(int index) {
+    public T get(int index) throws CasheIndexOutOfBoundsException {
         if (isPresent(index)) {
             for (int i = 0; i < cache.length; i++) {
                 if (cache[i].index == index) {
                     CacheElement<T> tempCache = cache[i];
                     shiftElementsLeft(index);
                     cache[capacity - 1] = tempCache;
+                    log.debug("Элемент {} c индексом {} из кеша успешно получен", tempCache.element, index);
                     return tempCache.element;
                 }
             }
         }
-        return null;
+        log.debug("Попытка получения элемента c индексом {} из кеша неудачна - такого элемента нет", index);
+        throw new CasheIndexOutOfBoundsException();
+        //       return null;
     }
 
     /**
@@ -118,17 +145,19 @@ public class Cache<T> {
         for (int i = 0; i < capacity; i++) {
             cache[i] = null;
         }
+        log.debug("Очистка кеша");
     }
 
     /**
      * Сдвиг всех элементов массива влево с удалением элемента стоящем на индексе из входного параметра
      *
-     * @param index - индес удаляемого элемента в массиве
+     * @param index - индекс удаляемого элемента в массиве
      */
     public void shiftElementsLeft(int index) {
         for (int i = index; i < capacity - 1; i++) {
             cache[i] = cache[i + 1];
         }
+        log.debug("Сдвиг всех элементов кеша влево с удалением элемента стоящем на индексе" + index);
     }
 
     /**

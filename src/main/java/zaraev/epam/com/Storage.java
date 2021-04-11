@@ -1,7 +1,10 @@
 package zaraev.epam.com;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 
+@Slf4j
 public class Storage<T> {
     public Object[] storage;
     public Cache<T> cacheStorage;
@@ -11,21 +14,27 @@ public class Storage<T> {
      * Параметризированный класс Storage
      * Cодержит storage - массив типа Т storage, capacity - длину массива storage, cacheStorage - объект типа Cache<T>
      * Содержит дефолтный конструктор, в котором создается наш массив типа Т, а так же объект кэша.
-     * Второй конструктор принимает на вход массив элементов типа Т и сразузаполняет массив storage.
+     * Второй конструктор принимает на вход массив элементов типа Т и сразу заполняет массив storage.
      */
     public Storage() {
         storage = new Object[10];
         capacity = 10;
         cacheStorage = new Cache<>(10);
+        log.debug("Успешное создание и инициализация пустого хранилища размером в 10 элементов");
     }
 
     public Storage(T[] arrayElements) {
-        storage = new Object[10];
-        for (int i = 0; i < arrayElements.length; i++) {
-            storage[i] = arrayElements[i];
+        try {
+            storage = new Object[10];
+            for (int i = 0; i < arrayElements.length; i++) {
+                storage[i] = arrayElements[i];
+            }
+            capacity = 10;
+            cacheStorage = new Cache<>(10);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.warn("Попытка превышения размера хранилища при создании", e);
         }
-        capacity = 10;
-        cacheStorage = new Cache<>(10);
+        log.debug("Успешное создание, инициализация и заполнение хранилища размером в 10 элементов");
     }
 
     @Override
@@ -40,9 +49,13 @@ public class Storage<T> {
      * Добавления элемента в массив storage
      * Если мы достигли предела длины массива,
      * увеличиваем емкость нашего массива storage в 1.5 раза через отдельный метод.
+     *
      * @param element - искомый элемент
      */
-    public void add(T element) {
+    public void add(T element) throws NotExistElementException {
+        if (element == null) {
+            throw new NotExistElementException("Не добавляй нулевой элемент");
+        }
         for (int i = 0; i < storage.length; i++)
             if (storage[i] == null) {
                 storage[i] = element;
@@ -51,7 +64,9 @@ public class Storage<T> {
         int addIndex = capacity;
         increaseArrayLength();
         storage[addIndex] = element;
+        log.debug("Элемент {} успешно добавлен в хранилище storage", element);
     }
+
 
     /**
      * Увеличение емкости нашего массива storage в 1.5 раза
@@ -63,6 +78,7 @@ public class Storage<T> {
             tempStorage[i] = storage[i];
         }
         storage = tempStorage;
+        log.debug("Размер хранилища Storage увеличен в 1.5 раза и составляет " + capacity);
     }
 
     /**
@@ -76,6 +92,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(element)) {
                 storage[i] = null;
+                log.debug("Элемент {} удален из хранилища storage", element);
                 return;
             }
         }
@@ -88,6 +105,7 @@ public class Storage<T> {
         for (int i = 0; i < storage.length; i++) {
             storage[i] = null;
         }
+        log.info("Хранилище Storage очищено");
         cacheStorage.clear();
     }
 
@@ -99,9 +117,11 @@ public class Storage<T> {
     public T getLast() {
         for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
+                log.debug("Последний не null элемент {} из Storage успешно получен", storage[i]);
                 return (T) storage[i];
             }
         }
+        log.debug("Последний элемент из Storage не получен - хранилище Storage пустое");
         return null;
     }
 
@@ -114,12 +134,17 @@ public class Storage<T> {
      * @return - вернет элемент класса T, найденный по индексу
      */
     @SuppressWarnings("unchecked")
-    protected T get(int index) {
-        if (cacheStorage.isPresent((T) storage[index])) {
-            return cacheStorage.get(index);
+    public T get(int index) throws CasheIndexOutOfBoundsException {
+        if (storage[index] != null) {
+            if (cacheStorage.isPresent((T) storage[index])) {
+                log.debug("Элемент массива storage {} уже был в кеше и успешно получен из него", cacheStorage.get(index));
+                return cacheStorage.get(index);
+            } else {
+                cacheStorage.add((T) storage[index], index);
+                return (T) storage[index];
+            }
         }
-        cacheStorage.add((T) storage[index], index);
-        return (T) storage[index];
+        throw new CasheIndexOutOfBoundsException("Нельзя получить нулевой элемент");
     }
 
     /**
