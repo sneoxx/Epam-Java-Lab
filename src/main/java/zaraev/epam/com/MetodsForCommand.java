@@ -11,12 +11,26 @@ import java.util.ArrayList;
 @Slf4j
 public class MetodsForCommand {
 
+
+
+    public boolean checkCommandWithLinePosition (String[] commandAddArray) {
+       // String[] commandAddArray = commandAddArray = commandAddString.split(" "); // считываем команду в массив строк по разделителю пробел
+        boolean commandWithLine = true;
+        try {
+            Integer linePositionString = Integer.parseInt(commandAddArray[1]);//проверяем можно ли первый элемент массива привести к int, введен ли номер строки в команду?
+        } catch (NumberFormatException e) {
+            return false;
+         }
+        return true;
+        }
+
     /**
      * Проверка - корректно ли введено в команде имя файла
      *
      * @param commandAddString - строка "команда" введенная в консоль пользователем
      * @return - false или true
      */
+
     public boolean checkFileName(String commandAddString) {
         String fileNamePattern = ".txt";
         if (commandAddString.indexOf(fileNamePattern) == -1) {

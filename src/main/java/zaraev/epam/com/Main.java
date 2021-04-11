@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
         log.debug("Старт программы");
-        Scanner scanner = new Scanner(System.in); //создаем сканнер и направляем в него поток из консоли
         System.out.println("Программа для работы с файлами. \n"
                 + "Введите команду в следующем формате: \n"
                 + "add x fileName \"text\" для добавления текста в указанный файл \n"
@@ -19,13 +18,16 @@ public class Main {
                 + "print fileName - для вывода на печать указанного файла \n"
                 + "exit - для завершения работы \n"
                 + "где: x - номер строки, fileName - имя файла, \"text\" - текст для добавления в файл.\n");
-        System.out.println("Введите команду "); // Выводим в консоль, что необходимо что то в нее ввести
+        Scanner scanner = new Scanner(System.in); //создаем сканнер и направляем в него поток из консоли
         CommandFilter myCommandFilter = new CommandFilter(); // создаем экземпляр класса фильтр
-        while (!myCommandFilter.getCommand().equals("exit")) {
-            myCommandFilter.setCommand(scanner.nextLine());
-            log.info("Введена комманда: {}", myCommandFilter.getCommand());
-            myCommandFilter.parseCommand();
-            System.out.println("Введите следующую команду ");
+        while (true) {
+            System.out.println("Введите команду: "); // Выводим в консоль, что необходимо что то в нее ввести
+            String command = scanner.nextLine();
+            if (command.equals("exit")) {
+                return;
+            }
+            myCommandFilter.parseCommand(command);
+            log.debug("Вы ввели команду {}", command);
         }
     }
 }

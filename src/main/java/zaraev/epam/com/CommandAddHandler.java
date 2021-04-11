@@ -6,16 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Класс для обработки команды add - добавления текста в файл
+ */
 @Slf4j
 public class CommandAddHandler {
-
-    /**
-     * Класс для обработки команды add - добавления текста в файл
-     *
-     */
-    private int linePositionString;
-    public String textToWrite;
-    public String fileNameToWrite;
 
     /**
      * Метод для добавления текста в файл
@@ -24,75 +19,71 @@ public class CommandAddHandler {
      * Если в файле строк меньше, чем указанный номер строки. Добавятся новые пустые строки
      * Если не текст для добавления, команда не сработает и будет выведено сообщение о неккоретности ввода команды
      * Если файла для записи еще нет, он будет создан
+     *
      * @param commandAddString - строка "команда" введенная в консоль пользователем
      */
     public void add(String commandAddString) {
+        Integer linePositionString = null;
+        String fileNameToWrite;
+        String textToWrite;
         MetodsForCommand myMetodsForCommand = new MetodsForCommand();
-        if (!myMetodsForCommand.checkFileName(commandAddString)) {
-            return;
+
+        String[] commandAddArray = commandAddString.split(" "); // считываем команду в массив строк по разделителю пробел
+        if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
+            linePositionString = Integer.parseInt(commandAddArray[1]);
+            fileNameToWrite = commandAddArray[2];
+            textToWrite = commandAddString.substring(commandAddString.lastIndexOf(fileNameToWrite) + fileNameToWrite.length() + 1).replace("\"", ""); //обрезаем с конца, находим текст для записи и сразу удаляем кавычки
+
         } else {
-            fileNameToWrite = myMetodsForCommand.findFileName(commandAddString);
+            fileNameToWrite = commandAddArray[1];
+            textToWrite = commandAddString.substring(commandAddString.lastIndexOf(fileNameToWrite) + fileNameToWrite.length() + 1).replace("\"", ""); //обрезаем с конца, находим текст для записи и сразу удаляем кавычки
         }
-        if (!myMetodsForCommand.checkText(commandAddString)) {
-            return;
-        } else {
-            textToWrite = myMetodsForCommand.findTextToWrite(commandAddString);
-        }
-        linePositionString = myMetodsForCommand.findLinePositionString(commandAddString);
+        myMetodsForCommand.checkFileName(fileNameToWrite);
         try {
             myMetodsForCommand.creatFile(fileNameToWrite);
         } catch (FileNotFoundException e) {
-            log.error("Файл не найден <>", fileNameToWrite, e);
+            log.error("Файл не найден {}", fileNameToWrite, e);
         } catch (IOException e) {
             log.error("Ошибка ввода вывода", e);
             e.printStackTrace();
         }
         ArrayList<String> list = null;
-        String[] commandAddArray = new String[0];
         try {
             list = myMetodsForCommand.createArrayListfromFile(fileNameToWrite);
-            commandAddArray = commandAddString.split(" ");
         } catch (ArrayIndexOutOfBoundsException e) {
             log.error("Выход за пределы массива", e);
         }
-        switch (commandAddArray.length) {
-            case 3:
-                list.add(textToWrite);  // добавить строку в конец файла
-                try {
-                    System.out.println(list.toString());// выводим для проверки в консоль
-                } catch (NullPointerException e) {
-                    log.error("Вывод на печать null", e);
-                }
-                log.debug("Добавляем текст <> в конец ArrayList", textToWrite);
-                break;
-            case 4:
-                try {
-                    if (list.size() > linePositionString) { //добавление в середину, если длина массива больше строки для записи
-                        list.add(linePositionString - 1, textToWrite);
-                    } else {
-                        ArrayList<String> tempList = new ArrayList<>(); //создаем временный ArrayList
-                        for (int i = 0; i <= linePositionString - list.size() - 1; i++) { //заполяем его на нужное количество
-                            tempList.add(" ");
-                        }
-                        list.addAll(tempList); //добавляем временный ArrayList в текущий ArrayList
-                        list.set(linePositionString - 1, textToWrite); //вставляем нашу строку в конец текущего ArrayList
-                        log.debug("Добавляем текст <> в ArrayList по номеру строки <> ", textToWrite,linePositionString);
+        if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
+            try {
+                if (list.size() > linePositionString) { //добавление в середину, если длина массива больше строки для записи
+                    list.add(linePositionString - 1, textToWrite);
+                } else {
+                    ArrayList<String> tempList = new ArrayList<>(); //создаем временный ArrayList
+                    for (int i = 0; i <= linePositionString - list.size() - 1; i++) { //заполяем его на нужное количество
+                        tempList.add(" ");
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    log.error("Выход за пределы массива", e);
-                } catch (NullPointerException e ){
-                    log.error("Добавление null", e);
+                    list.addAll(tempList); //добавляем временный ArrayList в текущий ArrayList
+                    list.set(linePositionString - 1, textToWrite); //вставляем нашу строку в конец текущего ArrayList
+                    log.debug("Добавляем текст {} в ArrayList по номеру строки {}", textToWrite, linePositionString);
                 }
-                try {
-                    System.out.println(list.toString());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                log.debug("В команду введено слишком много аргументов", commandAddString);
-                System.out.println("В команду введено слишком много аргументов, введите корректную команду");
-                break;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                log.error("Выход за пределы массива", e);
+            } catch (NullPointerException e) {
+                log.error("Добавление null", e);
+            }
+            try {
+                System.out.println(list.toString());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                list.add(textToWrite);  // добавить строку в конец файла
+                System.out.println(list.toString());// выводим для проверки в консоль
+            } catch (NullPointerException e) {
+                log.error("Вывод на печать null", e);
+            }
+            log.debug("Добавляем текст {} в конец ArrayList", textToWrite);
         }
         try {
             myMetodsForCommand.writeArrayListToFile(list, fileNameToWrite);

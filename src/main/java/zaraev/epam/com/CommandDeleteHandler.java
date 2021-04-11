@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Класс для обработки команды delete - удаления текста из файла
+ */
 @Slf4j
 public class CommandDeleteHandler {
-    private int linePositionString;
-    public String fileNameToDelete;
 
     /**
      * Метод для удаления текста из файла
@@ -20,13 +21,18 @@ public class CommandDeleteHandler {
      * @throws Exception
      */
     public void delete(String commandAddString) throws Exception {
+        int linePositionString = 0;
+        String fileNameToDelete;
         MetodsForCommand myMetodsForCommand = new MetodsForCommand();
-        if (!myMetodsForCommand.checkFileName(commandAddString)) {
-            return;
+
+        String[] commandAddArray = commandAddString.split(" "); // считываем команду в массив строк по разделителю пробел
+        if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
+            linePositionString = Integer.parseInt(commandAddArray[1]);
+            fileNameToDelete = commandAddArray[2];
         } else {
-            fileNameToDelete = myMetodsForCommand.findFileName(commandAddString);
+            fileNameToDelete = commandAddArray[1];
         }
-        linePositionString = myMetodsForCommand.findLinePositionString(commandAddString);
+        myMetodsForCommand.checkFileName(fileNameToDelete);
         File dir = new File(fileNameToDelete);
         if (!dir.exists()) {
             System.out.println("Файла нет - Нечего удалять" + fileNameToDelete);
@@ -41,28 +47,17 @@ public class CommandDeleteHandler {
             System.out.println("Cтроки <> в файле нет - Нечего удалять" + linePositionString);
             return;
         }
-        String[] commandAddArray = commandAddString.split(" ");
-        switch (commandAddArray.length) {
-            case 2:
-                if (list.get(linePositionString) != null) {
-                    list.remove(list.size() - 1);
-                    log.info("Удаляем из ArrayList последнюю строку");
-                }
-                break;
-            case 3:
-                if (list.get(linePositionString) != null) {
-                    list.add(linePositionString - 1, " ");
-                    list.remove(linePositionString);
-                    log.info("Удаляем из ArrayList строку по номеру", linePositionString);
-                }
-                for (Object person : list) {   // выводим для проверки в консоль
-                    System.out.println(list);
-                }
-                break;
-            default:
-                log.debug("В команду введено слишком много аргументов", commandAddString);
-                System.out.println("В команду введено слишком много аргументов, введите корректную команду");
-                break;
+        if (myMetodsForCommand.checkCommandWithLinePosition(commandAddArray)) {
+            if (list.get(linePositionString) != null) {
+                list.add(linePositionString - 1, " ");
+                list.remove(linePositionString);
+                log.info("Удаляем из ArrayList строку по номеру", linePositionString);
+            }
+        } else {
+            if (list.get(linePositionString) != null) {
+                list.remove(list.size() - 1);
+                log.info("Удаляем из ArrayList последнюю строку");
+            }
         }
         try {
             myMetodsForCommand.writeArrayListToFile(list, fileNameToDelete);

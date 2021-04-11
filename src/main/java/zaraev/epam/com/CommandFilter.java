@@ -7,35 +7,28 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class CommandFilter {
-    private String command = "1";
+    private CommandAddHandler commandAddHandler;
+    private CommandDeleteHandler commandDeleteHandler;
+    private CommandPrintHandler commandPrintHandler;
 
-    public String getCommand() {
-        return command;
+    public CommandFilter() {
+        this.commandAddHandler = new CommandAddHandler();
+        this.commandDeleteHandler = new CommandDeleteHandler();
+        this.commandPrintHandler = new CommandPrintHandler();
     }
 
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
-    public void parseCommand() {
+    public void parseCommand(String command) {
         try {
             if (command.startsWith("add")) {
-                log.debug("Вы ввели команду {}", command);
                 System.out.println("Вы ввели команду: " + command);
-                CommandAddHandler myCommandAddHandler = new CommandAddHandler();
-                myCommandAddHandler.add(command);
+                commandAddHandler.add(command);
             } else if (command.startsWith("delete")) {
-                log.debug("Вы ввели команду {}", command);
                 System.out.println("Вы ввели команду: " + command);
-                CommandDeleteHandler myCommandDeleteHandler = new CommandDeleteHandler();
-                myCommandDeleteHandler.delete(command);
+                commandDeleteHandler.delete(command);
             } else if (command.startsWith("print")) {
-                log.debug("Вы ввели команду {}", command);
                 System.out.println("Вы ввели команду: " + command);
-                CommandPrintHandler myCommandPrintHandler = new CommandPrintHandler();
-                myCommandPrintHandler.print(command);
+                commandPrintHandler.print(command);
             } else {
-                log.debug("Введена ошибочная команда {}", command);
                 System.out.println("Введена ошибочная команда, исправьте и введите еще раз");
             }
         } catch (Exception e) {
