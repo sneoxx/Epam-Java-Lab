@@ -26,6 +26,14 @@ public class MetodsForCommand {
         return true;
     }
 
+    /**
+     * Запись текста на нужную позицию в аррейлист
+     * @param commandAddArray - строка "команда" введенная в консоль пользователем
+     * @param list - аррейлист со строками считанными из файла
+     * @param linePositionString - позиция строки для записи
+     * @param textToWrite - текст для записи
+     * @return - вернет аррейлист с записанной на нужную позицию строкой
+     */
     public ArrayList<String> addTextInCommandAddArray(String[] commandAddArray, ArrayList<String> list, int linePositionString, String textToWrite) {
         if (checkCommandWithLinePosition(commandAddArray)) {
             if (list.size() > linePositionString) { //добавление в середину, если длина массива больше строки для записи
