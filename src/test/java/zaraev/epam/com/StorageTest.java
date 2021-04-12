@@ -22,10 +22,20 @@ class StorageTest {
     }
 
     @Test
+    public void addWhenIndexMissingReturnTrue4() throws CasheIndexOutOfBoundsException {
+        Storage<String> storage = new Storage();
+        storage.add("Test");
+        storage.toString();
+        assertEquals(storage.get(0), "Test");
+    }
+
+
+    @Test
     public void addWhenIndexMissingReturnTrue1() throws CasheIndexOutOfBoundsException {
         Storage<String> storage = new Storage();
         storage.add("Test");
         assertEquals(storage.get(0), "Test");
+
     }
     @Test
     public void increaseArrayLengthWhenIndexMissingReturnTrue3() throws NotExistElementException, CasheIndexOutOfBoundsException {
@@ -118,6 +128,21 @@ class StorageTest {
     public void getLastWhenIndexMissingReturnTNull3()  {
         Storage<Double> storage = new Storage();
         storage.add(1.00);
+        assertNotNull(storage.getLast());
+    }
+
+    @Test
+    public void printWhenIndexMissingReturnTNull4()  {
+        Storage<Short> storage = new Storage();
+        storage.printStorage();
+        assertNull(storage.getLast());
+    }
+
+    @Test
+    public void printWhenIndexMissingReturnTNull5()  {
+        Storage<Short> storage = new Storage();
+        storage.add((short) 1);
+        storage.printStorage();
         assertNotNull(storage.getLast());
     }
 
