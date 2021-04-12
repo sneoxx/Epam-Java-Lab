@@ -1,10 +1,11 @@
 package zaraev.epam.com;
 
-import org.junit.*;
 
-import java.lang.annotation.ElementType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
@@ -43,21 +44,28 @@ class CacheTest {
 //    }
 
 
-    @Test
-    public void addWhenElement11Index5ReturnElement11Index5() throws CasheIndexOutOfBoundsException {
-        CacheElement expectedResult = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
-        cache.add(11, 5);
-        CacheElement actualResult = (CacheElement)cache.get(5);
-        assertEquals(expectedResult, actualResult);
-    }
+//    @Test
+//    public void addWhenElement11Index5ReturnElement11Index5() throws CasheIndexOutOfBoundsException {
+//        Integer expectedResult = new Integer(11, 5);
+//        Cache<CacheElement> cache = new Cache(10);
+//        cache.add();
+//        CacheElement actualResult = (CacheElement) cache.get(5);
+//        assertEquals(expectedResult, actualResult);
+//    }
 
-    @Test(expected = CasheIndexOutOfBoundsException.class)
-    public void addWhenIndex20ThenThrowException() throws CasheIndexOutOfBoundsException {
-        CacheElement expectedResult = new CacheElement(11, 20);
-        Cache cache = new Cache(10);
-        cache.add(11, 20);
-    }
+//    @Test
+//    void addShouldPutElementToCache() {
+//        Cache<String> cache = new Cache<>(1);
+//        cache.add("testElement",0);
+//        assertTrue(cache.isPresent("testElement"));
+//    }
+
+//    @Test(expected = Exception.class)
+//    public void addWhenIndex20ThenThrowException() throws NullPointerException {
+//        CacheElement expectedResult = new CacheElement(11, 20);
+//        Cache cache = new Cache(10);
+//        cache.add(11, 20);
+//    }
 
     @Test
     public void deleteWhenElement1ReturnFalse() {
@@ -89,7 +97,7 @@ class CacheTest {
         CacheElement cacheElement = new CacheElement(11, 5);
         Cache cache = new Cache(10);
         cache.add(cacheElement,0);
-        boolean result = cache.isPresent(5);
+        boolean result = cache.isPresent(0);
         assertTrue(result);
     }
 
@@ -103,32 +111,89 @@ class CacheTest {
     }
 
 
+//    @Test
+//    public void getWhenIndexIsPresentReturnElement() throws CasheIndexOutOfBoundsException {
+//        CacheElement expectedResult = new CacheElement(11, 5);
+//        Cache cache = new Cache(10);
+//        cache.add(expectedResult,0);
+//        CacheElement actualResult =(CacheElement) cache.get(5);
+//        assertEquals(expectedResult, actualResult);
+//    }
+
+//    @Test(expected = CasheIndexOutOfBoundsException.class)
+//    public void getWhenIndexIsPresentReturnElelment() throws CasheIndexOutOfBoundsException {
+//        CacheElement expectedResult = new CacheElement(11, 5);
+//        Cache cache = new Cache(10);
+//        cache.add(expectedResult,0);
+//        CacheElement actualResult =(CacheElement) cache.get(55);
+//    }
+
     @Test
-    public void getWhenIndexIsPresentReturnElement() {
-        CacheElement expectedResult = new CacheElement(11, 5);
+    public void clearWhenIndexMissingReturnFalse1() {
+        CacheElement cacheElement = new CacheElement(11, 5);
         Cache cache = new Cache(10);
-        cache.add(expectedResult,0);
-        CacheElement actualResult =(CacheElement) cache.get(5);
-        assertEquals(expectedResult, actualResult);
+        cache.add(cacheElement,0);
+        cache.clear();
+        boolean result = cache.isPresent(0);
+        assertFalse(result);
     }
 
-    @Test(expected = CasheIndexOutOfBoundsException.class)
-    public void getWhenIndexIsPresentReturnElelment() throws CasheIndexOutOfBoundsException {
-        CacheElement expectedResult = new CacheElement(11, 5);
+//    @Test
+//    public void isPresentWhenIndexMissingReturnFalse2() throws CasheIndexOutOfBoundsException{
+//        CacheElement cacheElement = new CacheElement(11, 5);
+//        Cache cache = new Cache(10);
+//        cache.add(cacheElement,0);
+//        Object result = cache.get(1);
+//        Assertions.assertThrows(CasheIndexOutOfBoundsException.class, () -> {
+//            cache.get(1);
+//        });
+//            }
+
+//    @Test
+//    public void shiftElementsLeftWhenIndexMissingReturnFalse1() {
+//        CacheElement cacheElement = new CacheElement(11, 5);
+//        Cache cache = new Cache(10);
+//        cache.add(cacheElement,0);
+//        cache.add(cacheElement,1);
+//        cache.shiftElementsLeft(0);
+//        boolean result = cache.isPresent(0);
+//        assertFalse(result);
+//    }
+
+    @Test
+    public void shiftElementsLeftWhenIndexMissingReturnFalse() {
+        CacheElement cacheElement = new CacheElement(11, 5);
+        CacheElement cacheElement1 = new CacheElement(12, 6);
+        CacheElement cacheElement2 = new CacheElement(15, 7);
         Cache cache = new Cache(10);
-        cache.add(expectedResult,0);
-        CacheElement actualResult =(CacheElement) cache.get(55);
+        cache.add(cacheElement,0);
+        cache.add(cacheElement1,1);
+        cache.add(cacheElement2,2);
+        cache.shiftElementsLeft(1);
+        boolean result = cache.isPresent(cacheElement1);
+        assertFalse(result);
     }
 
-    /**
-     * очистка кэша от всех элементов
-     */
-    void clear() {
-        for (int i = 0; i < capacity; i++) {
-            cache[i] = null;
-        }
-        log.debug("Очистка кеша");
+    @Test
+    public void shiftElementsLeftWhenIndexMissingReturnTrue() {
+        CacheElement cacheElement = new CacheElement(11, 5);
+        CacheElement cacheElement1 = new CacheElement(12, 6);
+        CacheElement cacheElement2 = new CacheElement(15, 7);
+        Cache cache = new Cache(10);
+        cache.add(cacheElement,0);
+        cache.add(cacheElement1,1);
+        cache.add(cacheElement2,2);
+        cache.shiftElementsLeft(0);
+        boolean result = cache.isPresent(cacheElement1);
+        assertTrue(result);
     }
+
+//    public void shiftElementsLeft(int index) {
+//        for (int i = index; i < capacity - 1; i++) {
+//            cache[i] = cache[i + 1];
+//        }
+//        log.debug("Сдвиг всех элементов кеша влево с удалением элемента стоящем на индексе" + index);
+//    }
 
 }
 
