@@ -4,9 +4,7 @@ package zaraev.epam.com;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class CacheTest {
@@ -54,10 +52,9 @@ class CacheTest {
 //    }
 
 //    @Test
-//    void addShouldPutElementToCache() {
-//        Cache<String> cache = new Cache<>(1);
-//        cache.add("testElement",0);
-//        assertTrue(cache.isPresent("testElement"));
+//    void addNotNull() throws CasheIndexOutOfBoundsException {
+//        Cache<String> cache = new Cache<>(10);
+//         assertNull(cache.get(1));
 //    }
 
 //    @Test(expected = Exception.class)
