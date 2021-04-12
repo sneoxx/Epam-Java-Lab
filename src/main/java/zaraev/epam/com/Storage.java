@@ -147,6 +147,7 @@ public class Storage<T> {
         throw new CasheIndexOutOfBoundsException("Нельзя получить нулевой элемент");
     }
 
+
     /**
      * Вывод в консоль всех элементов Storage
      */
