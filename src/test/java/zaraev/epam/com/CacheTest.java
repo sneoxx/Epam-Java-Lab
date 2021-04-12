@@ -2,6 +2,7 @@ package zaraev.epam.com;
 
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,12 +58,18 @@ class CacheTest {
 //         assertNull(cache.get(1));
 //    }
 
-//    @Test(expected = Exception.class)
-//    public void addWhenIndex20ThenThrowException() throws NullPointerException {
-//        CacheElement expectedResult = new CacheElement(11, 20);
-//        Cache cache = new Cache(10);
-//        cache.add(11, 20);
-//    }
+
+
+
+    @Test
+    public void getWhenIndex20ThenThrowException() throws CasheIndexOutOfBoundsException {
+        CacheElement expectedResult = new CacheElement(11, 20);
+        Cache cache = new Cache(10);
+        Assertions.assertThrows(CasheIndexOutOfBoundsException.class, () -> {
+            cache.get(11);
+        });
+    }
+
 
     @Test
     public void deleteWhenElement1ReturnFalse() {
@@ -70,6 +77,7 @@ class CacheTest {
         Cache cache = new Cache(10);
         cache.delete(11);
         assertFalse(cache.isPresent(expectedResult));
+
     }
 
     @Test
@@ -107,6 +115,35 @@ class CacheTest {
         assertFalse(result);
     }
 
+    @Test
+    void testIsPresentByValueShouldReturnTrue() {
+        Cache<Double> cache = new Cache<>(1);
+        cache.add(123456.00,0);
+        assertTrue(cache.isPresent(123456.00));
+    }
+
+    @Test
+    void testIsPresentTrue2() {
+        Cache<Long> cache = new Cache<>(1);
+        cache.add(123456789L,0);
+        assertTrue(cache.isPresent(123456789L));
+    }
+
+    @Test
+    void get() throws CasheIndexOutOfBoundsException {
+        Cache<String> cache = new Cache<>(1);
+        cache.add("testElement",0);
+        assertEquals(cache.get(0),"testElement");
+    }
+
+    @Test
+    void get2() throws CasheIndexOutOfBoundsException {
+        Cache<String> cache = new Cache<>(1);
+        cache.add("testElement",0);
+        assertNotEquals(cache.get(0),"Element");
+    }
+
+
 
 //    @Test
 //    public void getWhenIndexIsPresentReturnElement() throws CasheIndexOutOfBoundsException {
@@ -134,6 +171,8 @@ class CacheTest {
         boolean result = cache.isPresent(0);
         assertFalse(result);
     }
+
+
 
 //    @Test
 //    public void isPresentWhenIndexMissingReturnFalse2() throws CasheIndexOutOfBoundsException{
@@ -184,6 +223,29 @@ class CacheTest {
         boolean result = cache.isPresent(cacheElement1);
         assertTrue(result);
     }
+
+
+    @Test
+    public void shiftElementsLeftWhenIndexMissingReturnNull() throws CasheIndexOutOfBoundsException {
+        CacheElement cacheElement = new CacheElement(11, 5);
+        CacheElement cacheElement1 = new CacheElement(12, 6);
+        CacheElement cacheElement2 = new CacheElement(15, 7);
+        Cache cache = new Cache(10);
+        cache.add(cacheElement,0);
+        cache.add(cacheElement1,1);
+        cache.add(cacheElement2,2);
+        cache.shiftElementsLeft(0);
+        Object result = cache.get(1);
+        assertNotNull(result);
+    }
+
+
+
+
+//    public void printCache() {
+//        System.out.print(Arrays.toString(cache));
+//        System.out.println();
+//    }
 
 //    public void shiftElementsLeft(int index) {
 //        for (int i = index; i < capacity - 1; i++) {
