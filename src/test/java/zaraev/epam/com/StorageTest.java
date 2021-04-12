@@ -85,7 +85,7 @@ class StorageTest {
     }
 
     @Test
-    public void clearWhenIndexMissingReturnNull()  {
+    public void clearWhenIndexMissingReturnNull6()  {
         Storage<Integer> storage = new Storage();
         storage.add(1);
         storage.add(2);
