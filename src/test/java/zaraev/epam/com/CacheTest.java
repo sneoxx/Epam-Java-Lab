@@ -130,17 +130,28 @@ class CacheTest {
     }
 
     @Test
+    public void testIsPresentTrue3() {
+        Cache<Float> cache = new Cache<>(1);
+        cache.add(123456789.00F, 0);
+        assertTrue(cache.isPresent(123456789.00F));
+    }
+
+    @Test
     public void get() throws CasheIndexOutOfBoundsException {
         Cache<String> cache = new Cache<>(1);
         cache.add("testElement", 0);
         assertEquals(cache.get(0), "testElement");
     }
 
+    // проверяем get через assertNotEquals добавялем "testElement", 0, сравниваем
     @Test
     public void get2() throws CasheIndexOutOfBoundsException {
-        Cache<String> cache = new Cache<>(1);
-        cache.add("testElement", 0);
-        assertNotEquals(cache.get(0), "Element");
+        CacheElement cacheElement1 = new CacheElement("testElement", 5);
+        CacheElement cacheElement2 = new CacheElement("testElement", 5);
+        Cache cache = new Cache<>(1);
+        cache.add(cacheElement1, 0);
+        cache.add(cacheElement2, 1);
+        assertEquals(cache.get(0), cacheElement2);
     }
 
     // проверяяем очистку, добавялем индекс 0 чистим проверяем осталося ли 0
