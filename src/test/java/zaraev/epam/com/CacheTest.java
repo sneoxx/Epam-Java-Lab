@@ -259,46 +259,46 @@ class CacheTest {
     }
 
     // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 0 индекса, он удаляется, проверяем равен ли элемент с 1 индексом элементу1 - да
-    @Test
-    public void shiftElementsLeftWhenIndexMissingReturnNull8() throws CasheIndexOutOfBoundsException {
-        CacheElement cacheElement = new CacheElement("Test1", 5);
-        CacheElement cacheElement1 = new CacheElement("Test2", 6);
-        CacheElement cacheElement2 = new CacheElement("Test3", 7);
-        Cache cache = new Cache(10);
-        cache.add(cacheElement, 0);
-        cache.add(cacheElement1, 1);
-        cache.add(cacheElement2, 2);
-        cache.shiftElementsLeft(0);
-        assertEquals(cache.get(1), cacheElement1);
-    }
+//    @Test
+//    public void shiftElementsLeftWhenIndexMissingReturnNull8() throws CasheIndexOutOfBoundsException {
+//        CacheElement cacheElement = new CacheElement("Test1", 5);
+//        CacheElement cacheElement1 = new CacheElement("Test2", 6);
+//        CacheElement cacheElement2 = new CacheElement("Test3", 7);
+//        Cache cache = new Cache(10);
+//        cache.add(cacheElement, 0);
+//        cache.add(cacheElement1, 1);
+//        cache.add(cacheElement2, 2);
+//        cache.shiftElementsLeft(0);
+//        assertEquals(cache.get(1), cacheElement1);
+//    }
+//
+//
+//    // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 0 индекса, он удаляется, проверяем равен ли элемент с 2 индексом cacheElement - нет
+//    @Test
+//    public void shiftElementsLeftWhenIndexMissingReturnNull9() throws CasheIndexOutOfBoundsException {
+//        CacheElement cacheElement = new CacheElement("Test1", 5);
+//        CacheElement cacheElement1 = new CacheElement("Test2", 6);
+//        CacheElement cacheElement2 = new CacheElement("Test3", 7);
+//        Cache cache = new Cache(10);
+//        cache.add(cacheElement, 0);
+//        cache.add(cacheElement1, 1);
+//        cache.add(cacheElement2, 2);
+//        cache.shiftElementsLeft(0);
+//        assertNotEquals(cache.get(2), cacheElement);
+//    }
 
-
-    // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 0 индекса, он удаляется, проверяем равен ли элемент с 2 индексом cacheElement - нет
-    @Test
-    public void shiftElementsLeftWhenIndexMissingReturnNull9() throws CasheIndexOutOfBoundsException {
-        CacheElement cacheElement = new CacheElement("Test1", 5);
-        CacheElement cacheElement1 = new CacheElement("Test2", 6);
-        CacheElement cacheElement2 = new CacheElement("Test3", 7);
-        Cache cache = new Cache(10);
-        cache.add(cacheElement, 0);
-        cache.add(cacheElement1, 1);
-        cache.add(cacheElement2, 2);
-        cache.shiftElementsLeft(0);
-        assertNotEquals(cache.get(2), cacheElement);
-    }
-
-    @Test
-    public void printWhenIndexMissingReturnTNull6() throws CasheIndexOutOfBoundsException {
-        Cache<Short> cache = new Cache<>(10);
-        cache.printCache();
-        assertNull(cache.get(0));
-    }
-
-    @Test
-    public void printWhenIndexMissingReturnTNull4() throws CasheIndexOutOfBoundsException {
-        Cache<Short> cache = new Cache<>(10);
-        cache.add((short) 1, 0);
-        cache.printCache();
-        assertNotNull(cache.get(0));
-    }
+//    @Test
+//    public void printWhenIndexMissingReturnTNull6() throws CasheIndexOutOfBoundsException {
+//        Cache<Short> cache = new Cache<>(10);
+//        cache.printCache();
+//        assertNull(cache.get(0));
+//    }
+//
+//    @Test
+//    public void printWhenIndexMissingReturnTNull4() throws CasheIndexOutOfBoundsException {
+//        Cache<Short> cache = new Cache<>(10);
+//        cache.add((short) 1, 0);
+//        cache.printCache();
+//        assertNotNull(cache.get(0));
+//    }
 }
