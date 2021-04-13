@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         log.info("Старт программы");
         Cache<Integer> myCache = new Cache<>(10);
+        myCache.printCache();
         System.out.println("Работа с кешем");
         myCache.add(11, 0);
         myCache.add(24, 1);

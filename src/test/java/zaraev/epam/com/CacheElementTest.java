@@ -7,39 +7,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class CacheElementTest {
 
     @Test
-    public void createCacheElement() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        CacheElement cacheElement1 = new CacheElement(11, 6);
-        assertFalse(cacheElement.equals(cacheElement1));
-    }
-
-    @Test
-    public void createCacheElement1() {
+    public void createWhenTwoIdenticalElementsReturnEquals() {
         CacheElement cacheElement = new CacheElement(11, 5);
         CacheElement cacheElement1 = new CacheElement(11, 5);
         assertEquals(cacheElement,cacheElement1);
     }
 
     @Test
-    public void createCacheElement2() {
+    public void createWhenTwodifferentElementReturnNotEquals() {
         CacheElement cacheElement = new CacheElement(11, 5);
         CacheElement cacheElement1 = new CacheElement(12, 5);
         assertNotEquals(cacheElement,cacheElement1);
     }
 
     @Test
-    public void createCacheElement3() {
+    public void createWhenOneAssignedToOtherReturnSame() {
         CacheElement cacheElement = new CacheElement(11, 5);
-        CacheElement cacheElement1 = null;
-        assertNull(cacheElement1);
+        CacheElement cacheElement1 = cacheElement;
+        assertSame(cacheElement,cacheElement1);
     }
 
     @Test
-    public void createCacheElement4() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        CacheElement cacheElement1 = new CacheElement(12, 5);
-        assertNotNull(cacheElement1);
+    public void createAtFirstItWasNullReturnNotNull() {
+        CacheElement cacheElement = null;
+        cacheElement = new CacheElement(12, 5);
+        assertNotNull(cacheElement);
     }
-
-
 }
