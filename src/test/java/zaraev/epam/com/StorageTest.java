@@ -23,23 +23,6 @@ class StorageTest {
         assertNotEquals(storage.get(0), "Test1");
     }
 
-//    @Test
-//    public void addWhenIndexMissingReturnTrue4() throws CasheIndexOutOfBoundsException {
-//        Storage<String> storage = new Storage();
-//        storage.add("Test");
-//        storage.toString();
-//        assertEquals(storage.get(0), "Test");
-//    }
-
-
-//    @Test
-//    public void addWhenIndexMissingReturnTrue1() throws CasheIndexOutOfBoundsException {
-//        Storage<String> storage = new Storage();
-//        storage.add("Test");
-//        assertEquals(storage.get(0), "Test");
-//
-//    }
-
     @Test
     public void increaseArrayLengthWhenIndexMissingThrowException() throws NotExistElementException, CasheIndexOutOfBoundsException {
         Storage<String> storage = new Storage();
@@ -67,26 +50,6 @@ class StorageTest {
         assertEquals(storage.get(11), "Test12");
     }
 
-    //размер увеличился в 1.5 раза
-//    @Test
-//    public void increaseArrayLengthWhenIndexMissingReturnTrue5() throws NotExistElementException, CasheIndexOutOfBoundsException {
-//        Storage<String> storage = new Storage();
-//        storage.add("Test");
-//        storage.add("Test2");
-//        storage.add("Test3");
-//        storage.add("Test4");
-//        storage.add("Test5");
-//        storage.add("Test6");
-//        storage.add("Test7");
-//        storage.add("Test8");
-//        storage.add("Test9");
-//        storage.add("Test10");
-//        storage.add("Test11");
-//        storage.add("Test12");
-//        assertEquals(storage.capacity, 15);
-//    }
-
-    //размер увеличился в 1.5 раза
     @Test
     public void increaseArrayLengthCheckCapacityReturnTrue() {
         Storage<String> storage = new Storage();
@@ -96,7 +59,6 @@ class StorageTest {
         assertEquals(storage.capacity, actualCapacity);
     }
 
-    //размер увеличился в 2.3 раза
     @Test
     public void increaseArrayLengthCheckCapacityWhenTwoIncreaseReturnTrue() {
         Storage<String> storage = new Storage();
@@ -147,22 +109,6 @@ class StorageTest {
         storage.printStorage();
         assertNotNull(storage.getLast());
     }
-
-//    @Test
-//    public void printWhenIndexMissingReturnTNull4() {
-//        Storage<Short> storage = new Storage();
-//        Storage<Short> storage1 = new Storage();
-//        storage.printStorage();
-//        assertNull(storage.getLast());
-//    }
-//
-//    @Test
-//    public void printWhenIndexMissingReturnTNull5() {
-//        Storage<Short> storage = new Storage();
-//        storage.add((short) 1);
-//        storage.printStorage();
-//        assertNotNull(storage.getLast());
-//    }
 
     @Test
     public void clearWhenElementMissingReturnNull() {
