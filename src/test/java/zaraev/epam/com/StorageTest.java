@@ -146,21 +146,21 @@ class StorageTest {
         assertNotNull(storage.getLast());
     }
 
-//    @Test
-//    public void printWhenIndexMissingReturnTNull4() {
-//        Storage<Short> storage = new Storage();
-//        Storage<Short> storage1 = new Storage();
-//        storage.printStorage();
-//        assertNull(storage.getLast());
-//    }
-//
-//    @Test
-//    public void printWhenIndexMissingReturnTNull5() {
-//        Storage<Short> storage = new Storage();
-//        storage.add((short) 1);
-//        storage.printStorage();
-//        assertNotNull(storage.getLast());
-//    }
+    @Test
+    public void printWhenIndexMissingReturnTNull4() {
+        Storage<Short> storage = new Storage();
+        Storage<Short> storage1 = new Storage();
+        storage.printStorage();
+        assertNull(storage.getLast());
+    }
+
+    @Test
+    public void printWhenIndexMissingReturnTNull5() {
+        Storage<Short> storage = new Storage();
+        storage.add((short) 1);
+        storage.printStorage();
+        assertNotNull(storage.getLast());
+    }
 
     @Test
     public void clearWhenElementMissingReturnNull() {
