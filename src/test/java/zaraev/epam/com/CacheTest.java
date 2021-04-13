@@ -274,18 +274,18 @@ class CacheTest {
         assertNotEquals(cache.get(2), cacheElement);
     }
 
-    @Test
-    public void printWhenElementsNoAddedReturnNull() throws CasheIndexOutOfBoundsException {
-        Cache<Short> cache = new Cache<>(10);
-        cache.printCache();
-        assertNull(cache.get(0));
-    }
-
-    @Test
-    public void printWhenElementsAddedReturnNotNull() throws CasheIndexOutOfBoundsException {
-        Cache<Short> cache = new Cache<>(10);
-        cache.add((short) 1, 0);
-        cache.printCache();
-        assertNotNull(cache.get(0));
-    }
+//    @Test
+//    public void printWhenElementsNoAddedReturnNull() throws CasheIndexOutOfBoundsException {
+//        Cache<Short> cache = new Cache<>(10);
+//        cache.printCache();
+//        assertNull(cache.get(0));
+//    }
+//
+//    @Test
+//    public void printWhenElementsAddedReturnNotNull() throws CasheIndexOutOfBoundsException {
+//        Cache<Short> cache = new Cache<>(10);
+//        cache.add((short) 1, 0);
+//        cache.printCache();
+//        assertNotNull(cache.get(0));
+//    }
 }
