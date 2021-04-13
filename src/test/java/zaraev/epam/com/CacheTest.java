@@ -198,17 +198,55 @@ class CacheTest {
     }
 
     @Test
-    public void createWhenElementsNoAddedReturnNull() throws CasheIndexOutOfBoundsException {
-        Cache<Short> cache = new Cache<>(10);
-        cache.printCache();
-        assertNull(cache.get(0));
-    }
-
-    @Test
     public void createWhenElementsAddedReturnNotNull() throws CasheIndexOutOfBoundsException {
         Cache<Short> cache = new Cache<>(10);
         cache.add((short) 1, 0);
         cache.printCache();
-        assertNotNull(cache.get(0));
+        assertNotNull(cache.capacity);
+    }
+
+    @Test
+    public void deleteWhenIsLastElementReturnEquals() throws CasheIndexOutOfBoundsException {
+        Cache<Integer> cache = new Cache<>(10);
+        cache.add(1,0);
+        cache.add(2,1);
+        cache.add(3,2);
+        cache.delete(3);
+        assertEquals(cache.get(1), 2);
+    }
+
+    @Test
+    public void deleteWheDelElementReturnTrue() throws CasheIndexOutOfBoundsException {
+        Cache<Integer> cache = new Cache<>(10);
+        cache.add(1,0);
+        cache.add(2,1);
+        cache.add(3,2);
+        cache.delete(1);
+        cache.delete(3);
+        boolean result = cache.isPresent(1);
+        assertTrue(result);
+    }
+
+    @Test
+    public void deleteWheDeletedTwoElementReturnTrue() throws CasheIndexOutOfBoundsException {
+        Cache<Integer> cache = new Cache<>(10);
+        cache.add(1,0);
+        cache.add(2,1);
+        cache.add(3,2);
+        cache.delete(1);
+        cache.delete(3);
+        boolean result = cache.isPresent(1);
+        assertTrue(result);
+    }
+
+    @Test
+    public void toStringReturnTrue() throws CasheIndexOutOfBoundsException {
+        Cache<Integer> cache = new Cache<>(10);
+        cache.add(1,0);
+        cache.add(2,1);
+        cache.add(3,2);
+        cache.toString();
+        boolean result = cache.isPresent(1);
+        assertTrue(result);
     }
 }

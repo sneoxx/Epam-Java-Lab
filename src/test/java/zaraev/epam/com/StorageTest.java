@@ -129,7 +129,7 @@ class StorageTest {
         storage.clear();
         storage.printStorage();
         storage.add(4);
-        assertEquals(storage.getLast(),4);
+        assertEquals(storage.getLast(), 4);
     }
 
     @Test
@@ -183,5 +183,32 @@ class StorageTest {
         storage.add("Test2");
         storage.add("Test3");
         assertEquals(storage.get(1), "Test2");
+    }
+
+    @Test
+    public void crateWhenInputArrayReturnEquals() throws CasheIndexOutOfBoundsException {
+        String[] strings = {"Test"};
+        Storage<String> storage = new Storage(strings);
+        assertEquals(storage.get(0), "Test");
+    }
+
+    @Test
+    public void addWhenElementNullThrowException(){
+        String[] strings = {"Test"};
+        Storage<String> storage = new Storage(strings);
+        Assertions.assertThrows(NotExistElementException.class, () -> {
+            storage.add(null);
+        });
+    }
+
+    @Test
+    public void toStringReturnEquals() throws CasheIndexOutOfBoundsException {
+        Storage<String> storage = new Storage();
+        Cache<String> cache = new Cache<>(10);
+        storage.add("Test");
+        storage.add("Test2");
+        storage.add("Test3");
+        storage.toString();
+        assertEquals(storage.get(2), "Test3");
     }
 }
