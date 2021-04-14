@@ -6,6 +6,7 @@ public class CacheElement<T> {
     public T element;
     public int index;
 
+
     /**
      * Парметриризированный класс CacheElement
      *

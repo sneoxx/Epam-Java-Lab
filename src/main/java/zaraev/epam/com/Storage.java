@@ -67,7 +67,6 @@ public class Storage<T> {
         log.debug("Элемент {} успешно добавлен в хранилище storage", element);
     }
 
-
     /**
      * Увеличение емкости нашего массива storage в 1.5 раза
      */
@@ -146,6 +145,7 @@ public class Storage<T> {
         }
         throw new CasheIndexOutOfBoundsException("Нельзя получить нулевой элемент");
     }
+
 
     /**
      * Вывод в консоль всех элементов Storage
