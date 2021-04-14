@@ -166,6 +166,21 @@ class StorageTest {
     }
 
     @Test
+    public void deleteWhenNotNull1() throws CasheIndexOutOfBoundsException {
+        Storage<Integer> storage = new Storage();
+        Cache<Integer> cache = new Cache<>(10);
+        storage.add(1);
+        storage.add(2);
+        storage.add(3);
+        cache.add(3,0);
+        cache.add(2,1);
+        storage.delete();
+        storage.delete();
+        assertEquals(cache.get(1), 2);
+        //assertTrue(cache.isPresent((Integer) 1));
+    }
+
+    @Test
     public void getWhenElementIsPresentReturnNotNull() throws CasheIndexOutOfBoundsException {
         Storage<String> storage = new Storage();
         Cache<String> cache = new Cache<>(10);

@@ -35,7 +35,7 @@ class CacheElementTest {
     }
 
     @Test
-    public void checkHa() {
+    public void checkHashCodeReturnTrue() {
         CacheElement cacheElement = new CacheElement(12, 5);
         assertTrue(cacheElement.hashCode() > 0);
     }
