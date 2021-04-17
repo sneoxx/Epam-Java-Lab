@@ -34,12 +34,12 @@
 
 
 
-    <logger name="zaraev.epam.com.Main" level="info" additivity="false">-->
+    <logger name="zaraev.epam.com.Main" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
         <appender-ref ref="FILE-AUDIT" />-->
     </logger>-->
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="CONSOLE" />
     </root>
 
