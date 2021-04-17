@@ -26,9 +26,7 @@ public class Storage<T> {
     public Storage(T[] arrayElements) {
         try {
             storage = new Object[10];
-            for (int i = 0; i < arrayElements.length; i++) {
-                storage[i] = arrayElements[i];
-            }
+            System.arraycopy(arrayElements, 0, storage, 0, arrayElements.length);
             capacity = 10;
             cacheStorage = new Cache<>(10);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -54,17 +52,18 @@ public class Storage<T> {
      */
     public void add(T element) throws NotExistElementException {
         if (element == null) {
-            throw new NotExistElementException("Не добавляй нулевой элемент");
+            throw new NotExistElementException("Попытка добавить null в хранилище");
         }
         for (int i = 0; i < storage.length; i++)
             if (storage[i] == null) {
                 storage[i] = element;
+                log.debug("Элемент {} успешно добавлен в хранилище {}", element, storage);
                 return;
             }
         int addIndex = capacity;
         increaseArrayLength();
         storage[addIndex] = element;
-        log.debug("Элемент {} успешно добавлен в хранилище storage", element);
+        log.debug("Элемент {} успешно добавлен в хранилище {}", element, storage);
     }
 
     /**
@@ -77,7 +76,7 @@ public class Storage<T> {
             tempStorage[i] = storage[i];
         }
         storage = tempStorage;
-        log.debug("Размер хранилища Storage увеличен в 1.5 раза и составляет " + capacity);
+        log.debug("Размер хранилища увеличен в 1.5 раза и составляет " + capacity);
     }
 
     /**
@@ -101,9 +100,7 @@ public class Storage<T> {
      * Очищение всех элементов из нашего массива storage и кэша
      */
     public void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, null);
         log.info("Хранилище Storage очищено");
         cacheStorage.clear();
     }
@@ -113,7 +110,7 @@ public class Storage<T> {
      *
      * @return - вернет элемент класса T
      */
-    public T getLast() {
+    public T getLast() throws NotExistElementException{
         for (int i = storage.length - 1; i >= 0; i--) {
             if (storage[i] != null) {
                 log.debug("Последний не null элемент {} из Storage успешно получен", storage[i]);
@@ -121,7 +118,7 @@ public class Storage<T> {
             }
         }
         log.debug("Последний элемент из Storage не получен - хранилище Storage пустое");
-        return null;
+       throw new NotExistElementException("Последний элемент получить не удалось хранилище Storage пустое");
     }
 
     /**
@@ -143,9 +140,8 @@ public class Storage<T> {
                 return (T) storage[index];
             }
         }
-        throw new CasheIndexOutOfBoundsException("Нельзя получить нулевой элемент");
+        throw new CasheIndexOutOfBoundsException("Попытка получения null элемента из storage");
     }
-
 
     /**
      * Вывод в консоль всех элементов Storage

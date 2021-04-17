@@ -1,10 +1,9 @@
 package zaraev.epam.com;
 
-
 /**
  * Класс проверяемых исключений на выход за пределы кеша
  */
-public class CasheIndexOutOfBoundsException extends Exception{
+public class CasheIndexOutOfBoundsException extends RuntimeException{
     public CasheIndexOutOfBoundsException() {
         super();
     }

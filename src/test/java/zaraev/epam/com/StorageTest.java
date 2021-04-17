@@ -90,34 +90,11 @@ class StorageTest {
     }
 
     @Test
-    public void getLastWhenElementsNotAddedReturnEquals() {
-        Storage<String> storage = new Storage();
-        storage.printStorage();
-        assertEquals(storage.getLast(), null);
-    }
-
-    @Test
-    public void getLastWhenElementsNotAddedReturnNull() {
-        Storage<Integer> storage = new Storage();
-        assertNull(storage.getLast());
-    }
-
-    @Test
     public void getLastWhenAddDoubleElementReturnNoTNull() {
         Storage<Double> storage = new Storage();
         storage.add(1.00);
         storage.printStorage();
         assertNotNull(storage.getLast());
-    }
-
-    @Test
-    public void clearWhenElementMissingReturnNull() {
-        Storage<Integer> storage = new Storage();
-        storage.add(1);
-        storage.add(2);
-        storage.add(3);
-        storage.clear();
-        assertNull(storage.getLast());
     }
 
     @Test

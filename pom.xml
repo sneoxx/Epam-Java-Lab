@@ -10,6 +10,9 @@
 
     <properties>
         <jacoco-maven-plugin.haltOnFailure>true</jacoco-maven-plugin.haltOnFailure>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     </properties>
 
     <build>
@@ -17,6 +20,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>11</source>
                     <target>11</target>
@@ -26,9 +30,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
                     <outputEncoding>UTF-8</outputEncoding>
                 </configuration>
+
+
             </plugin>
 
             <plugin>
@@ -41,6 +48,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
+                <configuration>
+                <excludes>
+                    <exclude>**/*Main.class</exclude>
+                </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -122,12 +134,6 @@
                 <version>1.8.4</version>
                 <scope>test</scope>
             </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 

@@ -17,8 +17,28 @@ public class Cache<T> {
     public Cache(int capacity) {
         cache = new CacheElement[capacity];
         this.capacity = capacity;
-        log.debug("Кеш на [%s] элементов успешно создан", capacity);
+        log.debug("Кеш на {} элементов успешно создан", capacity);
+    }
 
+    /**
+     * Заполнение кеша Integer элементами
+     *
+     * @param cache - Инстанс Кеша типа Integer
+     * @return - Заполенный инстанс кеша типа Integer
+     */
+    public Cache<Integer> fillCacheInteger(Cache<Integer> cache) {
+        cache.add(11, 0);
+        cache.add(24, 1);
+        cache.add(34, 2);
+        cache.add(44, 3);
+        cache.add(54, 4);
+        cache.add(64, 5);
+        cache.add(74, 7);
+        cache.add(84, 8);
+        cache.add(94, 9);
+        cache.add(104, 10);
+        log.debug("Кеш {} заполнен полностью", cache);
+        return cache;
     }
 
     @Override
@@ -29,79 +49,76 @@ public class Cache<T> {
                 '}';
     }
 
-
     /**
-     * добавление элемента в кэш
-     * добавление всегда происходит в конец массива. Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива
+     * Добавление элемента в конец кэша. Если кеш заполенен, сдвигается
+     * Если мы выходим за длину массива, то необходимо удалить самый первый элемент в массиве, сдвинуть весь массив влево и добавить новый элемент в конец массива
      *
      * @param element - искомый элемент добавлемый в кеш
      */
     public void add(T element, int index) throws NullPointerException {
-        if (!isPresent(element)) {
-            if (cache[capacity - 1] == null) {
-                for (int i = 0; i < capacity; i++) {
-                    if (cache[i] == null) {
-                        cache[i] = new CacheElement(element, index);
-                        log.debug("[%s] добавлен в кеш по индексу ", cache[i]);
-                        return;
+        if (element != null) {
+            if (!isPresent(element)) {
+                if (cache[capacity - 1] == null) {
+
+                    for (int i = 0; i < capacity; i++) {
+                        if (cache[i] == null) {
+                            cache[i] = new CacheElement(element, index);
+                            log.debug("{} успешно добавлен в кеш ", cache[i]);
+                            return;
+                        }
                     }
                 }
+                shiftElementsLeft(capacity - 1);
+                cache[capacity - 1] = new CacheElement(element, index);
+                log.debug("{} добавлен в кеш", cache[capacity - 1]);
             }
-            shiftElementsLeft(capacity - 1);
-            cache[capacity - 1] = new CacheElement(element, index);
-            log.debug("[%s] добавлен в кеш по индексу ", cache[capacity - 1]);
         }
+        log.warn("Попытка добавить null значение к кеш", element, index);
+        return;
     }
-
 
     /**
      * Удаление элемента из кэша, с последующим сдвигом всех элементов правее его влево
      *
      * @param element - удаляемый элемент
      */
-    public void delete(T element) {
-        try {
-            for (int i = 0; i < capacity; i++) {
-                if (cache[i] != null && element.equals(cache[i].element)) {
-                    log.debug("Удаление элемента {} из кеша", cache[i].element);
-                    cache[i] = null;
-                    shiftElementsLeft(i);
-                    cache[capacity - 1] = null;
-                    return;
-                }
+    public void delete(T element) throws NullPointerException {
+        for (int i = 0; i < capacity; i++) {
+            if (cache[i] != null && element.equals(cache[i].element)) {
+                log.debug("Удаление элемента {} из кеша", cache[i].element);
+                cache[i] = null;
+                shiftElementsLeft(i);
+                cache[capacity - 1] = null;
+                return;
             }
-        } catch (NullPointerException e) {
-            log.warn("Попытка удаления из кеша null элемента");
-            e.printStackTrace();
         }
     }
 
     /**
-     * Поиск элемента в кэше
+     * Поиск элемента в кэше полю элемент
      *
      * @param element - элемент, который ищем
      * @return - вернет true при наличии элемента, при отсутствии элемента false
      */
     public boolean isPresent(T element) {
-        try {
+        if (element != null) {
             for (int i = 0; i < capacity; i++) {
                 if (cache[i] != null && cache[i].element.equals(element)) {
+                    log.debug("Элемент {} в кэше найден", element);
                     return true;
                 }
-                log.debug("Элемент {} в кэше найден", element);
+
             }
-        } catch (NullPointerException e) {
-            log.warn("Попытка поиска в кэше null элемента");
-            e.printStackTrace();
+            log.debug("Элемента {} в кэше нет", element);
+            return false;
         }
-        log.debug("Элемента {} в кэше нет", element);
-        return false;
+        throw new NotExistElementException("Попытка поиска в кэше null элемента");
     }
 
     /**
-     * Поиск элемента в кэше
+     * Поиск элемента в кэше по полю индекс
      *
-     * @param index- индекс элемента, который ищем
+     * @param index - поле индекс элемента, который ищем
      * @return - вернет true при наличии элемента, при отсутствии элемента false
      */
     public boolean isPresent(int index) {
@@ -110,14 +127,13 @@ public class Cache<T> {
                 log.debug("Элемент с индексом {} в кеше найден", index);
                 return true;
             }
-
         }
         log.debug(String.format("Элемента с индексом {} в кеше нет", index));
         return false;
     }
 
     /**
-     * Получение элемента из кеша, при нахождении объекта переместить его в конец кеша, со сдвигом всех элементов правее его влево
+     * Получение элемента из кеша, при нахождении объекта перемещение его в конец кеша, со сдвигом всех элементов правее его влево
      *
      * @param index - индекс получаемого элемента
      * @return - вернет элемент при наличии, при отсутствии вернет null
@@ -135,18 +151,15 @@ public class Cache<T> {
             }
         }
         log.debug("Попытка получения элемента c индексом {} из кеша неудачна - такого элемента нет", index);
-        throw new CasheIndexOutOfBoundsException();
-        //       return null;
+        throw new CasheIndexOutOfBoundsException("Попытка получения null элемента из кеша");
     }
 
     /**
-     * очистка кэша от всех элементов
+     * Очистка кэша от всех элементов
      */
     void clear() {
-        for (int i = 0; i < capacity; i++) {
-            cache[i] = null;
-        }
-        log.debug("Очистка кеша");
+        Arrays.fill(cache, null);
+        log.debug("Кэш успешно очищен");
     }
 
     /**
@@ -158,7 +171,7 @@ public class Cache<T> {
         for (int i = index; i < capacity - 1; i++) {
             cache[i] = cache[i + 1];
         }
-        log.debug("Сдвиг всех элементов кеша влево с удалением элемента стоящем на индексе" + index);
+        log.debug("Сдвиг всех элементов кеша влево с удалением элемента стоящем на указанном индексе" + index);
     }
 
     /**

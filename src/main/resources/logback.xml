@@ -33,6 +33,7 @@
     </appender>
 
     <logger name="zaraev.epam.com.Cache" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE-AUDIT" />
     </logger>
 
@@ -41,9 +42,9 @@
         <appender-ref ref="FILE-AUDIT" />
     </logger>
 
-    <!--    <logger name="zaraev.epam.com.Main" level="info" additivity="false">-->
-    <!--        <appender-ref ref="CONSOLE" />-->
-    <!--    </logger>-->
+        <logger name="zaraev.epam.com.Main" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE" />
+        </logger>
 
     <root level="info">
         <appender-ref ref="CONSOLE" />
