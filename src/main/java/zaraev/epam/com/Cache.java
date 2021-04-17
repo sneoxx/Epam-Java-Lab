@@ -128,7 +128,7 @@ public class Cache<T> {
                 return true;
             }
         }
-        log.debug(String.format("Элемента с индексом {} в кеше нет", index));
+        log.debug("Элемента с индексом {} в кеше нет", index);
         return false;
     }
 
