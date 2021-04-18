@@ -1,27 +1,29 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
 
+import com.zaraev.epam.Cache;
+import com.zaraev.epam.CacheElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import com.zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 class CacheTest {
 
-    // Добавляем элемент в кеш и проверяем добавился ли он через isPresent по элементу
     @Test
     public void getWhenIndex20ThenThrowException1() throws CasheIndexOutOfBoundsException {
-        CacheElement expectedResult = new CacheElement(11, 20);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> expectedResult = new CacheElement<>(11, 20);
+        Cache<CacheElement<Integer>> cache = new Cache<>(10);
         cache.add(expectedResult, 0);
         assertTrue(cache.isPresent(expectedResult));
     }
 
     @Test
     public void isPresentWhenIndexIsPresentReturnTrue() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         boolean result = cache.isPresent(0);
         assertTrue(result);
@@ -29,16 +31,16 @@ class CacheTest {
 
     @Test
     public void isPresentWhenElementMissingReturnFalse() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<CacheElement<Integer>>(10);
         boolean result = cache.isPresent(cacheElement);
         assertFalse(result);
     }
 
     @Test
     public void isPresentWhenIndexMissingReturnFalse() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<CacheElement<Integer>>(10);
         cache.add(cacheElement, 0);
         boolean result = cache.isPresent(3);
         assertFalse(result);
@@ -72,33 +74,30 @@ class CacheTest {
         assertEquals(cache.get(0), "testElement");
     }
 
-    // проверяем get через assertNotEquals добавялем "testElement", 0, сравниваем
     @Test
     public void getWhenAddedTwoIdenticalElementsReturnEquals() throws CasheIndexOutOfBoundsException {
-        CacheElement cacheElement1 = new CacheElement("testElement", 5);
-        CacheElement cacheElement2 = new CacheElement("testElement", 5);
-        Cache cache = new Cache<>(1);
+        CacheElement<String> cacheElement1 = new CacheElement<>("testElement", 5);
+        CacheElement<String> cacheElement2 = new CacheElement<>("testElement", 5);
+        Cache<Object> cache = new Cache<>(1);
         cache.add(cacheElement1, 0);
         cache.add(cacheElement2, 1);
         assertEquals(cache.get(0), cacheElement2);
     }
 
-    // проверяяем очистку, добавялем индекс 0 чистим проверяем осталося ли 0
     @Test
     public void clearWhenIndexAddAndClearReturnFalse() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         cache.clear();
         boolean result = cache.isPresent(0);
         assertFalse(result);
     }
 
-    // проверяяем очистку, добавяем индекс 0 чистим опять добавляем 0 проверяем  0
     @Test
     public void clearWhenIndexAddAndClearAndAddReturnTrue() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<CacheElement<Integer>>(10);
         cache.add(cacheElement, 0);
         cache.clear();
         cache.add(cacheElement, 0);
@@ -106,11 +105,10 @@ class CacheTest {
         assertTrue(result);
     }
 
-    // проверяяем очистку, добавяем индекс 0 чистим опять добавляем 0 проверяем  по элементу
     @Test
     public void clearWhenElementAddAndClearAndAddReturnTrue() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<CacheElement<Integer>>(10);
         cache.add(cacheElement, 0);
         cache.clear();
         cache.add(cacheElement, 2);
@@ -119,24 +117,22 @@ class CacheTest {
         assertTrue(result);
     }
 
-    // проверяяем очистку, добавяем индекс 0 чистим  проверяем  по элементу
     @Test
     public void clearWhenElementAddAndClearReturnFalse() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        Cache<CacheElement<Integer>> cache = new Cache<CacheElement<Integer>>(10);
         cache.add(cacheElement, 0);
         cache.clear();
         boolean result = cache.isPresent(cacheElement);
         assertFalse(result);
     }
 
-  // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 1 индекса, он удаляется, проверяем есть ли элемент с 1 индексом - нету
     @Test
     public void shiftElementsLeftWhenCheckedIndexShiftReturnFalse() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        CacheElement cacheElement1 = new CacheElement(12, 6);
-        CacheElement cacheElement2 = new CacheElement(15, 7);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        CacheElement<Integer> cacheElement1 = new CacheElement<>(12, 6);
+        CacheElement<Integer> cacheElement2 = new CacheElement<>(15, 7);
+        Cache<CacheElement<Integer>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         cache.add(cacheElement1, 1);
         cache.add(cacheElement2, 2);
@@ -145,13 +141,11 @@ class CacheTest {
         assertFalse(result);
     }
 
-    // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 1 индекса, он удаляется, проверяем есть ли элемент с 2 индексом - есть
-    @Test
     public void shiftElementsLeftWhenAnotherIndexShiftReturnTrue() {
-        CacheElement cacheElement = new CacheElement(11, 5);
-        CacheElement cacheElement1 = new CacheElement(12, 6);
-        CacheElement cacheElement2 = new CacheElement(15, 7);
-        Cache cache = new Cache(10);
+        CacheElement<Integer> cacheElement = new CacheElement<>(11, 5);
+        CacheElement<Integer> cacheElement1 = new CacheElement<>(12, 6);
+        CacheElement<Integer> cacheElement2 = new CacheElement<>(15, 7);
+        Cache<CacheElement<Integer>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         cache.add(cacheElement1, 1);
         cache.add(cacheElement2, 2);
@@ -160,13 +154,12 @@ class CacheTest {
         assertTrue(result);
     }
 
-    // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 0 индекса, он удаляется, проверяем равен ли элемент с 1 индексом cacheElement1  - hfdty
     @Test
     public void shiftElementsLeftWhenAnotherIndexShiftCheckTwoOtherElementsReturnEquals() throws CasheIndexOutOfBoundsException {
-        CacheElement cacheElement = new CacheElement("Test1", 5);
-        CacheElement cacheElement1 = new CacheElement("Test2", 6);
-        CacheElement cacheElement2 = new CacheElement("Test3", 7);
-        Cache cache = new Cache(10);
+        CacheElement<String> cacheElement = new CacheElement<>("Test1", 5);
+        CacheElement<String> cacheElement1 = new CacheElement<>("Test2", 6);
+        CacheElement<String> cacheElement2 = new CacheElement<>("Test3", 7);
+        Cache<CacheElement<String>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         cache.add(cacheElement1, 1);
         cache.add(cacheElement2, 2);
@@ -174,13 +167,12 @@ class CacheTest {
         assertEquals(cache.get(1), cacheElement1);
     }
 
-    // проверяем сдвиг элементов, добавляем 3 элемента, делаем сдвиг 0 индекса, он удаляется, проверяем равен ли элемент с 2 индексом удаленному cacheElement - нет
     @Test
     public void shiftElementsLeftWhenIndexShiftCheckTwoElementsReturnNotEquals() throws CasheIndexOutOfBoundsException {
-        CacheElement cacheElement = new CacheElement("Test1", 5);
-        CacheElement cacheElement1 = new CacheElement("Test2", 6);
-        CacheElement cacheElement2 = new CacheElement("Test3", 7);
-        Cache cache = new Cache(10);
+        CacheElement<String> cacheElement = new CacheElement<>("Test1", 5);
+        CacheElement<String> cacheElement1 = new CacheElement<>("Test2", 6);
+        CacheElement<String> cacheElement2 = new CacheElement<>("Test3", 7);
+        Cache<CacheElement<String>> cache = new Cache<>(10);
         cache.add(cacheElement, 0);
         cache.add(cacheElement1, 1);
         cache.add(cacheElement2, 2);
@@ -188,10 +180,9 @@ class CacheTest {
         assertNotEquals(cache.get(2), cacheElement);
     }
 
-    // получаем не существующий индекс элемента из кеша и получаем ошибку
     @Test
     public void getWhenIndex11ThenThrowException() throws CasheIndexOutOfBoundsException {
-        Cache cache = new Cache(10);
+        Cache cache = new Cache<>(10);
         Assertions.assertThrows(CasheIndexOutOfBoundsException.class, () -> {
             cache.get(11);
         });
@@ -202,15 +193,15 @@ class CacheTest {
         Cache<Short> cache = new Cache<>(10);
         cache.add((short) 1, 0);
         cache.printCache();
-        assertNotNull(cache.capacity);
+        assertNotNull(cache.getCapacity());
     }
 
     @Test
     public void deleteWhenIsLastElementReturnEquals() throws CasheIndexOutOfBoundsException {
         Cache<Integer> cache = new Cache<>(10);
-        cache.add(1,0);
-        cache.add(2,1);
-        cache.add(3,2);
+        cache.add(1, 0);
+        cache.add(2, 1);
+        cache.add(3, 2);
         cache.delete(3);
         assertEquals(cache.get(1), 2);
     }
@@ -218,9 +209,9 @@ class CacheTest {
     @Test
     public void deleteWheDelElementReturnTrue() throws CasheIndexOutOfBoundsException {
         Cache<Integer> cache = new Cache<>(10);
-        cache.add(1,0);
-        cache.add(2,1);
-        cache.add(3,2);
+        cache.add(1, 0);
+        cache.add(2, 1);
+        cache.add(3, 2);
         cache.delete(1);
         cache.delete(3);
         boolean result = cache.isPresent(1);
@@ -230,9 +221,9 @@ class CacheTest {
     @Test
     public void deleteWheDeletedTwoElementReturnTrue() throws CasheIndexOutOfBoundsException {
         Cache<Integer> cache = new Cache<>(10);
-        cache.add(1,0);
-        cache.add(2,1);
-        cache.add(3,2);
+        cache.add(1, 0);
+        cache.add(2, 1);
+        cache.add(3, 2);
         cache.delete(1);
         cache.delete(3);
         boolean result = cache.isPresent(1);
@@ -242,9 +233,9 @@ class CacheTest {
     @Test
     public void toStringReturnTrue() throws CasheIndexOutOfBoundsException {
         Cache<Integer> cache = new Cache<>(10);
-        cache.add(1,0);
-        cache.add(2,1);
-        cache.add(3,2);
+        cache.add(1, 0);
+        cache.add(2, 1);
+        cache.add(3, 2);
         cache.toString();
         boolean result = cache.isPresent(1);
         assertTrue(result);

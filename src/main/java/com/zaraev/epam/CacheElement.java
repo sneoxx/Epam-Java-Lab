@@ -1,14 +1,26 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
 import java.util.Objects;
 
+/**
+ * Параметриризированный класс CacheElement
+ */
 public class CacheElement<T> {
-    public T element;
-    public int index;
 
+    private T element;
+
+    private int index;
+
+    public T getElement() {
+        return element;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 
     /**
-     * Парметриризированный класс CacheElement
+     * Конструктор параметриризированного класса CacheElement
      *
      * @param element - элемент типа T
      * @param index   - индекс с которым был запрос элемента из массива.
