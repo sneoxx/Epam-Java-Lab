@@ -28,17 +28,17 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="zaraev.epam.com.Cache" level="debug" additivity="false">
+    <logger name="com.zaraev.epam.Cache" level="debug" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE-AUDIT" />
     </logger>
 
-    <logger name="zaraev.epam.com.Storage" level="debug" additivity="false">
+    <logger name="com.zaraev.epam.Storage" level="debug" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE-AUDIT" />
     </logger>
 
-    <logger name="zaraev.epam.com.Main" level="debug" additivity="false">
+    <logger name="com.zaraev.epam.Main" level="debug" additivity="false">
         <appender-ref ref="CONSOLE" />
     </logger>
 

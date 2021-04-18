@@ -1,4 +1,4 @@
-package zaraev.epam.exceptions;
+package com.zaraev.epam.exceptions;
 
 /**
  * Класс непроверяемых исключений на выход за пределы кеша

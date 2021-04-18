@@ -1,4 +1,4 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
 import java.util.Objects;
 

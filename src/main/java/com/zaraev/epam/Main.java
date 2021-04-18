@@ -1,8 +1,8 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
 import lombok.extern.slf4j.Slf4j;
-import zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
-import zaraev.epam.exceptions.NotExistElementException;
+import com.zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
+import com.zaraev.epam.exceptions.NotExistElementException;
 
 @Slf4j
 public class Main {

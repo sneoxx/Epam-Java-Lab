@@ -1,9 +1,11 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
 
+import com.zaraev.epam.Cache;
+import com.zaraev.epam.CacheElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
+import com.zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

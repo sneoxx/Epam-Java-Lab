@@ -1,9 +1,9 @@
-package zaraev.epam.com;
+package com.zaraev.epam;
 
+import com.zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
+import com.zaraev.epam.exceptions.NotExistElementException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import zaraev.epam.exceptions.CasheIndexOutOfBoundsException;
-import zaraev.epam.exceptions.NotExistElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

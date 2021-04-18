@@ -1,4 +1,4 @@
-package zaraev.epam.exceptions;
+package com.zaraev.epam.exceptions;
 
 /**
  * Класс непроверяемых исключений - не равен ли элемент null
