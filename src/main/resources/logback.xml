@@ -39,7 +39,7 @@
         <appender-ref ref="FILE-AUDIT" />-->
     </logger>-->
 
-    <root level="debug">
+    <root level="trace">
         <appender-ref ref="CONSOLE" />
     </root>
 
