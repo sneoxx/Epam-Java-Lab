@@ -115,7 +115,7 @@ public class ReflectionService {
                 fillFieldsWithValueAnnotationViaSetter(object, valueAnnotation);
             }
         } catch (NoValueAnnotationException e) {
-            log.error("checkAndFillFieldsWithValueAnnotation() - Entity аннотация найдена, но нет части аннотаций Value");
+            log.error("checkAndFillFieldsWithValueAnnotation() - Entity аннотация найдена, но нет аннотаций Value", e);
             fillFieldsWithValueAnnotationDirectly(object, valueAnnotation);
             fillFieldsWithValueAnnotationViaSetter(object, valueAnnotation);
         } catch (IllegalStateException e) {

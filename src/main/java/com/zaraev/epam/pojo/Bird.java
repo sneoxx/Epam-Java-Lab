@@ -1,7 +1,6 @@
 package com.zaraev.epam.pojo;
 
 import com.zaraev.epam.annotation.Entity;
-import com.zaraev.epam.annotation.Value;
 
 /**
  * POJO Class Bird
@@ -9,7 +8,7 @@ import com.zaraev.epam.annotation.Value;
 @Entity
 public class Bird {
 
-    @Value(valueInt = 1)
+
     private Integer age;
 
     private String name;
