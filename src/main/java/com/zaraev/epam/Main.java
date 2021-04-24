@@ -26,6 +26,8 @@ public class Main {
         reflectionService.checkAndFillFieldsWithValueAnnotation(bird, 1);
         log.debug("Класс animal аннотации @Entity нет, аннотаций Value есть");
         reflectionService.checkAndFillFieldsWithValueAnnotation(animal, 1);
+        log.debug("Проверяем установку значения int");
+        reflectionService.checkAndFillFieldsWithValueAnnotation(human, 777);
         log.debug("Проверяем установку значения String");
         reflectionService.checkAndFillFieldsWithValueAnnotation(human, "Kolya");
         log.debug("Проверяем установку значения Float");
@@ -34,5 +36,6 @@ public class Main {
         reflectionService.checkAndFillFieldsWithValueAnnotation(human, true);
         log.debug("Проверяем установку значения null");
         reflectionService.checkAndFillFieldsWithValueAnnotation(human, null);
+
     }
 }

@@ -10,7 +10,8 @@ import com.zaraev.epam.annotation.Value;
 public class Human {
 
     @Value(valueInt = 1)
-    private Integer age;
+    private int age;
+
 
     private String name;
 

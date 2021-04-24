@@ -115,7 +115,7 @@ public class ReflectionService {
                 fillFieldsWithValueAnnotationViaSetter(object, valueAnnotation);
             }
         } catch (NoValueAnnotationException e) {
-            log.error("checkAndFillFieldsWithValueAnnotation() - Entity аннотация найдена, но нет аннотаций Value", e);
+            log.error("checkAndFillFieldsWithValueAnnotation() - Entity аннотация найдена, но нет части аннотаций Value", e);
             fillFieldsWithValueAnnotationDirectly(object, valueAnnotation);
             fillFieldsWithValueAnnotationViaSetter(object, valueAnnotation);
         } catch (IllegalStateException e) {
@@ -135,7 +135,7 @@ public class ReflectionService {
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
             if (field.isAnnotationPresent(Value.class)) {
-                if (Objects.nonNull(valueAnnotation) && field.getType().getName().equals(valueAnnotation.getClass().getTypeName())) {
+                if (Objects.nonNull(valueAnnotation) && field.getType().getName().replaceFirst("int", "java.lang.Integer").equals(valueAnnotation.getClass().getTypeName())) {
                     setFieldValueAnnotation(object, valueAnnotation, field);
                     log.info("fillFieldsWithValueAnnotationDirectly() - Успешное заполнение переданным значением: {}", valueAnnotation);
                 } else {
