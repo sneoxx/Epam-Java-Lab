@@ -36,6 +36,5 @@ public class Main {
         reflectionService.checkAndFillFieldsWithValueAnnotation(human, true);
         log.debug("Проверяем установку значения null");
         reflectionService.checkAndFillFieldsWithValueAnnotation(human, null);
-
     }
 }

@@ -25,7 +25,7 @@ class ReflectionServiceTest {
     ReflectionService reflectionService = new ReflectionService();
     public static final String EXAMPLE_NAME = "test";
     public static final Integer EXAMPLE_AGE = 111;
-    public static final Integer DEFAULT_AGE_HUMAN = 1;
+    public static final int DEFAULT_AGE_HUMAN = 1;
 
     @Test
     public void checkEntityAnnotationWhenEntityIsPresentReturnTrue() {
@@ -43,9 +43,15 @@ class ReflectionServiceTest {
     }
 
     @Test
-    public void checkValueFieldsAndMethodsAnnotationsWhenValueIsPresentReturnTrue() {
+    public void checkValueMethodsAnnotationWhenValueIsPresentReturnTrue() {
         assertTrue(reflectionService.checkValueMethodsAnnotation(human));
     }
+
+    @Test
+    public void checkValueMethodsAnnotationWhenThereIsNoEntityOrValueReturnFalse() {
+        assertFalse(reflectionService.checkValueMethodsAnnotation(car));
+    }
+
 
     @Test
     public void checkValueFieldsAndMethodsAnnotationsWhenNoPartOfValueThrowException() {
@@ -59,6 +65,11 @@ class ReflectionServiceTest {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             reflectionService.checkValueFieldsAndMethodsAnnotations(animal);
         });
+    }
+
+    @Test
+    public void checkValueFieldsAndMethodsAnnotationsnWhenThereIsNoEntityOrValueReturnFalse() {
+        assertFalse(reflectionService.checkValueFieldsAndMethodsAnnotations(car));
     }
 
     @Test
@@ -81,8 +92,14 @@ class ReflectionServiceTest {
 
     @Test
     public void fillFieldsWithValueAnnotationDirectlyWhenAnInvalidArgumentIsEnteredReturnEquals() {
-        reflectionService.fillFieldsWithValueAnnotationDirectly(human, 'f');
+        reflectionService.fillFieldsWithValueAnnotationDirectly(human, null);
         assertEquals(human.getAge(), DEFAULT_AGE_HUMAN);
+    }
+
+    @Test
+    public void fillFieldsWithValueAnnotationViaSetterWhenFillNameReturnEquals() {
+        reflectionService.fillFieldsWithValueAnnotationViaSetter(human, EXAMPLE_NAME);
+        assertEquals(human.getName(), EXAMPLE_NAME);
     }
 
     @Test

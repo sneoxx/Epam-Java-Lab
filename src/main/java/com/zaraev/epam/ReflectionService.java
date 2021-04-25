@@ -142,7 +142,7 @@ public class ReflectionService {
                     log.debug("fillFieldsWithValueAnnotationDirectly() - Переданный тип значения Value не соответствует полю класса: {}", field.getName());
                     Value defaultValueAnnotation = field.getAnnotation(Value.class);
                     if (Objects.nonNull(defaultValueAnnotation)) {
-                        if (field.getType().getName().equals("java.lang.Integer")) {
+                        if (field.getType().getName().replaceFirst("int", "java.lang.Integer").equals("java.lang.Integer")) {
                             int value = defaultValueAnnotation.valueInt();
                             log.debug("fillFieldsWithValueAnnotationDirectly() - Найдено дефолтное значение Value: {}", value);
                             setFieldValueAnnotation(object, value, field);

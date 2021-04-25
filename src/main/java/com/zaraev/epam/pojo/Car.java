@@ -1,15 +1,11 @@
 package com.zaraev.epam.pojo;
 
-import com.zaraev.epam.annotation.Entity;
-import com.zaraev.epam.annotation.Value;
-
 /**
  * POJO Class Car
  */
-@Entity
+
 public class Car {
 
-    @Value("Vaz")
     String model;
 
     String bodyType;
@@ -18,7 +14,6 @@ public class Car {
         return model;
     }
 
-    @Value("Sedan")
     public void setModel(String model) {
         this.model = model;
     }
