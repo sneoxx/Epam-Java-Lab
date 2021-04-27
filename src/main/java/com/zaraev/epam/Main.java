@@ -9,7 +9,7 @@ public class Main {
 
     static final int AMOUNT_ELEMENTS = 10000;
 
-    static String fileName = "1.txt";
+    static String fileName = "src/main/resources/1.txt";
 
     public static void main(String[] args) {
         log.info("Старт программы");

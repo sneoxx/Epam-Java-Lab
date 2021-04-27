@@ -13,7 +13,7 @@ class ForEachServiceTest {
 
     final int amountElements = 10000;
 
-    final static String fileName = "1.txt";
+    final static String fileName = "src/main/resources/1.txt";
 
     final static List<String> list = List.of("125896325874125896325","1111111111111111111111", "ssdsdwwww", "12345564354545");
 
