@@ -75,7 +75,7 @@ public class Main {
         try {
             myStorage.get(7);
         } catch (CasheIndexOutOfBoundsException e) {
-            log.warn("Элемента в хранилище Storage нет");
+            log.warn("Элемента в хранилище Storage нет", e);
         }
         myStorage.delete();
         myStorage.clear();
