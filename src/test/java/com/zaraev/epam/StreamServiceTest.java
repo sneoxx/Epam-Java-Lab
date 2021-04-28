@@ -16,23 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Slf4j
 class StreamServiceTest {
 
-    final int amountElements = 10000;
+    public final static int AMOUNT_ELEMENTS = 10000;
 
-    final static String fileName = "src/main/resources/1.txt";
+    public final static String FILE_NAME = "src/main/resources/1.txt";
 
-    final static List<String> list = List.of("125896325874125896325", "1111111111111111111111", "ssdsdwwww", "12345564354545");
+    public final static List<String> LIST_TEST = List.of("125896325874125896325", "1111111111111111111111", "ssdsdwwww", "12345564354545");
 
     StreamService streamService = new StreamService();
 
     @Test
     public void createRandomUUIDArrayListReturnNotNull() {
-        assertNotNull(streamService.createRandomUUIDArrayList(amountElements));
+        assertNotNull(streamService.createRandomUUIDArrayList(AMOUNT_ELEMENTS));
     }
 
     @Test
     public void writeArrayListToFileAfterWritingReadReturnEquals() {
-        streamService.writeArrayListToFile(list, fileName);
-        File file = new File(fileName);
+        streamService.writeArrayListToFile(LIST_TEST , FILE_NAME);
+        File file = new File(FILE_NAME);
         List<String> list1 = null;
         try {
             list1 = Files.lines(Paths.get(file.getAbsolutePath()))
@@ -40,13 +40,13 @@ class StreamServiceTest {
         } catch (IOException e) {
             log.error("readListFromFile() Ошибка ввода вывода при чтении из файла", e);
         }
-        assertEquals(list, list1);
+        assertEquals(LIST_TEST, list1);
     }
 
     @Test
     public void readListFromFileAndFilterSumWhenTheCollectionIsKnownReturnEquals() {
-        streamService.writeArrayListToFile(list, fileName);
-        long count = streamService.readListFromFileAndFilterSum(fileName);
+        streamService.writeArrayListToFile(LIST_TEST , FILE_NAME);
+        long count = streamService.readListFromFileAndFilterSum(FILE_NAME);
         assertEquals(count, 1);
     }
 }

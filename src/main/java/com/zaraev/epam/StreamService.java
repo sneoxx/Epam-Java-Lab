@@ -12,10 +12,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+
 /**
  * Сервисный класс предоставляющий методы работающие через стримы
  */
+@Slf4j
 public class StreamService {
 
     DataApiService dataApiService = new DataApiService();
@@ -29,8 +30,7 @@ public class StreamService {
         List<String> list = Stream.generate((UUID::randomUUID))
                 .limit(amountElements)
                 .map(UUID::toString)
-                .collect(Collectors.toList()
-                );
+                .collect(Collectors.toList());
         log.debug("createRandomUUIDArrayList() Коллекция List с числом элементов {} успешно создана", amountElements);
         return list;
     }

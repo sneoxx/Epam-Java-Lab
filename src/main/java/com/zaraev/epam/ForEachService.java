@@ -57,7 +57,7 @@ public class ForEachService {
      * @param fileName - имя файла
      * @return - коллекция list
      */
-    public ArrayList<String> readListFromFile(String fileName) {
+    public List<String> readListFromFile(String fileName) {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(fileName)))) {

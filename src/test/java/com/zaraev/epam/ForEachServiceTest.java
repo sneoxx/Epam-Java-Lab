@@ -11,32 +11,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Slf4j
 class ForEachServiceTest {
 
-    final int amountElements = 10000;
+    public final static int AMOUNT_ELEMENTS = 10000;
 
-    final static String fileName = "src/main/resources/1.txt";
+    public final static String FILE_NAME = "src/main/resources/1.txt";
 
-    final static List<String> list = List.of("125896325874125896325","1111111111111111111111", "ssdsdwwww", "12345564354545");
+    public final static List<String> LIST_TEST = List.of("125896325874125896325","1111111111111111111111", "ssdsdwwww", "12345564354545");
 
     ForEachService forEachService = new ForEachService();
 
-
     @Test
     public void createRandomUUIDArrayListViaForEachReturnNotNull() {
-        assertNotNull(forEachService.createRandomUUIDArrayListViaForEach(amountElements));
+        assertNotNull(forEachService.createRandomUUIDArrayListViaForEach(AMOUNT_ELEMENTS));
     }
-
 
     @Test
     public void writeListToFileViaForEachAfterWritingReadReturnEquals() {
-        forEachService.writeListToFileViaForEach(list, fileName);
-        List<String> list1 = forEachService.readListFromFile(fileName);
-        assertEquals(list,list1);
+        forEachService.writeListToFileViaForEach(LIST_TEST, FILE_NAME);
+        List<String> list1 = forEachService.readListFromFile(FILE_NAME);
+        assertEquals(LIST_TEST,list1);
     }
-
 
     @Test
     public void NumberOfElementsWithASumGreaterThan100WhenTheCollectionIsKnownReturnEquals() {
-      int count = forEachService.NumberOfElementsWithASumGreaterThan100(list);
+      int count = forEachService.NumberOfElementsWithASumGreaterThan100(LIST_TEST);
       assertEquals(count, 1);
     }
 }
