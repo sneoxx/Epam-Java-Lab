@@ -3,10 +3,7 @@ package com.zaraev.epam;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Сервисный класс предоставляющий методы, работающие через forEach
@@ -38,10 +35,12 @@ public class ForEachService {
      * @param fileName - путь к файлу
      */
     public void writeListToFileViaForEach(List<String> list, String fileName) {
+        Optional<List<String>> optionalStringList = Optional.ofNullable(list);
+        Optional<String> optionalFileName = Optional.ofNullable(fileName);
         try (Writer writer = new BufferedWriter(
-                new FileWriter(fileName)
-        )) {
-            for (Object person : list) {
+                new FileWriter(optionalFileName.orElse("src/main/resources/1.txt")))
+        ) {
+            for (Object person : optionalStringList.orElse(createRandomUUIDArrayListViaForEach(10000))) {
                 String tempString = (String) person;
                 writer.write(tempString + "\n");
             }
@@ -58,9 +57,10 @@ public class ForEachService {
      * @return - коллекция list
      */
     public List<String> readListFromFile(String fileName) {
+        Optional<String> optionalFileName = Optional.ofNullable(fileName);
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
-                        new FileInputStream(fileName)))) {
+                        new FileInputStream(optionalFileName.orElse("src/main/resources/1.txt"))))) {
             String line;
             ArrayList<String> list = new ArrayList<>();
             while ((line = reader.readLine()) != null) {

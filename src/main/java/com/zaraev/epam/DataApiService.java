@@ -7,10 +7,11 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-@Slf4j
+
 /**
- * Сервсиный класс предоставляющий методы для работы с Data Api
+ * Сервисный класс предоставляющий методы для работы с Data Api
  */
+@Slf4j
 public class DataApiService {
 
     /**
@@ -35,9 +36,16 @@ public class DataApiService {
      */
     public String findDoomsDay(long count) {
         String stringCount = String.valueOf(count);
-        String month = stringCount.substring(0, 2);
+        String month;
+        String day;
+        if (stringCount.length() > 3) {
+            month = stringCount.substring(0, 2);
+            day = stringCount.substring(2, 4);
+        } else {
+            month = "100";
+            day = "100";
+        }
         log.debug("findDoomsDay() Month for the formula : {} ", month);
-        String day = stringCount.substring(2, 4);
         log.debug("findDoomsDay() Day for the formula : {} ", day);
         ZoneId timeZoneUTC = ZoneId.ofOffset("UTC", ZoneOffset.of("-08:00:00"));
         DateTimeFormatter iso = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");

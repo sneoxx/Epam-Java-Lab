@@ -31,7 +31,7 @@ class StreamServiceTest {
 
     @Test
     public void writeArrayListToFileAfterWritingReadReturnEquals() {
-        streamService.writeArrayListToFile(LIST_TEST , FILE_NAME);
+        streamService.writeArrayListToFile(LIST_TEST, FILE_NAME);
         File file = new File(FILE_NAME);
         List<String> list1 = null;
         try {
@@ -45,7 +45,7 @@ class StreamServiceTest {
 
     @Test
     public void readListFromFileAndFilterSumWhenTheCollectionIsKnownReturnEquals() {
-        streamService.writeArrayListToFile(LIST_TEST , FILE_NAME);
+        streamService.writeArrayListToFile(LIST_TEST, FILE_NAME);
         long count = streamService.readListFromFileAndFilterSum(FILE_NAME);
         assertEquals(count, 1);
     }

@@ -15,7 +15,7 @@ class ForEachServiceTest {
 
     public final static String FILE_NAME = "src/main/resources/1.txt";
 
-    public final static List<String> LIST_TEST = List.of("125896325874125896325","1111111111111111111111", "ssdsdwwww", "12345564354545");
+    public final static List<String> LIST_TEST = List.of("125896325874125896325", "1111111111111111111111", "ssdsdwwww", "12345564354545");
 
     ForEachService forEachService = new ForEachService();
 
@@ -28,12 +28,12 @@ class ForEachServiceTest {
     public void writeListToFileViaForEachAfterWritingReadReturnEquals() {
         forEachService.writeListToFileViaForEach(LIST_TEST, FILE_NAME);
         List<String> list1 = forEachService.readListFromFile(FILE_NAME);
-        assertEquals(LIST_TEST,list1);
+        assertEquals(LIST_TEST, list1);
     }
 
     @Test
     public void NumberOfElementsWithASumGreaterThan100WhenTheCollectionIsKnownReturnEquals() {
-      int count = forEachService.NumberOfElementsWithASumGreaterThan100(LIST_TEST);
-      assertEquals(count, 1);
+        int count = forEachService.NumberOfElementsWithASumGreaterThan100(LIST_TEST);
+        assertEquals(count, 1);
     }
 }
