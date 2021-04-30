@@ -98,7 +98,9 @@ public class StreamService {
                     .map(str -> Base64.getDecoder().decode(str))
                     .map(String::new)
                     .map((str2) -> {
-                        String[] string = str2.replace("type='", "!").replace("', weight=", "!").replace(", cost=", "!")
+                        String[] string = str2.replace("type='", "!")
+                                .replace("', weight=", "!")
+                                .replace(", cost=", "!")
                                 .split("!");
                         return new Sausage(string[1], Integer.parseInt(string[2]), Long.parseLong(string[3]));
                     })

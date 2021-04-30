@@ -102,13 +102,16 @@ public class ForEachService {
 
     /**
      * Создать из коллекции List экземпляры класса Sausage и поместить их в коллекцию list
+     *
      * @param list - коллекция list
      * @return - коллекция list
      */
     public List<Sausage> createSausageFromList(List<String> list) {
         List<Sausage> sausages = new ArrayList<>();
         for (String s : list) {
-            String[] tempSting = s.replace("type='", ":").replace("', weight=", ":").replace(", cost=", ":")
+            String[] tempSting = s.replace("type='", ":")
+                    .replace("', weight=", ":")
+                    .replace(", cost=", ":")
                     .split(":");
             sausages.add(new Sausage(tempSting[1], Integer.parseInt(tempSting[2]), Long.parseLong(tempSting[3])));
         }
