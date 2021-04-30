@@ -20,6 +20,8 @@ class StreamServiceTest {
 
     public final static String FILE_NAME = "src/main/resources/1.txt";
 
+    public final static String FILE_NAME_ENCODED_FILE = "src/main/resources/File.txt";
+
     public final static List<String> LIST_TEST = List.of("125896325874125896325", "1111111111111111111111", "ssdsdwwww", "12345564354545");
 
     StreamService streamService = new StreamService();
@@ -48,5 +50,12 @@ class StreamServiceTest {
         streamService.writeArrayListToFile(LIST_TEST, FILE_NAME);
         long count = streamService.readListFromFileAndFilterSum(FILE_NAME);
         assertEquals(count, 1);
+    }
+
+    @Test
+    public void readListFromFileEncodedFileAndCreateSausageReturnNotNull() {
+        List<Sausage> list = streamService.readListFromFileEncodedFileAndCreateSausage(FILE_NAME_ENCODED_FILE);
+        String type = list.get(0).getType();
+        assertNotNull(type);
     }
 }

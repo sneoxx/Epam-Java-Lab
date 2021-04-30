@@ -76,6 +76,47 @@ public class ForEachService {
     }
 
     /**
+     * Считать из указанного зашифрованного файла в коллекцию List
+     *
+     * @param fileNameEncodedFile - имя зайшифрованного файла
+     * @return - коллекция list
+     */
+    public List<String> readListFromFileEncodedFile(String fileNameEncodedFile) {
+        Optional<String> optionalFileName = Optional.ofNullable(fileNameEncodedFile);
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(optionalFileName.orElse("src/main/resources/1.txt"))))) {
+            String line;
+            List<String> list = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                list.add(new String(Base64.getDecoder().decode(line)));
+            }
+            return list;
+        } catch (IOException e) {
+            log.error("readListFromFile() Ошибка ввода вывода при чтении из файла", e);
+        }
+        ArrayList<String> list = new ArrayList<>();
+        log.info("readListFromFile() Коллекция List успешно считана из зашифрованного файла: {}", fileNameEncodedFile);
+        return list;
+    }
+
+    /**
+     * Создать из коллекции List экземпляры класса Sausage и поместить их в коллекцию list
+     * @param list - коллекция list
+     * @return - коллекция list
+     */
+    public List<Sausage> createSausageFromList(List<String> list) {
+        List<Sausage> sausages = new ArrayList<>();
+        for (String s : list) {
+            String[] tempSting = s.replace("type='", ":").replace("', weight=", ":").replace(", cost=", ":")
+                    .split(":");
+            sausages.add(new Sausage(tempSting[1], Integer.parseInt(tempSting[2]), Long.parseLong(tempSting[3])));
+        }
+        log.info("createSausageFromList() List<Sausage> создан: {}", sausages);
+        return sausages;
+    }
+
+    /**
      * Подсчитать количество элементов в поданной коллекции List, где сумма цифр элемента больше 100
      *
      * @param list - искомая коллекция list

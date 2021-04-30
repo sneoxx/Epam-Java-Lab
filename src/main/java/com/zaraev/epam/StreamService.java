@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +21,11 @@ import java.util.stream.Stream;
 @Slf4j
 public class StreamService {
 
-    DataApiService dataApiService = new DataApiService();
+    public final static DataApiService DATA_API_SERVICE = new DataApiService();
+
+    public DataApiService getDataApiService() {
+        return DATA_API_SERVICE;
+    }
 
     /**
      * Создание коллекции List с заданным количеством рандомных элементов UUID
@@ -69,12 +74,39 @@ public class StreamService {
         try {
             count = Files.lines(Paths.get(file.getAbsolutePath()))
                     .map(str -> str.replaceAll("[^\\d]", ""))
-                    .filter(dataApiService::sumOfString)
+                    .filter(DATA_API_SERVICE::sumOfString)
                     .count();
         } catch (IOException e) {
             log.error("readListFromFileAndFilterSum() Ошибка ввода вывода при чтении из файла", e);
         }
         log.info("readListFromFileAndFilterSum() Число элементов UUID с суммой чисел больше 100: {}", count);
         return count;
+    }
+
+    /**
+     * Считать из указанного зафишрованного файла в коллекцию List
+     *
+     * @param fileNameEncodedFile - имя файла
+     * @return - коллекция List
+     */
+    public List<Sausage> readListFromFileEncodedFileAndCreateSausage(String fileNameEncodedFile) {
+        Optional<String> optionalFileName = Optional.ofNullable(fileNameEncodedFile);
+        File file = new File(optionalFileName.orElse("src/main/resources/File.txt"));
+        List<Sausage> list = List.of();
+        try {
+            list = Files.lines(Paths.get(file.getAbsolutePath()))
+                    .map(str -> Base64.getDecoder().decode(str))
+                    .map(String::new)
+                    .map((str2) -> {
+                        String[] string = str2.replace("type='", "!").replace("', weight=", "!").replace(", cost=", "!")
+                                .split("!");
+                        return new Sausage(string[1], Integer.parseInt(string[2]), Long.parseLong(string[3]));
+                    })
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            log.error("readListFromFileEncodedFileAndCreateSausage Ошибка ввода вывода при чтении из файла", e);
+        }
+        log.info("readListFromFileEncodedFileAndCreateSausage() List<Sausage> создан: {}", list);
+        return list;
     }
 }
