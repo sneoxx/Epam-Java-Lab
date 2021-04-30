@@ -36,21 +36,14 @@ public class DataApiService {
      */
     public String findDoomsDay(long count) {
         String stringCount = String.valueOf(count);
-        String month;
-        String day;
-        int lengthStringCount = stringCount.length();
-        if (lengthStringCount == 3) {
+        log.debug("findDoomsDay() stringCount : {} ", stringCount);
+        int numberofZeros = 4 - stringCount.length();
+        for (int i = 0; i < numberofZeros; i++) {
             stringCount = "0" + stringCount;
-        } else if (lengthStringCount == 2) {
-            stringCount = "00" + stringCount;
-        } else if (lengthStringCount == 1) {
-            stringCount = "000" + stringCount;
-        } else if (lengthStringCount == 0) {
-            stringCount = "0000";
         }
         log.debug("findDoomsDay() stringCount : {} ", stringCount);
-        month = stringCount.substring(0, 2);
-        day = stringCount.substring(2, 4);
+        String month = stringCount.substring(0, 2);
+        String day = stringCount.substring(2, 4);
         log.debug("findDoomsDay() Month for the formula : {} ", month);
         log.debug("findDoomsDay() Day for the formula : {} ", day);
         ZoneId timeZoneUTC = ZoneId.ofOffset("UTC", ZoneOffset.of("-08:00:00"));

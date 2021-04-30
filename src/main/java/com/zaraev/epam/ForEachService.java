@@ -38,8 +38,7 @@ public class ForEachService {
         Optional<List<String>> optionalStringList = Optional.ofNullable(list);
         Optional<String> optionalFileName = Optional.ofNullable(fileName);
         try (Writer writer = new BufferedWriter(
-                new FileWriter(optionalFileName.orElse("src/main/resources/1.txt")))
-        ) {
+                new FileWriter(optionalFileName.orElse("src/main/resources/1.txt")))) {
             for (Object person : optionalStringList.orElse(createRandomUUIDArrayListViaForEach(10000))) {
                 String tempString = (String) person;
                 writer.write(tempString + "\n");
