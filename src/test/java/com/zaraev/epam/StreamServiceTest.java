@@ -54,8 +54,6 @@ class StreamServiceTest {
 
     @Test
     public void readListFromFileEncodedFileAndCreateSausageReturnNotNull() {
-        List<Sausage> list = streamService.readListFromFileEncodedFileAndCreateSausage(FILE_NAME_ENCODED_FILE);
-        String type = list.get(0).getType();
-        assertNotNull(type);
+        assertNotNull(streamService.readListFromFileEncodedFileAndCreateSausage(FILE_NAME_ENCODED_FILE));
     }
 }
