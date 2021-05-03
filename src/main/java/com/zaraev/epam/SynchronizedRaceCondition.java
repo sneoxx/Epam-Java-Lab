@@ -2,7 +2,6 @@ package com.zaraev.epam;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * Класс для демонстрации решения проблемы RaceCondition
  */

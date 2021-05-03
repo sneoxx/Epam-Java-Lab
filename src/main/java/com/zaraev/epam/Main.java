@@ -7,5 +7,6 @@ public class Main {
         mainHelper.callsSynchronizedRaceCondition();
         mainHelper.breakingTheDeadlock();
         mainHelper.deadlock(); //не в 100% случаев
+        mainHelper.generateChat();
     }
 }

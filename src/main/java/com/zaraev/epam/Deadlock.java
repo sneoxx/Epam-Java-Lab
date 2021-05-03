@@ -10,9 +10,9 @@ public class Deadlock {
 
     private final String name;
 
-    static final Deadlock deadlock1 = new Deadlock("Kolya");
+    private static final Deadlock deadlock1 = new Deadlock("Kolya");
 
-    static final Deadlock deadlock2 = new Deadlock("Masha");
+    private static final Deadlock deadlock2 = new Deadlock("Masha");
 
     public Deadlock(String name) {
         this.name = name;
