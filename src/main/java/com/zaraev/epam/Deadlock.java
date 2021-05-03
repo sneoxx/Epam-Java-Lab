@@ -66,7 +66,7 @@ public class Deadlock {
      */
     public static class Thread2 extends  Thread {
         public void run() {
-           log.debug("run(){} Удерживает блокировку 2 объекта", Thread.currentThread().getName());
+           log.debug("run() {} Удерживает блокировку 2 объекта", Thread.currentThread().getName());
             deadlock2.getLock(deadlock1);
             try {
                 Thread.sleep(1000);

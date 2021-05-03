@@ -5,7 +5,7 @@ public class Main {
         MainHelper mainHelper = new MainHelper();
         mainHelper.callRaceCondition();
         mainHelper.callsSynchronizedRaceCondition();
-        mainHelper.deadlock();
         mainHelper.breakingTheDeadlock();
+        mainHelper.deadlock(); //не в 100% случаев
     }
 }
