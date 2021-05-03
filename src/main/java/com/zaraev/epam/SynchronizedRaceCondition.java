@@ -2,23 +2,27 @@ package com.zaraev.epam;
 
 import lombok.extern.slf4j.Slf4j;
 
+
+/**
+ * Класс для демонстрации решения проблемы RaceCondition
+ */
 @Slf4j
 public class SynchronizedRaceCondition implements Runnable {
+
     public static int value;
-    synchronized public void run()  {      //Этот метод будет выполняться в побочном потоке
+
+    synchronized public void run() {
         log.debug("run() Поток {} {}", Thread.currentThread().getName(), Thread.currentThread().getState());
         while (!Thread.currentThread().isInterrupted()) {
             for (int y = 0; y < 1000; y++) {
                 int oldValue = value;
                 int newValue = ++value;
                 if (oldValue + 1 != newValue) {
-                    log.error("Race condition: {} + 1 = {} в потоке {}", oldValue, newValue, Thread.currentThread().getName());
+                    log.error("run() Race condition: {} + 1 = {} в потоке {}", oldValue, newValue, Thread.currentThread().getName());
                     throw new IllegalStateException("Race condition: " + oldValue + " + 1 = " + newValue);
                 }
             }
         }
         log.debug("run() Поток {} прерван", Thread.currentThread().getName());
     }
-
-
 }
