@@ -47,7 +47,7 @@
                 <version>0.8.5</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*Main.class</exclude>
+                        <exclude>**/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
