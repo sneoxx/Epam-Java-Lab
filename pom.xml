@@ -49,6 +49,7 @@
                     <excludes>
                         <exclude>**/*.class</exclude>
                     </excludes>
+
                 </configuration>
                 <executions>
                     <execution>
