@@ -4,3 +4,7 @@
 ### IntelliJ IDEA ###
 .idea
 *.iml
+/Java-Zaraev-impl/target/
+/Java-Zaraev-db/target/
+/Java-Zaraev-api/target/
+
