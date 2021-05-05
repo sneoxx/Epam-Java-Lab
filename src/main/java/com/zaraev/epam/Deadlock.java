@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class Deadlock {
-
-    private final String name;
-
+    
     private static final Deadlock deadlock1 = new Deadlock("Kolya");
 
     private static final Deadlock deadlock2 = new Deadlock("Masha");
+
+    private final String name;
 
     public Deadlock(String name) {
         this.name = name;

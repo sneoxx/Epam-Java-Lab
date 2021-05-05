@@ -13,10 +13,13 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @Slf4j
 public class Chat {
+
     private final List<Sms> listSms;
+
     private int smsId = 0;
 
     private final ReentrantLock locker;
+
     private final Condition condition;
 
     public Chat() {

@@ -22,15 +22,14 @@ public class MainHelper {
 
     private static final int NUMBER_OF_UPDATER = 1;
 
-
     /*
      * Воспроизведение ошибки RaceCondition
      */
     public void callRaceCondition() {
         log.info("callsSynchronizedRaceCondition() Вызов проблемы RaceCondition запущен");
         try {
-            Thread thread = new Thread(RACE_CONDITION);
-            Thread thread1 = new Thread(RACE_CONDITION);
+            var thread = new Thread(RACE_CONDITION);
+            var thread1 = new Thread(RACE_CONDITION);
             thread.start();
             thread1.start();
             Thread.sleep(1000);
@@ -50,8 +49,8 @@ public class MainHelper {
     public void callsSynchronizedRaceCondition() {
         log.info("callsSynchronizedRaceCondition() Решение проблемы RaceCondition запущено");
         try {
-            Thread thread = new Thread(SYNCHRONIZED_RACE_CONDITION);
-            Thread thread1 = new Thread(SYNCHRONIZED_RACE_CONDITION);
+            var thread = new Thread(SYNCHRONIZED_RACE_CONDITION);
+            var thread1 = new Thread(SYNCHRONIZED_RACE_CONDITION);
             thread.start();
             thread1.start();
             Thread.sleep(1000);
@@ -78,7 +77,6 @@ public class MainHelper {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             log.error("run() Поток {} вызвал ошибку: ", Thread.currentThread().getName(), e);
-
         }
         log.info("deadlock() Состояние потока {} : {}", thread1.getName(), thread1.getState());
         log.info("deadlock() Состояние потока {} : {}", thread2.getName(), thread2.getState());
@@ -98,7 +96,6 @@ public class MainHelper {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             log.error("run() Поток {} вызвал ошибку: ", Thread.currentThread().getName(), e);
-
         }
         log.info("breakingTheDeadlock() Состояние потока {} : {}", thread1.getName(), thread1.getState());
         log.info("breakingTheDeadlock() Состояние потока {} : {}", thread2.getName(), thread2.getState());
@@ -112,29 +109,25 @@ public class MainHelper {
         log.info("Число writer потоков: {}", NUMBER_OF_WRITER);
         log.info("Число reader потоков: {}", NUMBER_OF_READER);
         log.info("Число update потоков: {}", NUMBER_OF_UPDATER);
-        int numberOfThreads = NUMBER_OF_WRITER + NUMBER_OF_READER + NUMBER_OF_UPDATER;
-        Chat chat = new Chat();
-        Writer writer = new Writer(chat);
-        Reader reader = new Reader(chat);
-        Updater updater = new Updater(chat);
-
+        var numberOfThreads = NUMBER_OF_WRITER + NUMBER_OF_READER + NUMBER_OF_UPDATER;
+        var chat = new Chat();
+        var writer = new Writer(chat);
+        var reader = new Reader(chat);
+        var updater = new Updater(chat);
         if (numberOfThreads > 10000) {
             log.error("generateChat() Введено слишком большое число потоков: {}", numberOfThreads);
             throw new IllegalArgumentException("Введено слишком большое число потоков, введите другое число");
         }
-
         for (int i = 0; i < NUMBER_OF_WRITER; i++) {
-            Thread writerThread = new Thread(writer);
+            var writerThread = new Thread(writer);
             writerThread.start();
             log.debug("generateChat() Поток writer: {} создан", writerThread.getName());
         }
-
         for (int i = 0; i < NUMBER_OF_READER; i++) {
-            Thread readerThread = new Thread(reader);
+            var readerThread = new Thread(reader);
             readerThread.start();
             log.debug("generateChat() Поток reader: {} создан", readerThread.getName());
         }
-
         for (int i = 0; i < NUMBER_OF_UPDATER; i++) {
             Thread updaterThread = new Thread(updater);
             updaterThread.start();
