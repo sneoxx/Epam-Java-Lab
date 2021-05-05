@@ -24,6 +24,7 @@ public class Deadlock {
 
     /**
      * Первый синхронизированный метод вызывающий из себя второй синхронизированный метод
+     *
      * @param deadlock - объект класса Deadlock
      */
     public synchronized void getLock(Deadlock deadlock) {
@@ -33,6 +34,7 @@ public class Deadlock {
 
     /**
      * Второй синхронизированный метод
+     *
      * @param deadlock - объект класса Deadlock
      */
     public synchronized void getUnLock(Deadlock deadlock) {
@@ -46,16 +48,17 @@ public class Deadlock {
      */
     public static class Thread1 extends Thread {
         public void run() {
-            log.debug("run() {} Удерживает блокировку 1 объекта", Thread.currentThread().getName());
-            deadlock1.getLock(deadlock2);
+            while (!Thread.currentThread().isInterrupted()) {
+                log.debug("run() {} Удерживает блокировку 1 объекта", Thread.currentThread().getName());
+                deadlock1.getLock(deadlock2);
                 try {
                     Thread.sleep(1000);
-                }
-               catch (InterruptedException e) {
-                   log.error("run() Поток {} вызвал ошибку: ",Thread.currentThread().getName(), e);
+                } catch (InterruptedException e) {
+                    log.error("run() Поток {} вызвал ошибку: ", Thread.currentThread().getName(), e);
 
-               }
-            log.info("run() Поток {} успешно завершен",Thread.currentThread().getName());
+                }
+                log.info("run() Поток {} успешно завершен", Thread.currentThread().getName());
+            }
         }
     }
 
@@ -64,17 +67,18 @@ public class Deadlock {
      * что приводит к необходимости того, чтобы оба объекта были свободны(свободен монитор)
      * для успешного завершения обработки
      */
-    public static class Thread2 extends  Thread {
+    public static class Thread2 extends Thread {
         public void run() {
-           log.debug("run() {} Удерживает блокировку 2 объекта", Thread.currentThread().getName());
-            deadlock2.getLock(deadlock1);
-            try {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e) {
-                log.error("run() Поток {} вызвал ошибку: ",Thread.currentThread().getName(), e);
-            }
-            log.info("run() Поток {} успешно завершен",Thread.currentThread().getName());
+            while (!Thread.currentThread().isInterrupted()) {
+                log.debug("run() {} Удерживает блокировку 2 объекта", Thread.currentThread().getName());
+                deadlock2.getLock(deadlock1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log.error("run() Поток {} вызвал ошибку: ", Thread.currentThread().getName(), e);
+                }
+                log.info("run() Поток {} успешно завершен", Thread.currentThread().getName());
             }
         }
     }
+}
