@@ -36,7 +36,6 @@
 
     <logger name="com.zaraev.epam.Main" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
-        <appender-ref ref="FILE-AUDIT" />-->
     </logger>-->
 
     <root level="trace">
