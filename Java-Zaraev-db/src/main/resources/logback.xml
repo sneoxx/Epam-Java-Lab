@@ -2,7 +2,6 @@
 
     <property name="DEV_HOME" value="Java-Zaraev-db/src/main/resources/logs" />
 
-
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
@@ -31,8 +30,6 @@
         </rollingPolicy>
 
     </appender>
-
-
 
     <logger name="com.zaraev.epam.Main" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
