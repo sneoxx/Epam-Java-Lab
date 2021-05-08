@@ -1,6 +1,6 @@
 <configuration>
 
-    <property name="DEV_HOME" value="c:/logs" />
+    <property name="DEV_HOME" value="src/main/resources" />
 
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -41,6 +41,7 @@
 
     <root level="trace">
         <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE-AUDIT" />-->
     </root>
 
 </configuration>
