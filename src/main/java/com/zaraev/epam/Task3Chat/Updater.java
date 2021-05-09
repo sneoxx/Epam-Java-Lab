@@ -20,7 +20,7 @@ public class Updater implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                Thread.sleep(chat.getRandomNumber(40, 70));
+                Thread.sleep(chat.getRandomNumber(40000, 70000));
             } catch (InterruptedException | IllegalArgumentException e) {
                 log.error("run() Ошибка: " + e);
                 Thread.currentThread().interrupt();

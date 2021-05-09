@@ -7,6 +7,7 @@ public class Main {
         mainHelper.callsSynchronizedRaceCondition();
         mainHelper.breakingTheDeadlock();
         mainHelper.deadlock();
-        mainHelper.generateChat();
+        //mainHelper.generateChat();
+        mainHelper.generateChatViaNewApi();
     }
 }
