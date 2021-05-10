@@ -30,7 +30,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="com.zaraev.epamjavacourses.MainDb" level="debug" additivity="false">-->
+    <logger name="com.zaraev.epam.MainDb" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
     </logger>-->
 

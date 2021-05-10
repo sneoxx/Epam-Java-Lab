@@ -1,9 +1,9 @@
-package com.zaraev.epamjavacourses.epamjavacourses;
+package com.zaraev.epam;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Main {
+public class MainApi {
     public static void main(String[] args) {
 
     }

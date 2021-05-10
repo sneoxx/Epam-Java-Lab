@@ -31,7 +31,7 @@
 
     </appender>
 
-    <logger name="com.zaraev.epamjavacourses.Main" level="debug" additivity="false">-->
+    <logger name="com.zaraev.epam.Main" level="debug" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
     </logger>-->
 
