@@ -1,4 +1,4 @@
-package com.zaraev.epam;
+package com.zaraev.epam.javacourses;
 
 import lombok.extern.slf4j.Slf4j;
 
