@@ -3,14 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>epam-java-courses</artifactId>
+        <artifactId>java-courses</artifactId>
         <groupId>com.zaraev.epam</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>epam-java-courses-db</artifactId>
+    <artifactId>java-courses-db</artifactId>
     <name>Java Zaraev db</name>
+
+
+    <properties>
+        <liquibase.host>localhost</liquibase.host>
+        <liquibase.port>5432</liquibase.port>
+        <liquibase.db>epamcourses</liquibase.db>
+        <liquibase.schema>zaraev</liquibase.schema>
+        <liquibase.user>usr</liquibase.user>
+        <liquibase.password>pass</liquibase.password>
+        <liquibase.changeLogFile>src\main\resources\liquibase\db.changelog-master.xml
+        </liquibase.changeLogFile>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -32,6 +44,37 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase-maven-plugin.version}</version>
+                <configuration>
+                    <outputFileEncoding>UTF-8</outputFileEncoding>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>
+                        jdbc:postgresql://${liquibase.host}:${liquibase.port}/${liquibase.db}?currentSchema=${liquibase.schema}
+                    </url>
+                    <username>${liquibase.user}</username>
+                    <password>${liquibase.password}</password>
+                    <changeLogFile>${liquibase.changeLogFile}</changeLogFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
