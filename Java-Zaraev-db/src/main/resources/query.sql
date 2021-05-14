@@ -8,7 +8,7 @@ SELECT * FROM products WHERE price BETWEEN 10 AND 20;
 
 SELECT * FROM orders WHERE orderdate BETWEEN '2004-01-05' AND '2004-02-05';
 
-SELECT COUNT(customerid),orders FROM orders GROUP BY customerid, orders;
+SELECT customerid,COUNT(*) FROM orders GROUP BY customerid;
 
 SELECT SUM(totalamount),orderdate FROM orders GROUP BY customerid, orderdate HAVING SUM(totalamount) > 100 ORDER BY SUM(totalamount);
 
