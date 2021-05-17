@@ -21,7 +21,7 @@ public class Writer implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             chat.put();
             try {
-                Thread.sleep(chat.getRandomNumber(20, 60));
+                Thread.sleep(chat.getRandomNumber(20000, 60000));
             } catch (InterruptedException | IllegalArgumentException e) {
                 log.error("run() Ошибка: " + e);
                 Thread.currentThread().interrupt();

@@ -20,7 +20,7 @@ public class Reader implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                Thread.sleep(chat.getRandomNumber(30, 50));
+                Thread.sleep(chat.getRandomNumber(30000, 50000));
             } catch (InterruptedException | IllegalArgumentException e) {
                 log.error("run() Ошибка: " + e);
                 Thread.currentThread().interrupt();

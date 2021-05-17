@@ -6,6 +6,9 @@ import com.zaraev.epam.Task3Chat.Updater;
 import com.zaraev.epam.Task3Chat.Writer;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Класс предоставляющий методы для класса Main
  */
@@ -49,6 +52,7 @@ public class MainHelper {
     public void callsSynchronizedRaceCondition() {
         log.info("callsSynchronizedRaceCondition() Решение проблемы RaceCondition запущено");
         try {
+            //   ReadWriteLock readWriteLock = new ReentrantReadWriteLock(SYNCHRONIZED_RACE_CONDITION);
             var thread = new Thread(SYNCHRONIZED_RACE_CONDITION);
             var thread1 = new Thread(SYNCHRONIZED_RACE_CONDITION);
             thread.start();
@@ -102,22 +106,45 @@ public class MainHelper {
     }
 
     /**
-     * Запуск чата
+     * Запуск чата через новое API
+     */
+    public void generateChatViaNewApi() {
+        log.info("Задание3 - Чат запущен:");
+        log.info("generateChatViaNewApi() Число writer потоков: {}", NUMBER_OF_WRITER);
+        log.info("generateChatViaNewApi() Число reader потоков: {}", NUMBER_OF_READER);
+        log.info("generateChatViaNewApi() Число update потоков: {}", NUMBER_OF_UPDATER);
+        var numberOfThreads = NUMBER_OF_WRITER + NUMBER_OF_READER + NUMBER_OF_UPDATER;
+        var chat = new Chat();
+        var writer = new Writer(chat);
+        var reader = new Reader(chat);
+        var updater = new Updater(chat);
+        ExecutorService threadPool = Executors.newFixedThreadPool(numberOfThreads, Executors.defaultThreadFactory());
+        for (int i = 0; i < NUMBER_OF_WRITER; i++) {
+            threadPool.execute(writer);
+            log.debug("generateChat() Поток writer создан");
+        }
+        for (int i = 0; i < NUMBER_OF_READER; i++) {
+            threadPool.execute(reader);
+            log.debug("generateChat() Поток reader создан");
+        }
+        for (int i = 0; i < NUMBER_OF_UPDATER; i++) {
+            threadPool.execute(updater);
+            log.debug("generateChat() Поток updater создан");
+        }
+    }
+
+    /**
+     * Запуск чата через старое API
      */
     public void generateChat() {
         log.info("Задание3 - Чат запущен:");
         log.info("Число writer потоков: {}", NUMBER_OF_WRITER);
         log.info("Число reader потоков: {}", NUMBER_OF_READER);
         log.info("Число update потоков: {}", NUMBER_OF_UPDATER);
-        var numberOfThreads = NUMBER_OF_WRITER + NUMBER_OF_READER + NUMBER_OF_UPDATER;
         var chat = new Chat();
         var writer = new Writer(chat);
         var reader = new Reader(chat);
         var updater = new Updater(chat);
-        if (numberOfThreads > 10000) {
-            log.error("generateChat() Введено слишком большое число потоков: {}", numberOfThreads);
-            throw new IllegalArgumentException("Введено слишком большое число потоков, введите другое число");
-        }
         for (int i = 0; i < NUMBER_OF_WRITER; i++) {
             var writerThread = new Thread(writer);
             writerThread.start();
@@ -129,7 +156,7 @@ public class MainHelper {
             log.debug("generateChat() Поток reader: {} создан", readerThread.getName());
         }
         for (int i = 0; i < NUMBER_OF_UPDATER; i++) {
-            Thread updaterThread = new Thread(updater);
+            var updaterThread = new Thread(updater);
             updaterThread.start();
             log.debug("generateChat() Поток updater: {} создан", updaterThread.getName());
         }
