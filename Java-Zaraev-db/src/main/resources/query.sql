@@ -6,7 +6,7 @@ SELECT * FROM products WHERE category in (8,15);
 
 SELECT * FROM products WHERE price BETWEEN 10 AND 20;
 
-SELECT * FROM orders WHERE orderdate BETWEEN to_date('2004-01-05', 'yyyy/MM/dd') AND to_date('2004-02-05', 'yyyy/MM/dd');
+SELECT * FROM orders WHERE orderdate BETWEEN to_date('2004-01-05', 'yyyy-mm-dd') AND to_date('2004-02-05', 'yyyy-mm-dd');
 
 SELECT customerid,COUNT(*) FROM orders GROUP BY customerid;
 
