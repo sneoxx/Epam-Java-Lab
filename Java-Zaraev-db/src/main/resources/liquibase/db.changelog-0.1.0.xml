@@ -5,7 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-
     <changeSet id="2021-05-19_addtableOrderProduct" author="rustam_zaraev">
         <createTable tableName="OrderProduct">
             <column name="OrderId" type="int">
@@ -66,7 +65,6 @@
         </createTable>
     </changeSet>
 
-
     <changeSet id="2021-05-19_addtableSupplier" author="rustam_zaraev">
         <createTable tableName="Supplier">
             <column name="SupplierId" type="int">
@@ -80,7 +78,6 @@
             </column>
         </createTable>
     </changeSet>
-
 
     <changeSet id="2021-05-19_addForeignKeyConstraint" author="rustam_zaraev">
         <addForeignKeyConstraint baseColumnNames="OrderId"
@@ -103,9 +100,7 @@
                                  constraintName="fk_car_supplierId"
                                  referencedColumnNames="SupplierId"
                                  referencedTableName="Supplier"/>
-
     </changeSet>
-
 
     <changeSet id="2021-05-19_addForeignKeyConstraintfix" author="rustam_zaraev">
         <addForeignKeyConstraint baseColumnNames="CustomerId"
@@ -118,9 +113,7 @@
                                  constraintName="fk_product_supplierId"
                                  referencedColumnNames="SupplierId"
                                  referencedTableName="Supplier"/>
-
     </changeSet>
-
 
     <changeSet id="2021-05-19_dropForeignKeyConstraintd" author="rustam_zaraev">
         <dropForeignKeyConstraint baseColumnNames="CustomerId"
@@ -142,7 +135,6 @@
                                  constraintName="fk_product_supplierId"
                                  referencedColumnNames="SupplierId"
                                  referencedTableName="Supplier"/>
-
     </changeSet>
 
 </databaseChangeLog>
