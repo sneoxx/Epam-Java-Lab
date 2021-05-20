@@ -148,7 +148,7 @@
                 <version>${mockito-all.version}</version>
                 <scope>test</scope>
             </dependency>
-
+            <!-- add liquibase-->
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
@@ -159,7 +159,6 @@
                 <artifactId>liquibase-core</artifactId>
                 <version>${liquibase-core.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
