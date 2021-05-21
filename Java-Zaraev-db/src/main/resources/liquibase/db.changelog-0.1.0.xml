@@ -5,136 +5,100 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2021-05-19_addtableOrderProduct" author="rustam_zaraev">
-        <createTable tableName="OrderProduct">
-            <column name="OrderId" type="int">
+    <changeSet id="2021-05-21_addtableOrderProduct" author="rustam_zaraev">
+        <createTable tableName="order_product">
+            <column name="order_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ProductId" type="int">
+            <column name="product_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-19_addtableOrder" author="rustam_zaraev">
-        <createTable tableName="Order">
-            <column name="OrderId" type="int">
+    <changeSet id="2021-05-21_addtableOrder" author="rustam_zaraev">
+        <createTable tableName="order">
+            <column name="order_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="OrderNumber" type="varchar(10)">
+            <column name="order_number" type="varchar(10)">
                 <constraints nullable="true" unique="true"/>
             </column>
-            <column name="CustomerId" type="int">
+            <column name="customer_id" type="int">
             </column>
-            <column name="OrderDate" type="timestamp">
+            <column name="order_date" type="timestamp">
             </column>
-            <column name="TotalAmount" type="decimal(12,2)">
+            <column name="total_amount" type="decimal(12,2)">
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-19_addtableCustomer" author="rustam_zaraev">
-        <createTable tableName="Customer">
-            <column name="CustomerId" type="int">
+    <changeSet id="2021-05-21_addtableCustomer" author="rustam_zaraev">
+        <createTable tableName="customer">
+            <column name="customer_id" type="int">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="CustomerName" type="varchar(50)">
+            <column name="customer_name" type="varchar(50)">
             </column>
-            <column name="Phone" type="varchar(20)">
+            <column name="phone" type="varchar(20)">
                 <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-19_addtableProduct" author="rustam_zaraev">
-        <createTable tableName="Product">
-            <column name="ProductId" type="int">
+    <changeSet id="2021-05-21_addtableProduct" author="rustam_zaraev">
+        <createTable tableName="product">
+            <column name="product_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ProductName" type="varchar(50)">
+            <column name="product_name" type="varchar(50)">
                 <constraints unique="true"/>
             </column>
-            <column name="SupplierId" type="int">
+            <column name="supplier_id" type="int">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="Unitprice" type="decimal(12,2)">
+            <column name="unit_price" type="decimal(12,2)">
                 <constraints nullable="true"/>
             </column>
-            <column name="IsDiscountinued" type="bit">
+            <column name="is_discountinued" type="bit">
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-19_addtableSupplier" author="rustam_zaraev">
-        <createTable tableName="Supplier">
-            <column name="SupplierId" type="int">
+    <changeSet id="2021-05-21_addtableSupplier" author="rustam_zaraev">
+        <createTable tableName="supplier">
+            <column name="supplier_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="CompanyName" type="varchar(40)">
+            <column name="company_name" type="varchar(40)">
                 <constraints unique="true"/>
             </column>
-            <column name="Phone" type="varchar(20)">
+            <column name="phone" type="varchar(20)">
                 <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-19_addForeignKeyConstraint" author="rustam_zaraev">
-        <addForeignKeyConstraint baseColumnNames="OrderId"
-                                 baseTableName="OrderProduct"
-                                 constraintName="fk_orderProduct_orderId"
-                                 referencedColumnNames="OrderId"
-                                 referencedTableName="Order"/>
-        <addForeignKeyConstraint baseColumnNames="ProductId"
-                                 baseTableName="OrderProduct"
-                                 constraintName="fk_orderProduct_productId"
-                                 referencedColumnNames="ProductId"
-                                 referencedTableName="Product"/>
-        <addForeignKeyConstraint baseColumnNames="CustomerId"
-                                 baseTableName="Order"
-                                 constraintName="fk_car_customerId"
-                                 referencedColumnNames="CustomerId"
-                                 referencedTableName="Customer"/>
-        <addForeignKeyConstraint baseColumnNames="SupplierId"
-                                 baseTableName="Product"
-                                 constraintName="fk_car_supplierId"
-                                 referencedColumnNames="SupplierId"
-                                 referencedTableName="Supplier"/>
+    <changeSet id="2021-05-21_addForeignKeyConstraint" author="rustam_zaraev">
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_product"
+                                 constraintName="fk_order_product_order_id"
+                                 referencedColumnNames="order_id"
+                                 referencedTableName="order"/>
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_product"
+                                 constraintName="fk_order_product_product_id"
+                                 referencedColumnNames="product_id"
+                                 referencedTableName="product"/>
+        <addForeignKeyConstraint baseColumnNames="customer_id"
+                                 baseTableName="order"
+                                 constraintName="fk_order_customer_id"
+                                 referencedColumnNames="customer_id"
+                                 referencedTableName="customer"/>
+        <addForeignKeyConstraint baseColumnNames="supplier_id"
+                                 baseTableName="product"
+                                 constraintName="fk_order_supplier_id"
+                                 referencedColumnNames="supplier_id"
+                                 referencedTableName="supplier"/>
     </changeSet>
-
-    <changeSet id="2021-05-19_addForeignKeyConstraintfix" author="rustam_zaraev">
-        <addForeignKeyConstraint baseColumnNames="CustomerId"
-                                 baseTableName="Order"
-                                 constraintName="fk_order_customerId"
-                                 referencedColumnNames="CustomerId"
-                                 referencedTableName="Customer"/>
-        <addForeignKeyConstraint baseColumnNames="SupplierId"
-                                 baseTableName="Product"
-                                 constraintName="fk_product_supplierId"
-                                 referencedColumnNames="SupplierId"
-                                 referencedTableName="Supplier"/>
-    </changeSet>
-
-    <changeSet id="2021-05-19_dropForeignKeyConstraintd" author="rustam_zaraev">
-        <dropForeignKeyConstraint baseColumnNames="CustomerId"
-                                 baseTableName="Order"
-                                 constraintName="fk_order_customerId"/>
-        <dropForeignKeyConstraint baseColumnNames="SupplierId"
-                                 baseTableName="Product"
-                                 constraintName="fk_product_supplierId"/>
-    </changeSet>
-
-    <changeSet id="2021-05-19_addForeignKeyConstraintfix1" author="rustam_zaraev">
-        <addForeignKeyConstraint baseColumnNames="CustomerId"
-                                 baseTableName="Order"
-                                 constraintName="fk_order_customerId"
-                                 referencedColumnNames="CustomerId"
-                                 referencedTableName="Customer"/>
-        <addForeignKeyConstraint baseColumnNames="SupplierId"
-                                 baseTableName="Product"
-                                 constraintName="fk_product_supplierId"
-                                 referencedColumnNames="SupplierId"
-                                 referencedTableName="Supplier"/>
-    </changeSet>
-
 </databaseChangeLog>
