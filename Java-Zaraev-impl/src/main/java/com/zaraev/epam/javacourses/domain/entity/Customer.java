@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Entity класс для работы с таблицей customer базы данных
  */
 @Data
 @NoArgsConstructor
@@ -28,5 +28,4 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", orphanRemoval = true)
     private static List<Order> orders = new ArrayList<>();    // клиент один а заказов много
-
 }

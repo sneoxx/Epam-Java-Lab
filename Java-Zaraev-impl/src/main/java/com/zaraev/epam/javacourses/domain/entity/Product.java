@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * Entity класс для работы с таблицей product базы данных
  */
 @NoArgsConstructor
 @Data
@@ -23,7 +23,7 @@ public class Product {
     private int productId;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;  // поставщик один, а продуктов много
 
@@ -36,6 +36,6 @@ public class Product {
     @Column(name = "is_discountinued")
     private boolean isDiscount;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 }

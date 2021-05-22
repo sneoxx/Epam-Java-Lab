@@ -20,7 +20,7 @@ public class ServiceEntity {
     static int orderNumber;
 
     /**
-     *
+     * Метод для CRUD тестирования класса Customer
      */
     public void testCustomer() {
         Customer customer = createCustomer();
@@ -31,7 +31,7 @@ public class ServiceEntity {
     }
 
     /**
-     *
+     * Метод для CRUD тестирования класса Order
      */
     public void testOrder() {
         Customer customer = createCustomer();
@@ -44,7 +44,7 @@ public class ServiceEntity {
     }
 
     /**
-     *
+     * Метод для CRUD тестирования класса Supplier
      */
     public void testSupplier() {
         Supplier supplier = createSupplier();
@@ -55,7 +55,7 @@ public class ServiceEntity {
     }
 
     /**
-     *
+     * Метод для CRUD тестирования класса Product
      */
     public void testProduct() {
         Supplier supplier = createSupplier();
@@ -68,8 +68,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @return
+     * Создание и занесение в БД екземпляра Customer
+     * @return вернет занесенный экземпляр Customer
      */
     public Customer createCustomer() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -86,9 +86,9 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param customer
-     * @return
+     * Создание и занесение в БД екземпляра Order
+     * @param customer - экземпляр customer для занесения в Order
+     * @return - вернет занесенный экземпляр Order
      */
     public Order createOrder(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -108,8 +108,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @return
+     * Создание и занесение в БД екземпляра Supplier
+     * @return вернет занесенный экземпляр Supplier
      */
     public Supplier createSupplier() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -127,8 +127,9 @@ public class ServiceEntity {
 
     /**
      *
-     * @param supplier
-     * @return
+     * Создание и занесение в БД екземпляра Product
+     * @param supplier - экземпляр supplier для занесения в Product
+     * @return - вернет занесенный экземпляр Product
      */
     public Product createProduct(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -148,8 +149,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param customer
+     * Изменение в БД экземпляра customer
+     * @param customer - экземпляр customer, который необходимо изменить
      */
     public void updateCustomer(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -164,8 +165,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param order
+     * Изменение в БД экземпляра order
+     * @param order - экземпляр order, который необходимо изменить
      */
     public void updateOrder(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -179,6 +180,10 @@ public class ServiceEntity {
         log.info("updateOrder() Объект order успешно обновлен: {} ", order);
     }
 
+    /**
+     * Изменение в БД экземпляра supplier
+     * @param supplier - экземпляр supplier, который необходимо изменить
+     */
     public void updateSupplier(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -192,8 +197,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param product
+     * Изменение в БД экземпляра product
+     * @param product - экземпляр product, который необходимо изменить
      */
     public void updateProduct(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -208,9 +213,9 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Получение из БД объекта Customer
+     * @param id - id объекта Customer который необходимо получить
+     * @return - объект Customer из БД
      */
     public Customer getCustomer(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -221,9 +226,9 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Получение из БД объекта Order
+     * @param id - id объекта Order который необходимо получить
+     * @return - объект Order из БД
      */
     public Order getOrder(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -234,9 +239,9 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Получение из БД объекта Supplier
+     * @param id - id объекта Supplier который необходимо получить
+     * @return - объект Supplier из БД
      */
     public Supplier getSupplier(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -247,9 +252,9 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Получение из БД объекта Product
+     * @param id  - id объекта Product который необходимо получить
+     * @return  - объект Product из БД
      */
     public Product getProduct(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -260,8 +265,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param customer
+     * Удаление объекта customer из БД
+     * @param customer - удаляемый объект
      */
     public void deleteCustomer(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -278,8 +283,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param order
+     * Удаление объекта order из БД
+     * @param order - удаляемый объект
      */
     public void deleteOrder(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -296,8 +301,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param supplier
+     * Удаление объекта supplier из БД
+     * @param supplier - удаляемый объект
      */
     public void deleteSupplier(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -314,8 +319,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
-     * @param product
+     * Удаление объекта product из БД
+     * @param product - удаляемый объект
      */
     public void deleteProduct(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -354,6 +359,4 @@ public class ServiceEntity {
     public String getRandomNumber() {
         return Integer.toString(1 + (int) (Math.random() * 10000));
     }
-
-
 }

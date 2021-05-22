@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * Entity класс для работы с таблицей order базы данных
  */
 @Data
 @NoArgsConstructor
@@ -41,5 +42,5 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "order_id"),
             inverseJoinColumns = @JoinColumn(name ="product_id",referencedColumnName = "product_id")
     )
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 }
