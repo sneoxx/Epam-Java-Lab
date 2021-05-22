@@ -31,7 +31,7 @@ public class Order {
     private Customer customer;  // клиент один, а заказов много
 
     @Column(name = "order_date")
-    private Timestamp orderDate; // или Date?
+    private Timestamp orderDate;
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
