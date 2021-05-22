@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2021-05-21_addtableOrderProduct" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_table_order_product" author="Rustam_Zaraev">
         <createTable tableName="order_product">
-            <column name="order_id" type="int">
+            <column name="order_id" type="serial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="int">
@@ -16,15 +16,15 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-21_addtableOrder" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_table_order" author="Rustam_Zaraev">
         <createTable tableName="order">
-            <column name="order_id" type="int">
+            <column name="order_id" type="serial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="order_number" type="varchar(10)">
                 <constraints nullable="true" unique="true"/>
             </column>
-            <column name="customer_id" type="int">
+            <column name="customer_id" type="serial">
             </column>
             <column name="order_date" type="timestamp">
             </column>
@@ -33,9 +33,9 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-21_addtableCustomer" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_table_customer" author="Rustam_Zaraev">
         <createTable tableName="customer">
-            <column name="customer_id" type="int">
+            <column name="customer_id" type="serial">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="customer_name" type="varchar(50)">
@@ -46,28 +46,28 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-21_addtableProduct" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_table_product" author="Rustam_Zaraev">
         <createTable tableName="product">
-            <column name="product_id" type="int">
+            <column name="product_id" type="serial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_name" type="varchar(50)">
                 <constraints unique="true"/>
             </column>
-            <column name="supplier_id" type="int">
+            <column name="supplier_id" type="serial">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="unit_price" type="decimal(12,2)">
                 <constraints nullable="true"/>
             </column>
-            <column name="is_discountinued" type="bit">
+            <column name="is_discountinued" type="boolean">
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-21_addtableSupplier" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_table_supplier" author="Rustam_Zaraev">
         <createTable tableName="supplier">
-            <column name="supplier_id" type="int">
+            <column name="supplier_id" type="serial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="company_name" type="varchar(40)">
@@ -79,7 +79,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2021-05-21_addForeignKeyConstraint" author="rustam_zaraev">
+    <changeSet id="2021-05-21_add_foreign_key_constraint" author="Rustam_Zaraev">
         <addForeignKeyConstraint baseColumnNames="order_id"
                                  baseTableName="order_product"
                                  constraintName="fk_order_product_order_id"

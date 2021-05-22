@@ -32,6 +32,8 @@
         <postgresql.version>42.2.19</postgresql.version>
         <liquibase-core.version>4.3.5</liquibase-core.version>
         <liquibase-maven-plugin.version>4.3.5</liquibase-maven-plugin.version>
+        <hibernate-core.version>5.4.31.Final</hibernate-core.version>
+        <hibernate-entitymanager.version>5.4.31.Final</hibernate-entitymanager.version>
     </properties>
 
     <build>
@@ -66,7 +68,7 @@
                 <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*Main.class</exclude>
+                        <exclude>**/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -158,6 +160,16 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
                 <version>${liquibase-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate-entitymanager.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
