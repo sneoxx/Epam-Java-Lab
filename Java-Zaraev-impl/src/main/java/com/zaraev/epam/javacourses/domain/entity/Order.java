@@ -1,7 +1,9 @@
 package com.zaraev.epam.javacourses.domain.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,13 +17,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(schema = "zaraev")
+@Table
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private int orderId;
+    private Integer orderId;
 
     private String orderNumber;
 
@@ -33,6 +35,8 @@ public class Order {
 
     private BigDecimal totalAmount;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable (
             name = "order_product",

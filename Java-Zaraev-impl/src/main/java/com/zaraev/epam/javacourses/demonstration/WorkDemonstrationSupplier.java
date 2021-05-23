@@ -17,5 +17,4 @@ public class WorkDemonstrationSupplier {
         serviceEntity.updateSupplier(supplier);
         serviceEntity.deleteSupplier(supplier1);
     }
-
 }

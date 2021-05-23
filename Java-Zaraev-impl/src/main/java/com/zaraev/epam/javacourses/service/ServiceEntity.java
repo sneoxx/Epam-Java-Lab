@@ -6,10 +6,7 @@ import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Random;
@@ -22,6 +19,7 @@ public class ServiceEntity {
 
     /**
      * Создание и занесение в БД екземпляра Customer
+     *
      * @return вернет занесенный экземпляр Customer
      */
     public Customer createCustomer() {
@@ -40,6 +38,7 @@ public class ServiceEntity {
 
     /**
      * Создание и занесение в БД екземпляра Order
+     *
      * @param customer - экземпляр customer для занесения в Order
      * @return - вернет занесенный экземпляр Order
      */
@@ -62,6 +61,7 @@ public class ServiceEntity {
 
     /**
      * Создание и занесение в БД екземпляра Supplier
+     *
      * @return вернет занесенный экземпляр Supplier
      */
     public Supplier createSupplier() {
@@ -79,8 +79,8 @@ public class ServiceEntity {
     }
 
     /**
-     *
      * Создание и занесение в БД екземпляра Product
+     *
      * @param supplier - экземпляр supplier для занесения в Product
      * @return - вернет занесенный экземпляр Product
      */
@@ -90,8 +90,8 @@ public class ServiceEntity {
         Supplier tempSupplier = entityManager.find(Supplier.class, supplier.getSupplierId());
         Product product = new Product();
         product.setProductName(generateRandomWord());
-        product.setDiscount(true);
-        product.setUnitprice(BigDecimal.valueOf(100 + orderNumber));
+        product.setDiscountinued(true);
+        product.setUnitPrice(BigDecimal.valueOf(100 + orderNumber));
         product.setSupplier(tempSupplier);
         transaction.begin();
         entityManager.persist(product);
@@ -102,7 +102,28 @@ public class ServiceEntity {
     }
 
     /**
+     * Создание связи между Order Product
+     * @param order - соединяемый order
+     * @param product - соединяемый product
+     */
+    public void createBondOrderAndProduct(Order order, Product product) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        Order tempOrder = entityManager.find(Order.class, order.getOrderId());
+        Product tempProduct = entityManager.find(Product.class, product.getProductId());
+        transaction.begin();
+        tempOrder.getProducts().add(tempProduct);
+        tempProduct.getOrders().add(tempOrder);
+        entityManager.persist(tempOrder);
+        entityManager.persist(tempProduct);
+        transaction.commit();
+        entityManager.close();
+        log.info("createBondOrderAndProduct() Создана связь многие ко многим у объектов {} и {}:", order, product);
+    }
+
+    /**
      * Изменение в БД экземпляра customer
+     *
      * @param customer - экземпляр customer, который необходимо изменить
      */
     public void updateCustomer(Customer customer) {
@@ -119,6 +140,7 @@ public class ServiceEntity {
 
     /**
      * Изменение в БД экземпляра order
+     *
      * @param order - экземпляр order, который необходимо изменить
      */
     public void updateOrder(Order order) {
@@ -135,6 +157,7 @@ public class ServiceEntity {
 
     /**
      * Изменение в БД экземпляра supplier
+     *
      * @param supplier - экземпляр supplier, который необходимо изменить
      */
     public void updateSupplier(Supplier supplier) {
@@ -151,6 +174,7 @@ public class ServiceEntity {
 
     /**
      * Изменение в БД экземпляра product
+     *
      * @param product - экземпляр product, который необходимо изменить
      */
     public void updateProduct(Product product) {
@@ -167,6 +191,7 @@ public class ServiceEntity {
 
     /**
      * Получение из БД объекта Customer
+     *
      * @param id - id объекта Customer который необходимо получить
      * @return - объект Customer из БД
      */
@@ -180,6 +205,7 @@ public class ServiceEntity {
 
     /**
      * Получение из БД объекта Order
+     *
      * @param id - id объекта Order который необходимо получить
      * @return - объект Order из БД
      */
@@ -193,6 +219,7 @@ public class ServiceEntity {
 
     /**
      * Получение из БД объекта Supplier
+     *
      * @param id - id объекта Supplier который необходимо получить
      * @return - объект Supplier из БД
      */
@@ -206,8 +233,9 @@ public class ServiceEntity {
 
     /**
      * Получение из БД объекта Product
-     * @param id  - id объекта Product который необходимо получить
-     * @return  - объект Product из БД
+     *
+     * @param id - id объекта Product который необходимо получить
+     * @return - объект Product из БД
      */
     public Product getProduct(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -219,6 +247,7 @@ public class ServiceEntity {
 
     /**
      * Удаление объекта customer из БД
+     *
      * @param customer - удаляемый объект
      */
     public void deleteCustomer(Customer customer) {
@@ -237,6 +266,7 @@ public class ServiceEntity {
 
     /**
      * Удаление объекта order из БД
+     *
      * @param order - удаляемый объект
      */
     public void deleteOrder(Order order) {
@@ -255,6 +285,7 @@ public class ServiceEntity {
 
     /**
      * Удаление объекта supplier из БД
+     *
      * @param supplier - удаляемый объект
      */
     public void deleteSupplier(Supplier supplier) {
@@ -273,6 +304,7 @@ public class ServiceEntity {
 
     /**
      * Удаление объекта product из БД
+     *
      * @param product - удаляемый объект
      */
     public void deleteProduct(Product product) {
