@@ -15,25 +15,22 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "order", schema = "zaraev")
+@Table(schema = "zaraev")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_id")
     private int orderId;
 
-    @Column(name = "order_number")
     private String orderNumber;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;  // клиент один, а заказов много
 
-    @Column(name = "order_date")
     private Timestamp orderDate;
 
-    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

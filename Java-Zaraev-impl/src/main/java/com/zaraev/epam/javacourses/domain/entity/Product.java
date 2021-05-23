@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "product", schema = "zaraev")
+@Table
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,8 @@ public class Product {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;  // поставщик один, а продуктов много
 
-    @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "unit_price")
     private BigDecimal unitprice;
 
     @Column(name = "is_discountinued")

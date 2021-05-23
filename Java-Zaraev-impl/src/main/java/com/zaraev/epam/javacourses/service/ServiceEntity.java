@@ -19,53 +19,6 @@ public class ServiceEntity {
     public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
     static int orderNumber;
 
-    /**
-     * Метод для CRUD тестирования класса Customer
-     */
-    public void testCustomer() {
-        Customer customer = createCustomer();
-        Customer customer1 = createCustomer();
-        getCustomer(1);
-        updateCustomer(customer);
-        deleteCustomer(customer1);
-    }
-
-    /**
-     * Метод для CRUD тестирования класса Order
-     */
-    public void testOrder() {
-        Customer customer = createCustomer();
-        Customer customer1 = createCustomer();
-        Order order = createOrder(customer);
-        Order order1 = createOrder(customer1);
-        getOrder(1);
-        updateOrder(order);
-        deleteOrder(order1);
-    }
-
-    /**
-     * Метод для CRUD тестирования класса Supplier
-     */
-    public void testSupplier() {
-        Supplier supplier = createSupplier();
-        Supplier supplier1 = createSupplier();
-        getSupplier(1);
-        updateSupplier(supplier);
-        deleteSupplier(supplier1);
-    }
-
-    /**
-     * Метод для CRUD тестирования класса Product
-     */
-    public void testProduct() {
-        Supplier supplier = createSupplier();
-        Supplier supplier1 = createSupplier();
-        Product product = createProduct(supplier);
-        Product product1 = createProduct(supplier1);
-        getProduct(1);
-        updateProduct(product);
-        deleteProduct(product1);
-    }
 
     /**
      * Создание и занесение в БД екземпляра Customer
@@ -93,7 +46,7 @@ public class ServiceEntity {
     public Order createOrder(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
-        Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerID());
+        Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerId());
         Order order = new Order();
         order.setOrderNumber(getRandomNumber());
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
@@ -271,7 +224,7 @@ public class ServiceEntity {
     public void deleteCustomer(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
-        Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerID());
+        Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerId());
         transaction.begin();
         log.debug("deleteCustomer() Объект customer передан на удаление: {}", tempCustomer);
         if (entityManager.contains(tempCustomer)) {

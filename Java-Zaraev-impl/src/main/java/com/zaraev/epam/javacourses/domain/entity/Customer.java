@@ -13,15 +13,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "customer", schema = "zaraev")
+@Table
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id", nullable = false)
-    private int customerID;
+    @Column(name = "customer_id")
+    private int customerId;
 
-    @Column(name = "customer_name")
     private String customerName;
 
     private String phone;

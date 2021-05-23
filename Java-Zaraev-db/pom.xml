@@ -19,7 +19,7 @@
         <liquibase.schema>zaraev</liquibase.schema>
         <liquibase.user>usr</liquibase.user>
         <liquibase.password>pass</liquibase.password>
-        <liquibase.changeLogFile>src\main\resources\liquibase\database.java-courses.changelog.xml
+        <liquibase.changeLogFile>src\main\resources\liquibase\database_java_courses_zaraev_changelog.xml
         </liquibase.changeLogFile>
     </properties>
 

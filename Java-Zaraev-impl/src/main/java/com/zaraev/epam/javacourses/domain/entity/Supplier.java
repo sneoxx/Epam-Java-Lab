@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "supplier", schema = "zaraev")
+@Table
 public class Supplier {
 
     @Id
@@ -22,7 +22,6 @@ public class Supplier {
     @Column(name = "supplier_id")
     private int supplierId;
 
-    @Column(name = "company_name")
     private String companyName;
 
     private String phone;
