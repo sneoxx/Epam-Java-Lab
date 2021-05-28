@@ -23,19 +23,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Integer productId;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;  // поставщик один, а продуктов много
-
     private String productName;
 
     private BigDecimal unitPrice;
 
     private boolean isDiscountinued;
 
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;  // поставщик один, а продуктов много
+
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 }

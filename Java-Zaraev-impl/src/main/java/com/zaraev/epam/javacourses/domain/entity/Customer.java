@@ -24,6 +24,6 @@ public class Customer {
 
     private String phone;
 
-    @OneToMany(mappedBy = "customer", orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private static List<Order> orders = new ArrayList<>();    // клиент один а заказов много
 }

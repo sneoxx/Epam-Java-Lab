@@ -5,9 +5,12 @@ import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 
 public class WorkDemonstrationOrderProduct {
+    ServiceEntity serviceEntity = new ServiceEntity();
 
+    /**
+     * Метод для демонстрации работы OrderAndProduct
+     */
     public void testSetOrderAndProduct() {
-        ServiceEntity serviceEntity = new ServiceEntity();
         Product product = serviceEntity.getProduct(1);
         Order order = serviceEntity.getOrder(1);
         serviceEntity.createBondOrderAndProduct(order,product);

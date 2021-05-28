@@ -27,21 +27,21 @@ public class Order {
 
     private String orderNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;  // клиент один, а заказов много
-
     private Timestamp orderDate;
 
     private BigDecimal totalAmount;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;  // клиент один, а заказов много
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable (
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
             name = "order_product",
             joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "order_id"),
-            inverseJoinColumns = @JoinColumn(name ="product_id",referencedColumnName = "product_id")
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     )
     private Set<Product> products = new HashSet<>();
 }

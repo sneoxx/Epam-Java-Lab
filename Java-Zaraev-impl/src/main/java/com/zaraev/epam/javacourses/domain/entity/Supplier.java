@@ -26,6 +26,6 @@ public class Supplier {
 
     private String phone;
 
-    @OneToMany(mappedBy = "supplier", orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();  // поставщик один, а продуктов много
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private static List<Product> products = new ArrayList<>();  // поставщик один, а продуктов много
 }

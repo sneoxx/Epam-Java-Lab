@@ -9,7 +9,7 @@ public class WorkDemonstrationOrder {
     ServiceEntity serviceEntity = new ServiceEntity();
 
     /**
-     * Метод для демонстрации работы операцй CRUD класса Order
+     * Метод для демонстрации работы операций CRUD класса Order
      */
     public void testOrder() {
         Customer customer = serviceEntity.createCustomer();
