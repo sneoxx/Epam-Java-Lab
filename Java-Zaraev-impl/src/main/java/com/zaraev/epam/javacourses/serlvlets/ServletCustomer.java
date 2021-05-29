@@ -1,6 +1,7 @@
 package com.zaraev.epam.javacourses.serlvlets;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
@@ -15,7 +16,7 @@ public class ServletCustomer extends HttpServlet {
 
     private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
     private final ServiceServlets SERVICE_SERVLETS = new ServiceServlets();
-    private final Gson GSON = new Gson();
+    private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     /**
      * Получение товара по id переданного в запросе или получение всех товаров в случае отсутсвия id
@@ -25,8 +26,8 @@ public class ServletCustomer extends HttpServlet {
         if (req.getParameterNames().hasMoreElements()) {
             var id = SERVICE_SERVLETS.getIdFromRequest(req);
             if (id != 0) {
-                Customer Customer = SERVICE_ENTITY.getCustomer(id);
-                var jsonString = this.GSON.toJson(Customer);
+                Customer customer = SERVICE_ENTITY.getCustomer(id);
+                var jsonString = this.GSON.toJson(customer);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         } else {

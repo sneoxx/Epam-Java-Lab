@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.domain.entity;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,14 +17,18 @@ import java.util.List;
 @Table
 public class Customer {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
 
+    @Expose
     private String customerName;
 
+    @Expose
     private String phone;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private static List<Order> orders = new ArrayList<>();    // клиент один а заказов много
+
 }

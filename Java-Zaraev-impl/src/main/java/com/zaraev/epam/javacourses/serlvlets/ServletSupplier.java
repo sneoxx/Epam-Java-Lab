@@ -1,6 +1,7 @@
 package com.zaraev.epam.javacourses.serlvlets;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
@@ -16,7 +17,7 @@ public class ServletSupplier extends HttpServlet {
 
     private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
     private final ServiceServlets SERVICE_SERVLETS = new ServiceServlets();
-    private final Gson GSON = new Gson();
+    private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     /**
      * Получение поставщика по id переданного в запросе или получение всех поставщиков в случае отсутсвия id

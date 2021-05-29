@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.domain.entity;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,21 +21,27 @@ import java.util.Set;
 @Table
 public class Order {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer orderId;
 
+    @Expose
     private String orderNumber;
 
+    @Expose
     private Timestamp orderDate;
 
+    @Expose
     private BigDecimal totalAmount;
 
+    @Expose
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;  // клиент один, а заказов много
 
+    @Expose
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
