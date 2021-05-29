@@ -41,7 +41,6 @@ public class ServletCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Customer customer = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Customer.class);
-        //  customer.setCustomerId(null);
         SERVICE_ENTITY.createCustomerWithInstance(customer);
         var jsonString = this.GSON.toJson(customer);
         SERVICE_SERVLETS.printJson(jsonString, resp);

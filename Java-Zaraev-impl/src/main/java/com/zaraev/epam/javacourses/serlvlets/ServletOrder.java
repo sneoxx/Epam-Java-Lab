@@ -5,13 +5,11 @@ import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServletOrder extends HttpServlet {
 
@@ -42,10 +40,7 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var jsonToSting = req.getReader()
-                .lines()
-                .collect(Collectors.joining(System.lineSeparator()));
-        var order = GSON.fromJson(jsonToSting, Order.class);
+        var order = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Order.class);
         SERVICE_ENTITY.createOrderWithInstance(order);
         var jsonString = this.GSON.toJson(order);
         SERVICE_SERVLETS.printJson(jsonString, resp);

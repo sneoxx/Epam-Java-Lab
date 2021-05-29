@@ -5,13 +5,11 @@ import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServletProduct extends HttpServlet {
 
@@ -31,7 +29,6 @@ public class ServletProduct extends HttpServlet {
                 var jsonString = this.GSON.toJson(product);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
-
         } else {
             var jsonString = GSON.toJson(SERVICE_ENTITY.getAllProduct(), List.class);
             SERVICE_SERVLETS.printJson(jsonString, resp);
@@ -43,10 +40,7 @@ public class ServletProduct extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var jsonToSting = req.getReader()
-                .lines()
-                .collect(Collectors.joining(System.lineSeparator()));
-        var product = GSON.fromJson(jsonToSting, Product.class);
+        var product = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Product.class);
         SERVICE_ENTITY.createProductWithInstance(product);
         var jsonString = this.GSON.toJson(product);
         SERVICE_SERVLETS.printJson(jsonString, resp);
