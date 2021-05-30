@@ -20,9 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-        <maven-site-plugin.version>3.3</maven-site-plugin.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <lombok.version>1.18.10</lombok.version>
         <logback-classic.version>1.2.3</logback-classic.version>
@@ -34,6 +32,12 @@
         <liquibase-maven-plugin.version>4.3.5</liquibase-maven-plugin.version>
         <hibernate-core.version>5.4.31.Final</hibernate-core.version>
         <hibernate-entitymanager.version>5.4.31.Final</hibernate-entitymanager.version>
+        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+        <gson.version>2.8.6</gson.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven-site-plugin.version>3.3</maven-site-plugin.version>
     </properties>
 
     <build>
@@ -65,7 +69,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
+                <version>0.8.5</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*.class</exclude>
@@ -113,8 +117,10 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
+
 
     <profiles>
         <profile>
@@ -171,6 +177,19 @@
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${hibernate-entitymanager.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
