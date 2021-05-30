@@ -36,6 +36,17 @@ public class ServletCustomer extends HttpServlet {
         }
     }
 
+//    /**
+//     * Создаем нового товара из переданного json в запросе
+//     */
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        Customer customer = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Customer.class);
+//        SERVICE_ENTITY.createCustomerWithInstance(customer);
+//        var jsonString = this.GSON.toJson(customer);
+//        SERVICE_SERVLETS.printJson(jsonString, resp);
+//    }
+
     /**
      * Создаем нового товара из переданного json в запросе
      */

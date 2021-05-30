@@ -1,14 +1,10 @@
 package com.zaraev.epam.javacourses;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.demonstration.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Main {
-
-    private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public static void main(String[] args) {
         WorkDemonstrationCustomer workDemonstrationCustomer = new WorkDemonstrationCustomer();

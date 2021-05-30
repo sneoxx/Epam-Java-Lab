@@ -19,5 +19,6 @@ public class WorkDemonstrationOrder {
         serviceEntity.getOrder(1);
         serviceEntity.updateOrder(order);
         serviceEntity.deleteOrder(order1);
+
     }
 }

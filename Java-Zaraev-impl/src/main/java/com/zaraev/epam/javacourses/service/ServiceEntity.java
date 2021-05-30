@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.service;
 
+import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.domain.entity.Product;
@@ -12,9 +13,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Slf4j
 public class ServiceEntity {
@@ -94,16 +93,28 @@ public class ServiceEntity {
     }
 
     /**
-     * Создание и занесение в БД екземпляра Order на основании объекта order
-     *
-     * @param order - вернет занесенный в БД объект Order
-     * @return - вернет занесенный в БД объект Order
+     * Создание и занесение в БД екземпляра Order на основании объекта BufferDataOrder c проверкой наличия в базе
+     * @param bufferDataOrder - Экземпляр BufferDataOrder
+     * @return - экземпляр order
      */
-    public Order createOrderWithInstance(Order order) {
+    public Order createOrderWithInstanceBuf(BufferDataOrder bufferDataOrder) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
+            Order order = new Order();
             order.setOrderId(null);
+            order.setOrderNumber(bufferDataOrder.getOrderNumber());
+            order.setOrderDate(bufferDataOrder.getOrderDate());
+            order.setTotalAmount(bufferDataOrder.getTotalAmount());
+            Customer tempCustomer = bufferDataOrder.getCustomer();
+            order.setCustomer(entityManager.find(Customer.class, tempCustomer.getCustomerId()));
+            Set<Product> products = new HashSet<>();
+            Set<Product> tempProducts = bufferDataOrder.getProducts();
+            for (Product product : tempProducts) {
+                Product foundProduct = entityManager.find(Product.class, product.getProductId());
+                products.add(foundProduct);
+            }
+            order.setProducts(products);
             transaction.begin();
             entityManager.persist(order);
             transaction.commit();
@@ -115,7 +126,7 @@ public class ServiceEntity {
         }
     }
 
-    /**
+     /**
      * Создание и занесение в БД екземпляра Supplier
      *
      * @return вернет занесенный экземпляр Supplier

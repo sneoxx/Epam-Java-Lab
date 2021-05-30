@@ -2,6 +2,7 @@ package com.zaraev.epam.javacourses.serlvlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.service.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
@@ -37,12 +38,12 @@ public class ServletOrder extends HttpServlet {
     }
 
     /**
-     * Создаем нового товара из переданного json в запросе
+     * Создание нового товара из переданного json в запросе
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var order = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Order.class);
-        SERVICE_ENTITY.createOrderWithInstance(order);
+        BufferDataOrder bufferDataOrder = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), BufferDataOrder.class);
+        var order = SERVICE_ENTITY.createOrderWithInstanceBuf(bufferDataOrder);
         var jsonString = this.GSON.toJson(order);
         SERVICE_SERVLETS.printJson(jsonString, resp);
     }
