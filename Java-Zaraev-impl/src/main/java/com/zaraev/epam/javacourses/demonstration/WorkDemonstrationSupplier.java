@@ -7,8 +7,8 @@ public class WorkDemonstrationSupplier {
 
     ServiceEntity serviceEntity = new ServiceEntity();
 
-      /**
-     * Метод для демонстрации работы операцй CRUD класса Supplier
+    /**
+     * Метод для демонстрации работы операций CRUD класса Supplier
      */
     public void testSupplier() {
         Supplier supplier = serviceEntity.createSupplier();

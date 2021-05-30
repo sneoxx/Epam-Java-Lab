@@ -39,6 +39,21 @@
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="customer_name" type="varchar(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-05-21_add_table_supplier" author="Rustam_Zaraev">
+        <createTable tableName="supplier">
+            <column name="supplier_id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="varchar(40)">
+                <constraints unique="true"/>
             </column>
             <column name="phone" type="varchar(20)">
                 <constraints nullable="true"/>
@@ -55,26 +70,12 @@
                 <constraints unique="true"/>
             </column>
             <column name="supplier_id" type="serial">
-                <constraints nullable="false" unique="true"/>
+<!--                <constraints foreignKeyName="product_supplier" referencedTableName="supplier" referencedColumnNames="supplier_id"/>-->
             </column>
             <column name="unit_price" type="decimal(12,2)">
                 <constraints nullable="true"/>
             </column>
             <column name="is_discountinued" type="boolean">
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="2021-05-21_add_table_supplier" author="Rustam_Zaraev">
-        <createTable tableName="supplier">
-            <column name="supplier_id" type="serial">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="company_name" type="varchar(40)">
-                <constraints unique="true"/>
-            </column>
-            <column name="phone" type="varchar(20)">
-                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

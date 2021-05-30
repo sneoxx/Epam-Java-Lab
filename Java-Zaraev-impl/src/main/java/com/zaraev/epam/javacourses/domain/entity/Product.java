@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.domain.entity;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,23 +20,29 @@ import java.util.Set;
 @Table
 public class Product {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Integer productId;
 
+    @Expose
+    private String productName;
+
+    @Expose
+    private BigDecimal unitPrice;
+
+    @Expose
+    private boolean isDiscountinued;
+
+    @Expose
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;  // поставщик один, а продуктов много
 
-    private String productName;
-
-    private BigDecimal unitPrice;
-
-    private boolean isDiscountinued;
-
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @Expose(serialize = false)
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 }

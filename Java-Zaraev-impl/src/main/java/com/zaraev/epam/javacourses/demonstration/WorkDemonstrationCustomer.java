@@ -7,7 +7,7 @@ public class WorkDemonstrationCustomer {
 
     ServiceEntity serviceEntity = new ServiceEntity();
     /**
-     * Метод для демонстрации работы операцй CRUD класса Customer
+     * Метод для демонстрации работы операций CRUD класса Customer
      */
     public void testCustomer() {
         Customer customer = serviceEntity.createCustomer();
