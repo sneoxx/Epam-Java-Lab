@@ -1,7 +1,7 @@
 package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repositiry.ServiceEntity;
 
 public class WorkDemonstrationSupplier {
 

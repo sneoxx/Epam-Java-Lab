@@ -1,4 +1,4 @@
-package com.zaraev.epam.javacourses.service;
+package com.zaraev.epam.javacourses.repositiry;
 
 import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
 import com.zaraev.epam.javacourses.domain.entity.Customer;

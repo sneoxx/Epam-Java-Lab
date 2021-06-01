@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repositiry.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
 import javax.servlet.http.HttpServlet;

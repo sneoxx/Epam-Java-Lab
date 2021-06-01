@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.serlvlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repositiry.ServiceEntity;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
 
