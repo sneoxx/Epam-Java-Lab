@@ -1,20 +1,22 @@
 package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repository.SupplierRepository;
+import com.zaraev.epam.javacourses.service.impl.SupplierService;
 
 public class WorkDemonstrationSupplier {
 
-    ServiceEntity serviceEntity = new ServiceEntity();
+    SupplierRepository supplierRepository = new SupplierRepository();
+    SupplierService supplierService = new SupplierService();
 
     /**
      * Метод для демонстрации работы операций CRUD класса Supplier
      */
     public void testSupplier() {
-        Supplier supplier = serviceEntity.createSupplier();
-        Supplier supplier1 = serviceEntity.createSupplier();
-        serviceEntity.getSupplier(1);
-        serviceEntity.updateSupplier(supplier);
-        serviceEntity.deleteSupplier(supplier1);
+        Supplier supplier = supplierService.createRandomSupplier();
+        Supplier supplier1 = supplierService.createRandomSupplier();
+        supplierRepository.getSupplier(1);
+        supplierService.update(supplier);
+        supplierRepository.deleteSupplier(supplier1);
     }
 }

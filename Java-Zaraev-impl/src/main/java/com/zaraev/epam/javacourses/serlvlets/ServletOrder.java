@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
-import com.zaraev.epam.javacourses.service.ServiceServlets;
+import com.zaraev.epam.javacourses.helper.ServletsHelper;
+import com.zaraev.epam.javacourses.repository.OrderRepository;
+import com.zaraev.epam.javacourses.service.impl.OrderService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,25 +16,29 @@ import java.util.List;
 
 public class ServletOrder extends HttpServlet {
 
-    private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
-    private final ServiceServlets SERVICE_SERVLETS = new ServiceServlets();
+    private final OrderRepository ORDER_REPOSITORY = new OrderRepository();
+
+    private final ServletsHelper SERVLET_HELPER = new ServletsHelper();
+
+    private final OrderService ORDER_SERVICE = new OrderService();
+
     private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     /**
      * Получение товара по id переданного в запросе или получение всех товаров в случае отсутствия id
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
+            var id = SERVLET_HELPER.getIdFromRequest(req);
             if (id != 0) {
-                var order = SERVICE_ENTITY.getOrder(id);
+                var order = ORDER_REPOSITORY.getOrder(id);
                 var jsonString = this.GSON.toJson(order);
-                SERVICE_SERVLETS.printJson(jsonString, resp);
+                SERVLET_HELPER.printJson(jsonString, resp);
             }
         } else {
-            var jsonString = GSON.toJson(SERVICE_ENTITY.getAllOrder(), List.class);
-            SERVICE_SERVLETS.printJson(jsonString, resp);
+            var jsonString = GSON.toJson(ORDER_REPOSITORY.getAllOrder(), List.class);
+            SERVLET_HELPER.printJson(jsonString, resp);
         }
     }
 
@@ -42,10 +47,10 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        BufferDataOrder bufferDataOrder = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), BufferDataOrder.class);
-        var order = SERVICE_ENTITY.createOrderWithInstanceBuf(bufferDataOrder);
+        BufferDataOrder bufferDataOrder = GSON.fromJson(SERVLET_HELPER.parseJsonToString(req), BufferDataOrder.class);
+        Order order = ORDER_SERVICE.create(bufferDataOrder);
         var jsonString = this.GSON.toJson(order);
-        SERVICE_SERVLETS.printJson(jsonString, resp);
+        SERVLET_HELPER.printJson(jsonString, resp);
     }
 
     /**
@@ -53,14 +58,12 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
-                var order = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Order.class);
-                SERVICE_ENTITY.updateOrderWithId(id, order);
-                var jsonString = this.GSON.toJson(order);
-                SERVICE_SERVLETS.printJson(jsonString, resp);
-            }
+        var id = SERVLET_HELPER.validateAndGetIdFromRequest(req);
+        if (id != 0) {
+            var order = GSON.fromJson(SERVLET_HELPER.parseJsonToString(req), Order.class);
+            ORDER_SERVICE.updateOrderWithId(id, order);
+            var jsonString = this.GSON.toJson(order);
+            SERVLET_HELPER.printJson(jsonString, resp);
         }
     }
 
@@ -69,14 +72,12 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
-                var order = SERVICE_ENTITY.getOrder(id);
-                SERVICE_ENTITY.deleteOrderWithId(id);
-                var jsonString = this.GSON.toJson(order);
-                SERVICE_SERVLETS.printJson(jsonString, resp);
-            }
+        var id = SERVLET_HELPER.validateAndGetIdFromRequest(req);
+        if (id != 0) {
+            var order = ORDER_REPOSITORY.getOrder(id);
+            ORDER_REPOSITORY.deleteOrderWithId(id);
+            var jsonString = this.GSON.toJson(order);
+            SERVLET_HELPER.printJson(jsonString, resp);
         }
     }
 }
