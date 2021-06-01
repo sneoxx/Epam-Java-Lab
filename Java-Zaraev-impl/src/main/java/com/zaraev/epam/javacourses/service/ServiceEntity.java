@@ -467,29 +467,7 @@ public class ServiceEntity {
         return customer;
     }
 
-    /**
-     * Получение из БД всех объектов Customer
-     *
-     * @return - Коллекция List всех объектов Customer из БД
-     */
-    public List<Customer> getAllCustomer() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Customer> customerList = new ArrayList<>();
-        try {
-            String query = "SELECT c FROM Customer c";
-            customerList = entityManager
-                    .createQuery(query, Customer.class)
-                    .getResultList();
-            entityManager.close();
-            log.info("getAllCustomer() Выведен список всех Customer: {}", customerList);
-            return customerList;
-        } catch (Exception e) {
-            log.error("getAllCustomer() Ошибка получения из БД объектов сustomer: ", e);
-        } finally {
-            entityManager.close();
-        }
-        return customerList;
-    }
+
 
     /**
      * Получение из БД объекта Order

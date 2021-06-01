@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.serlvlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,8 @@ import java.util.List;
 
 public class ServletCustomer extends HttpServlet {
 
-    private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
+   // private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
+    private final CustomerRepository CUSTOMER_REPOSITORY = new CustomerRepository();
     private final ServiceServlets SERVICE_SERVLETS = new ServiceServlets();
     private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -26,15 +27,18 @@ public class ServletCustomer extends HttpServlet {
         if (req.getParameterNames().hasMoreElements()) {
             var id = SERVICE_SERVLETS.getIdFromRequest(req);
             if (id != 0) {
-                Customer customer = SERVICE_ENTITY.getCustomer(id);
+//            var id = SERVICE_SERVLETS.validateAndGetIdFromRequest(req);
+//            if (id != 0) {
+                Customer customer = CUSTOMER_REPOSITORY.getCustomer(id);
                 var jsonString = this.GSON.toJson(customer);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         } else {
-            var jsonString = GSON.toJson(SERVICE_ENTITY.getAllCustomer(), List.class);
+            var jsonString = GSON.toJson(CUSTOMER_REPOSITORY.getAllCustomer(), List.class);
             SERVICE_SERVLETS.printJson(jsonString, resp);
         }
     }
+
 
 //    /**
 //     * Создаем нового товара из переданного json в запросе
@@ -53,7 +57,7 @@ public class ServletCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Customer customer = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Customer.class);
-        SERVICE_ENTITY.createCustomerWithInstance(customer);
+        CUSTOMER_REPOSITORY.createCustomerWithInstance(customer);
         var jsonString = this.GSON.toJson(customer);
         SERVICE_SERVLETS.printJson(jsonString, resp);
     }
@@ -63,30 +67,34 @@ public class ServletCustomer extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
+ //       if (SERVICE_SERVLETS.validateRequest(reg)){
+//        if (req.getParameterNames().hasMoreElements()) {
+//            var id = SERVICE_SERVLETS.getIdFromRequest(req);
+//            if (id != 0) {
+        var id = SERVICE_SERVLETS.validateAndGetIdFromRequest(req);
+        if (id != 0) {
                 Customer customer = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Customer.class);
-                SERVICE_ENTITY.updateCustomerWithId(id, customer);
+                CUSTOMER_REPOSITORY.updateCustomerWithId(id, customer);
                 var jsonString = this.GSON.toJson(customer);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         }
-    }
+
 
     /**
      * Удаление товара по id переданного в запросе
      */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
-                Customer customer = SERVICE_ENTITY.getCustomer(id);
-                SERVICE_ENTITY.deleteCustomerWithId(id);
+//        if (req.getParameterNames().hasMoreElements()) {
+//            var id = SERVICE_SERVLETS.getIdFromRequest(req);
+//            if (id != 0) {
+        var id = SERVICE_SERVLETS.validateAndGetIdFromRequest(req);
+        if (id != 0) {
+                Customer customer = CUSTOMER_REPOSITORY.getCustomer(id);
+                CUSTOMER_REPOSITORY.deleteCustomerWithId(id);
                 var jsonString = this.GSON.toJson(customer);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         }
     }
-}

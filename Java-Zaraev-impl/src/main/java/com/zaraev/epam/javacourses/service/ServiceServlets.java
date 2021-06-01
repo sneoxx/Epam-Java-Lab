@@ -29,4 +29,16 @@ public class ServiceServlets {
         }
         return 0;
     }
+
+    public int validateAndGetIdFromRequest(HttpServletRequest req) {
+        if (req.getParameterNames().hasMoreElements()) {
+            if (req.getParameterNames().nextElement().equals("id") && !req.getParameter("id").equals("")) {
+                return Integer.parseInt(req.getParameter("id"));
+            }
+//            if (id != 0) {
+//                return true;
+//            }
+        }
+        return 0;
+    }
 }

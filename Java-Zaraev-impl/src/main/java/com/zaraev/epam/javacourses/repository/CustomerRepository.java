@@ -7,13 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Slf4j
 public class CustomerRepository {
 
         public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
-        static int orderNumber;
 
         /**
          * Создание и занесение в БД екземпляра Customer
@@ -130,6 +131,30 @@ public class CustomerRepository {
             }
             return customer;
         }
+
+    /**
+     * Получение из БД всех объектов Customer
+     *
+     * @return - Коллекция List всех объектов Customer из БД
+     */
+    public List<Customer> getAllCustomer() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Customer> customerList = new ArrayList<>();
+        try {
+            String query = "SELECT c FROM Customer c";
+            customerList = entityManager
+                    .createQuery(query, Customer.class)
+                    .getResultList();
+            entityManager.close();
+            log.info("getAllCustomer() Выведен список всех Customer: {}", customerList);
+            return customerList;
+        } catch (Exception e) {
+            log.error("getAllCustomer() Ошибка получения из БД объектов сustomer: ", e);
+        } finally {
+            entityManager.close();
+        }
+        return customerList;
+    }
 
         /**
          * Удаление объекта customer из БД

@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.serlvlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Product;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
+import com.zaraev.epam.javacourses.repository.ProductRepository;
 import com.zaraev.epam.javacourses.service.ServiceServlets;
 
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,8 @@ import java.util.List;
 
 public class ServletProduct extends HttpServlet {
 
-    private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
+   // private final ServiceEntity SERVICE_ENTITY = new ServiceEntity();
+    private final ProductRepository PRODUCT_REPOSITORY = new ProductRepository();
     private final ServiceServlets SERVICE_SERVLETS = new ServiceServlets();
     private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -26,12 +27,12 @@ public class ServletProduct extends HttpServlet {
         if (req.getParameterNames().hasMoreElements()) {
             var id = SERVICE_SERVLETS.getIdFromRequest(req);
             if (id != 0) {
-                var product = SERVICE_ENTITY.getProduct(id);
+                var product = PRODUCT_REPOSITORY.getProduct(id);
                 var jsonString = this.GSON.toJson(product);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         } else {
-            var jsonString = GSON.toJson(SERVICE_ENTITY.getAllProduct(), List.class);
+            var jsonString = GSON.toJson(PRODUCT_REPOSITORY.getAllProduct(), List.class);
             SERVICE_SERVLETS.printJson(jsonString, resp);
         }
     }
@@ -42,7 +43,7 @@ public class ServletProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         var product = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Product.class);
-        SERVICE_ENTITY.createProductWithInstance(product);
+        PRODUCT_REPOSITORY.createProductWithInstance(product);
         var jsonString = this.GSON.toJson(product);
         SERVICE_SERVLETS.printJson(jsonString, resp);
     }
@@ -52,30 +53,33 @@ public class ServletProduct extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
+//        if (req.getParameterNames().hasMoreElements()) {
+//            var id = SERVICE_SERVLETS.getIdFromRequest(req);
+//            if (id != 0) {
+        var id = SERVICE_SERVLETS.validateAndGetIdFromRequest(req);
+        if (id != 0) {
                 var product = GSON.fromJson(SERVICE_SERVLETS.parseJsonToString(req), Product.class);
-                SERVICE_ENTITY.updateProductWithId(id, product);
+                PRODUCT_REPOSITORY.updateProductWithId(id, product);
                 var jsonString = this.GSON.toJson(product);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         }
-    }
+
 
     /**
      * Удаление товара по id переданного в запросе
      */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVICE_SERVLETS.getIdFromRequest(req);
-            if (id != 0) {
-                var product = SERVICE_ENTITY.getProduct(id);
-                SERVICE_ENTITY.deleteProductWithId(id);
+//        if (req.getParameterNames().hasMoreElements()) {
+//            var id = SERVICE_SERVLETS.getIdFromRequest(req);
+//            if (id != 0) {
+        var id = SERVICE_SERVLETS.validateAndGetIdFromRequest(req);
+        if (id != 0) {
+                var product = PRODUCT_REPOSITORY.getProduct(id);
+                PRODUCT_REPOSITORY.deleteProductWithId(id);
                 var jsonString = this.GSON.toJson(product);
                 SERVICE_SERVLETS.printJson(jsonString, resp);
             }
         }
     }
-}
