@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,11 +16,12 @@ import java.util.Set;
 /**
  * Entity класс для работы с таблицей order базы данных
  */
+@Component
 @Data
 @NoArgsConstructor
 @Entity
 @Table
-public class Order {
+public class Order implements IEntity{
 
     @Expose
     @Id
@@ -51,4 +53,5 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     )
     private Set<Product> products = new HashSet<>();
+
 }

@@ -4,6 +4,7 @@ package com.zaraev.epam.javacourses.domain.entity;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,13 +13,12 @@ import java.util.List;
 /**
  * Entity класс для работы с таблицей Supplier базы данных
  */
-
-
+@Component
 @NoArgsConstructor
 @Data
 @Entity
-@Table
-public class Supplier {
+@Table(name = "supplier")
+public class Supplier implements IEntity{
 
     @Expose
     @Id
@@ -34,4 +34,5 @@ public class Supplier {
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private static List<Product> products = new ArrayList<>();  // поставщик один, а продуктов много
+
 }

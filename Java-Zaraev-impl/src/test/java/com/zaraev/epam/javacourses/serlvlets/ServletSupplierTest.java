@@ -2,8 +2,6 @@ package com.zaraev.epam.javacourses.serlvlets;
 
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.http.HttpServletRequest;
-
 class ServletSupplierTest {
 
     @Test
@@ -21,8 +19,8 @@ class ServletSupplierTest {
                 "\"products\":[]\n" +
                 "}";
 
-        ServletSupplier servletSupplier = new ServletSupplier();
-        HttpServletRequest reg;
+      //  ServletSupplier servletSupplier = new ServletSupplier();
+     //   HttpServletRequest reg;
 //        System.out.println(reg);
 //        servletSupplier.doGet();
     }

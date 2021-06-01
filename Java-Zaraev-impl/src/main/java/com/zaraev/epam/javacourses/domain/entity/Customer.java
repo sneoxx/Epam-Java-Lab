@@ -3,6 +3,7 @@ package com.zaraev.epam.javacourses.domain.entity;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ import java.util.List;
 /**
  * Entity класс для работы с таблицей customer базы данных
  */
+
+@Component
 @Data
 @NoArgsConstructor
 @Entity
 @Table
-public class Customer {
+public class Customer implements IEntity {
 
     @Expose
     @Id

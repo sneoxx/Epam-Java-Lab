@@ -38,6 +38,15 @@
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
+        <spring-core.version>5.2.6.RELEASE</spring-core.version>
+        <spring-context.version>5.2.6.RELEASE</spring-context.version>
+        <spring-orm.version>5.3.7</spring-orm.version>
+        <spring-orm1.version>5.3.7</spring-orm1.version>
+        <spring-webmvc.version>5.3.7</spring-webmvc.version>
+        <spring-web.version>5.3.7</spring-web.version>
+        <spring-jdo.version>2.0.8</spring-jdo.version>
+        <spring-webmvc1.version>5.3.7</spring-webmvc1.version>
+        <spring-boot-starter-data-jpa.version>2.5.0</spring-boot-starter-data-jpa.version>
     </properties>
 
     <build>
@@ -189,6 +198,45 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-context.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring-orm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot-starter-data-jpa.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>org.springframework</groupId>-->
+<!--                <artifactId>spring-jdo</artifactId>-->
+<!--                <version>${spring-jdo.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework</groupId>-->
+<!--                <artifactId>spring-web</artifactId>-->
+<!--                <version>${spring-web.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework</groupId>-->
+<!--                <artifactId>spring-webmvc</artifactId>-->
+<!--                <version>${spring-webmvc1.version}</version>-->
+<!--            </dependency>-->
+
 
         </dependencies>
     </dependencyManagement>

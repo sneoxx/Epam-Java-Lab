@@ -31,11 +31,11 @@
 
     </appender>
 
-    <logger name="com.zaraev.epam.javacourses.Main" level="debug" additivity="false">-->
+    <logger name="com.zaraev.epam.javacourses.Main" level="info" additivity="false">-->
         <appender-ref ref="CONSOLE" />-->
     </logger>-->
 
-    <root level="trace">
+    <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
 

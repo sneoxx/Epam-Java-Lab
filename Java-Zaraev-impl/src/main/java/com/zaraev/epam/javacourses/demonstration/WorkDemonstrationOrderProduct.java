@@ -5,11 +5,22 @@ import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.repository.OrderAndProductRepository;
 import com.zaraev.epam.javacourses.repository.OrderRepository;
 import com.zaraev.epam.javacourses.repository.ProductRepository;
+import com.zaraev.epam.javacourses.service.EService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class WorkDemonstrationOrderProduct {
-    OrderRepository orderRepository= new OrderRepository();
-    ProductRepository productRepository = new ProductRepository();
-    OrderAndProductRepository orderAndProductRepository = new OrderAndProductRepository();
+
+@Component
+public class WorkDemonstrationOrderProduct implements EService {
+
+    @Autowired
+    private OrderRepository orderRepository;// = new OrderRepository();
+
+    @Autowired
+    private ProductRepository productRepository;// = new ProductRepository();
+
+    @Autowired
+    private OrderAndProductRepository orderAndProductRepository;// = new OrderAndProductRepository();
 
     /**
      * Метод для демонстрации работы OrderAndProduct

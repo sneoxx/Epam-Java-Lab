@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,11 +15,12 @@ import java.util.Set;
 /**
  * Entity класс для работы с таблицей product базы данных
  */
+@Component
 @NoArgsConstructor
 @Data
 @Entity
 @Table
-public class Product {
+public class Product implements IEntity{
 
     @Expose
     @Id
@@ -45,4 +47,5 @@ public class Product {
     @Expose(serialize = false)
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
+
 }

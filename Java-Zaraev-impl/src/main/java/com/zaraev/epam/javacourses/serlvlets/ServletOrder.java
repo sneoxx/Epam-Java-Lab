@@ -2,10 +2,8 @@ package com.zaraev.epam.javacourses.serlvlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.zaraev.epam.javacourses.bufferdata.BufferDataOrder;
-import com.zaraev.epam.javacourses.domain.entity.Order;
+import com.zaraev.epam.javacourses.dto.OrderDTO;
 import com.zaraev.epam.javacourses.helper.ServletsHelper;
-import com.zaraev.epam.javacourses.repository.OrderRepository;
 import com.zaraev.epam.javacourses.service.impl.OrderService;
 
 import javax.servlet.http.HttpServlet;
@@ -16,13 +14,11 @@ import java.util.List;
 
 public class ServletOrder extends HttpServlet {
 
-    private final OrderRepository ORDER_REPOSITORY = new OrderRepository();
+    private final ServletsHelper servletsHelper = new ServletsHelper();
 
-    private final ServletsHelper SERVLET_HELPER = new ServletsHelper();
+    private final OrderService orderService = new OrderService();
 
-    private final OrderService ORDER_SERVICE = new OrderService();
-
-    private final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     /**
      * Получение товара по id переданного в запросе или получение всех товаров в случае отсутствия id
@@ -30,15 +26,15 @@ public class ServletOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterNames().hasMoreElements()) {
-            var id = SERVLET_HELPER.getIdFromRequest(req);
+            var id = servletsHelper.getIdFromRequest(req);
             if (id != 0) {
-                var order = ORDER_REPOSITORY.getOrder(id);
-                var jsonString = this.GSON.toJson(order);
-                SERVLET_HELPER.printJson(jsonString, resp);
+                OrderDTO orderCheck = orderService.getOrder(id);
+                var jsonString = this.gson.toJson(orderCheck);
+                servletsHelper.printJson(jsonString, resp);
             }
         } else {
-            var jsonString = GSON.toJson(ORDER_REPOSITORY.getAllOrder(), List.class);
-            SERVLET_HELPER.printJson(jsonString, resp);
+            var jsonString = gson.toJson(orderService.getAllOrder(), List.class);
+            servletsHelper.printJson(jsonString, resp);
         }
     }
 
@@ -47,10 +43,10 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        BufferDataOrder bufferDataOrder = GSON.fromJson(SERVLET_HELPER.parseJsonToString(req), BufferDataOrder.class);
-        Order order = ORDER_SERVICE.create(bufferDataOrder);
-        var jsonString = this.GSON.toJson(order);
-        SERVLET_HELPER.printJson(jsonString, resp);
+        OrderDTO orderDTO = gson.fromJson(servletsHelper.parseJsonToString(req), OrderDTO.class);
+        OrderDTO orderCheck = orderService.create(orderDTO);
+        var jsonString = this.gson.toJson(orderCheck);
+        servletsHelper.printJson(jsonString, resp);
     }
 
     /**
@@ -58,12 +54,12 @@ public class ServletOrder extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var id = SERVLET_HELPER.validateAndGetIdFromRequest(req);
+        var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
-            var order = GSON.fromJson(SERVLET_HELPER.parseJsonToString(req), Order.class);
-            ORDER_SERVICE.updateOrderWithId(id, order);
-            var jsonString = this.GSON.toJson(order);
-            SERVLET_HELPER.printJson(jsonString, resp);
+            var orderDTO = gson.fromJson(servletsHelper.parseJsonToString(req), OrderDTO.class);
+            var orderCheck = orderService.updateOrderWithId(id, orderDTO);
+            var jsonString = this.gson.toJson(orderCheck);
+            servletsHelper.printJson(jsonString, resp);
         }
     }
 
@@ -71,13 +67,10 @@ public class ServletOrder extends HttpServlet {
      * Удаление товара по id переданного в запросе
      */
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var id = SERVLET_HELPER.validateAndGetIdFromRequest(req);
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
-            var order = ORDER_REPOSITORY.getOrder(id);
-            ORDER_REPOSITORY.deleteOrderWithId(id);
-            var jsonString = this.GSON.toJson(order);
-            SERVLET_HELPER.printJson(jsonString, resp);
+            orderService.deleteOrderWithId(id);
         }
     }
 }
