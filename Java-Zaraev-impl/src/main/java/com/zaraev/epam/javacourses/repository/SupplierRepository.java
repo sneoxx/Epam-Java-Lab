@@ -59,32 +59,6 @@ public class SupplierRepository {
     }
 
     /**
-     * Изменение в БД экземпляра supplier
-     *
-     * @param id       - id экземпляра supplier в базе, который необходимо изменить
-     * @param supplier - экземпляр supplier, который необходимо изменить
-     */
-    public void updateSupplierWithId(int id, Supplier supplier) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            Supplier updateSupplier = entityManager.find(Supplier.class, id);
-            log.debug("updateSupplier() Объект supplier передан на обновление: {} ", supplier);
-            updateSupplier.setCompanyName(supplier.getCompanyName());
-            updateSupplier.setPhone(supplier.getPhone());
-            transaction.begin();
-            entityManager.merge(updateSupplier);
-            transaction.commit();
-            log.info("updateSupplier() Объект supplier успешно обновлен: {} ", supplier);
-            entityManager.close();
-        } catch (Exception e) {
-            log.error("updateSupplier() Ошибка обновления объекта supplier: ", e);
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    /**
      * Получение из БД объекта Supplier
      *
      * @param id - id объекта Supplier который необходимо получить

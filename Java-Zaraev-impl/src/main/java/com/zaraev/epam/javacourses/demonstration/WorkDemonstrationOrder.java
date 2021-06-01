@@ -2,7 +2,6 @@ package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import com.zaraev.epam.javacourses.repository.OrderRepository;
 import com.zaraev.epam.javacourses.service.impl.CustomerService;
 import com.zaraev.epam.javacourses.service.impl.OrderService;
@@ -10,8 +9,9 @@ import com.zaraev.epam.javacourses.service.impl.OrderService;
 public class WorkDemonstrationOrder {
 
     OrderRepository orderRepository = new OrderRepository();
+
     OrderService orderService = new OrderService();
-    CustomerRepository customerRepository = new CustomerRepository();
+
     CustomerService customerService = new CustomerService();
 
     /**
@@ -25,6 +25,5 @@ public class WorkDemonstrationOrder {
         orderRepository.getOrder(1);
         customerService.update(customer);
         orderRepository.deleteOrder(order1);
-
     }
 }

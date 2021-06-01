@@ -24,9 +24,6 @@ public class CustomerRepository {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-//                Customer customer = new Customer();
-//                customer.setCustomerName(generateRandomWord());
-//                customer.setPhone(getRandomNumber());
             transaction.begin();
             entityManager.persist(customer);
             transaction.commit();
@@ -48,7 +45,6 @@ public class CustomerRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             log.debug("updateCustomer() Объект сustomer передан на обновление: {} ", customer);
-            // customer.setCustomerName(customer.getCustomerName() + "+" + generateRandomWord());
             transaction.begin();
             entityManager.merge(customer);
             transaction.commit();
@@ -61,33 +57,7 @@ public class CustomerRepository {
         }
     }
 
-    /**
-     * Изменение в БД экземпляра customer
-     *
-     * @param id       - id экземпляра customer в базе, который необходимо изменить
-     * @param customer - экземпляр customer, который необходимо изменить
-     */
-    public void updateCustomerWithId(int id, Customer customer) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            Customer updateCustomer = entityManager.find(Customer.class, id);
-            log.debug("updateCustomerWithId() Объект customer передан на обновление: {} ", customer);
-            updateCustomer.setCustomerName(customer.getCustomerName());
-            updateCustomer.setPhone(customer.getPhone());
-            transaction.begin();
-            entityManager.merge(updateCustomer);
-            transaction.commit();
-            log.info("updateCustomerWithId() Объект customer успешно обновлен: {} ", customer);
-            entityManager.close();
-        } catch (Exception e) {
-            log.error("updateCustomerWithId() Ошибка обновления объекта сustomer: ", e);
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    /**
+     /**
      * Получение из БД объекта Customer
      *
      * @param id - id объекта Customer который необходимо получить

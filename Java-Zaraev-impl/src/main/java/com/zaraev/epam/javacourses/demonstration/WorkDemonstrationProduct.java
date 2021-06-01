@@ -3,14 +3,15 @@ package com.zaraev.epam.javacourses.demonstration;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.repository.ProductRepository;
-import com.zaraev.epam.javacourses.repository.SupplierRepository;
 import com.zaraev.epam.javacourses.service.impl.ProductService;
 import com.zaraev.epam.javacourses.service.impl.SupplierService;
 
 public class WorkDemonstrationProduct {
-    SupplierRepository supplierRepository = new SupplierRepository();
+
     ProductRepository productRepository = new ProductRepository();
+
     ProductService productService = new ProductService();
+
     SupplierService supplierService = new SupplierService();
 
     /**

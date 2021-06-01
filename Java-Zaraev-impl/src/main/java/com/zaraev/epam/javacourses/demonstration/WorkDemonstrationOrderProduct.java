@@ -7,8 +7,11 @@ import com.zaraev.epam.javacourses.repository.OrderRepository;
 import com.zaraev.epam.javacourses.repository.ProductRepository;
 
 public class WorkDemonstrationOrderProduct {
+
     OrderRepository orderRepository= new OrderRepository();
+
     ProductRepository productRepository = new ProductRepository();
+
     OrderAndProductRepository orderAndProductRepository = new OrderAndProductRepository();
 
     /**

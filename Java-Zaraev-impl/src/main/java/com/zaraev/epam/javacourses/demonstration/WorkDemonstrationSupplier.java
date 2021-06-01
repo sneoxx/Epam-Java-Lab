@@ -7,6 +7,7 @@ import com.zaraev.epam.javacourses.service.impl.SupplierService;
 public class WorkDemonstrationSupplier {
 
     SupplierRepository supplierRepository = new SupplierRepository();
+
     SupplierService supplierService = new SupplierService();
 
     /**

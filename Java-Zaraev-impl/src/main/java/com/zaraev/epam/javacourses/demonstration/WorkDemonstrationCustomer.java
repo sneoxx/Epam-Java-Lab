@@ -8,6 +8,7 @@ public class WorkDemonstrationCustomer {
 
     CustomerRepository customerRepository = new CustomerRepository();
 CustomerService customerService = new CustomerService();
+
     /**
      * Метод для демонстрации работы операций CRUD класса Customer
      */
