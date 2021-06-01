@@ -9,7 +9,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Slf4j
 public class SupplierRepository {
@@ -17,17 +16,14 @@ public class SupplierRepository {
     public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
 
     /**
-     * Создание и занесение в БД екземпляра Supplier
+     * Запись в БД екземпляра Supplier
      *
      * @return вернет занесенный экземпляр Supplier
      */
-    public Supplier createSupplier() {
+    public Supplier create(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            Supplier supplier = new Supplier();
-            supplier.setCompanyName(generateRandomWord());
-            supplier.setPhone(getRandomNumber());
             transaction.begin();
             entityManager.persist(supplier);
             transaction.commit();
@@ -40,38 +36,16 @@ public class SupplierRepository {
     }
 
     /**
-     * Создание и занесение в БД екземпляра Supplier на основании объекта supplier
-     *
-     * @param supplier - объект supplier
-     * @return - вернет занесенный в БД объект Supplier
-     */
-    public Supplier createSupplierWithInstance(Supplier supplier) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            supplier.setSupplierId(null);
-            transaction.begin();
-            entityManager.persist(supplier);
-            transaction.commit();
-            entityManager.close();
-            log.info("createCustomer() Объект Supplier создан и занесен в БД: {}", supplier);
-            return supplier;
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    /**
      * Изменение в БД экземпляра supplier
      *
      * @param supplier - экземпляр supplier, который необходимо изменить
      */
-    public void updateSupplier(Supplier supplier) {
+    public void update(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             log.debug("updateSupplier() Объект supplier передан на обновление: {} ", supplier);
-            supplier.setCompanyName(supplier.getCompanyName() + "+" + generateRandomWord());
+            //  supplier.setCompanyName(supplier.getCompanyName() + "+" + generateRandomWord());
             transaction.begin();
             entityManager.merge(supplier);
             transaction.commit();
@@ -181,6 +155,11 @@ public class SupplierRepository {
         }
     }
 
+    /**
+     * Удаление объекта Product из БД по id
+     *
+     * @param id - id удаляемого Product
+     */
     public void deleteSupplierWithId(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -200,29 +179,4 @@ public class SupplierRepository {
             entityManager.close();
         }
     }
-
-
-    /**
-     * Генерация случайного слова
-     *
-     * @return - случайное слово
-     */
-    public static String generateRandomWord() {
-        Random random = new Random();
-        char[] word = new char[random.nextInt(2) + 3];
-        for (int j = 0; j < word.length; j++) {
-            word[j] = (char) ('a' + random.nextInt(26));
-        }
-        return new String(word);
-    }
-
-    /**
-     * Генерация случайного числа в заданном диапазоне
-     *
-     * @return - случайное число
-     */
-    public String getRandomNumber() {
-        return Integer.toString(1 + (int) (Math.random() * 10000));
-    }
-
 }

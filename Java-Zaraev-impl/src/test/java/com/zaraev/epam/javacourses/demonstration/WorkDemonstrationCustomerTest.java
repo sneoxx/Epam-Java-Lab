@@ -1,7 +1,6 @@
 package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
-import com.zaraev.epam.javacourses.service.ServiceEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -15,8 +14,6 @@ class WorkDemonstrationCustomerTest {
 //    @InjectMocks
 //    WorkDemonstrationCustomer workDemonstrationCustomer;
 
-    @Mock
-    ServiceEntity serviceEntity;
 
     @Mock
     Customer customer = new Customer();

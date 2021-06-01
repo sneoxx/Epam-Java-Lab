@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 /**
- * Промежуточный класс буффер для проверки корректности данных в запросе
+ * Промежуточный класс буффер для проверки корректности данных json в запросе
  */
 @Data
 public class BufferDataOrder {
@@ -32,4 +32,5 @@ public class BufferDataOrder {
 
     @Expose
     private Set<Product> products;
+
 }

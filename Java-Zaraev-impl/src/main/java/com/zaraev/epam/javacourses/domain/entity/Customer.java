@@ -30,5 +30,4 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private static List<Order> orders = new ArrayList<>();    // клиент один а заказов много
-
 }
