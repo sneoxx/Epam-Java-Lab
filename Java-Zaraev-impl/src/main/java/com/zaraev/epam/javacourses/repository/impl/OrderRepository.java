@@ -1,46 +1,26 @@
-package com.zaraev.epam.javacourses.repository;
+package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Order;
+import com.zaraev.epam.javacourses.repository.IOrderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("!local")
+@Component
 @Slf4j
-public class OrderRepository {
-    public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
-    //  public OrderService orderService = new OrderService();
+public class OrderRepository implements IOrderRepository {
 
-//    /**
-//         * Создание и занесение в БД екземпляра Order
-//         *
-//         * @param customer - экземпляр customer для занесения в Order
-//         * @return - вернет занесенный экземпляр Order
-//         */
-//        public Order createOrder(Customer customer) {
-//            EntityManager entityManager = entityManagerFactory.createEntityManager();
-//            EntityTransaction transaction = entityManager.getTransaction();
-//            try {
-//                Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerId());
-//                Order order = new Order();
-//                order.setOrderNumber(getRandomNumber());
-//                order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-//                order.setTotalAmount(BigDecimal.valueOf(100));
-//                order.setCustomer(tempCustomer);
-//                transaction.begin();
-//                entityManager.persist(order);
-//                transaction.commit();
-//                entityManager.close();
-//                log.info("createOrder() Объект Order создан и занесен в БД: {}", customer);
-//                return order;
-//            } finally {
-//                entityManager.close();
-//            }
-//        }
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     /**
      * Запись в БД екземпляра Order
@@ -48,11 +28,11 @@ public class OrderRepository {
      * @param order - экземпляр customer для занесения в Order
      * @return - вернет занесенный экземпляр Order
      */
+    @Override
     public Order create(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            // Order order = orderService.createRandomOrder(customer);
             transaction.begin();
             entityManager.persist(order);
             transaction.commit();
@@ -69,6 +49,7 @@ public class OrderRepository {
      *
      * @param order - экземпляр order, который необходимо изменить
      */
+    @Override
     public void update(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -93,6 +74,7 @@ public class OrderRepository {
      * @param id - id объекта Order который необходимо получить
      * @return - объект Order из БД
      */
+    @Override
     public Order getOrder(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Order order = null;
@@ -109,12 +91,39 @@ public class OrderRepository {
         return order;
     }
 
+    /**
+     * Получение из БД объекта Order по полю orderNumber Order
+     *
+     * @param orderNumber- id объекта Order который необходимо получить
+     * @return - объект Order из БД
+     */
+    @Override
+    public Order getOrderWithInstance(String orderNumber) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Order order = null;
+        try {
+            TypedQuery<Order> query = entityManager.createQuery(
+                    "SELECT u FROM Order u WHERE u.orderNumber = :orderNumber", Order.class);
+            order = query.setParameter("orderNumber", orderNumber)
+                    .getSingleResult();
+            log.info("getCustomer() Объект order успешно получен из БД {}", order);
+            entityManager.close();
+            return order;
+        } catch (Exception e) {
+            log.error("getCustomer() Ошибка получения из БД объекта order: ", e);
+        } finally {
+            entityManager.close();
+        }
+        return order;
+    }
+
 
     /**
      * Получение из БД всех объектов Order
      *
      * @return - Коллекция List всех объектов Order из БД
      */
+    @Override
     public List<Order> getAllOrder() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Order> orderList = new ArrayList<>();
@@ -139,6 +148,7 @@ public class OrderRepository {
      *
      * @param order - удаляемый объект
      */
+    @Override
     public void deleteOrder(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -164,6 +174,7 @@ public class OrderRepository {
      *
      * @param id - id удаляемого order
      */
+    @Override
     public void deleteOrderWithId(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
