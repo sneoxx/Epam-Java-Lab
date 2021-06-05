@@ -4,32 +4,37 @@ import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
  * Класс с методами для создания застабленных сущностей
  */
 @Component
+@Data
 public class RepositoryHelper {
 
     @Autowired
     private MessageSource messageSource;
 
+    @Value("${locale:en}")
     @Autowired
-    private LocaleStub locale;
+    private Locale locale;
 
     public Customer customer() {
         var customer = new Customer();
-        customer.setCustomerId(Integer.parseInt(messageSource.getMessage("customerId", null, "1", locale.getLocale())));
-        customer.setCustomerName(messageSource.getMessage("customerName", null, "Error", locale.getLocale()));
-        customer.setPhone(messageSource.getMessage("customerPhone", null, "Error", locale.getLocale()));
+        customer.setCustomerId(Integer.parseInt(messageSource.getMessage("customerId", null, "1", locale)));
+        customer.setCustomerName(messageSource.getMessage("customerName", null, "Error", locale));
+        customer.setPhone(messageSource.getMessage("customerPhone", null, "Error", locale));
         return customer;
     }
 

@@ -1,7 +1,8 @@
 package com.zaraev.epam.javacourses;
 
-import com.zaraev.epam.javacourses.demonstration.*;
-import com.zaraev.epam.javacourses.helper.LocaleStub;
+import com.zaraev.epam.javacourses.demonstration.WorkDemonstrationAll;
+import com.zaraev.epam.javacourses.demonstration.WorkDemonstrationCustomer;
+import com.zaraev.epam.javacourses.helper.RepositoryHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,10 +20,10 @@ public class Main {
         workDemonstrationAll.test();
         log.info("Демонстрация локализации значений застабленного Customer");
         WorkDemonstrationCustomer workDemonstrationCustomer = context.getBean(WorkDemonstrationCustomer.class);
-        LocaleStub localeStub = context.getBean(LocaleStub.class);
+        RepositoryHelper repositoryHelper = context.getBean(RepositoryHelper.class);
         workDemonstrationCustomer.test();
-        log.info("Переключаем Local на ENGLISH");
-        localeStub.setLocale(Locale.ENGLISH);
+        log.info("Переключаем Local на RU");
+        repositoryHelper.setLocale(new Locale( "ru" ,"RU"));
         workDemonstrationCustomer.test();
     }
 }
