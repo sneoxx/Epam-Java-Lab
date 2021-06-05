@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.*;
-
 @RunWith(MockitoJUnitRunner.class)
 class WorkDemonstrationCustomerTest {
 
@@ -21,7 +19,7 @@ class WorkDemonstrationCustomerTest {
     @Test
     public void workDemonstrationCustomer() {
 
-        WorkDemonstrationCustomer workDemonstrationCustomer = mock(WorkDemonstrationCustomer.class);
+   //     WorkDemonstrationCustomer workDemonstrationCustomer = mock(WorkDemonstrationCustomer.class);
 
      //   doNothing().when(workDemonstrationCustomer).testCustomer();
 
