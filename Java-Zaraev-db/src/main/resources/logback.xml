@@ -1,6 +1,6 @@
 <configuration>
 
-    <property name="DEV_HOME" value="Java-Zaraev-api/src/main/resources/logs" />
+    <property name="DEV_HOME" value="src/main/resources/logs" />
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
