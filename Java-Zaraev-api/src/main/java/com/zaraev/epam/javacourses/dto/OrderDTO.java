@@ -1,8 +1,7 @@
-package com.zaraev.epam.javacourses.bufferdata;
+package com.zaraev.epam.javacourses.dto;
+
 
 import com.google.gson.annotations.Expose;
-import com.zaraev.epam.javacourses.domain.entity.Customer;
-import com.zaraev.epam.javacourses.domain.entity.Product;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ import java.util.Set;
  * Промежуточный класс буффер для проверки корректности данных json в запросе
  */
 @Data
-public class BufferDataOrder {
+public class OrderDTO {
 
     @Expose
     private Integer orderId;
@@ -28,9 +27,9 @@ public class BufferDataOrder {
     private BigDecimal totalAmount;
 
     @Expose
-    private Customer customer;
+    private Integer customerId;
 
     @Expose
-    private Set<Product> products;
+    private Set<Integer> products;
 
 }

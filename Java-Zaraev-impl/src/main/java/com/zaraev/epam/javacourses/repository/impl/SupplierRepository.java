@@ -1,25 +1,33 @@
-package com.zaraev.epam.javacourses.repository;
+package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
+import com.zaraev.epam.javacourses.repository.ISupplierRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("!local")
+@Component
 @Slf4j
-public class SupplierRepository {
+public class SupplierRepository implements ISupplierRepository {
 
-    public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     /**
      * Запись в БД екземпляра Supplier
      *
      * @return вернет занесенный экземпляр Supplier
      */
+    @Override
     public Supplier create(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -40,12 +48,12 @@ public class SupplierRepository {
      *
      * @param supplier - экземпляр supplier, который необходимо изменить
      */
+    @Override
     public void update(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             log.debug("updateSupplier() Объект supplier передан на обновление: {} ", supplier);
-            //  supplier.setCompanyName(supplier.getCompanyName() + "+" + generateRandomWord());
             transaction.begin();
             entityManager.merge(supplier);
             transaction.commit();
@@ -64,6 +72,7 @@ public class SupplierRepository {
      * @param id - id объекта Supplier который необходимо получить
      * @return - объект Supplier из БД
      */
+    @Override
     public Supplier getSupplier(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Supplier supplier = null;
@@ -81,10 +90,37 @@ public class SupplierRepository {
     }
 
     /**
+     * Получение из БД объекта Order по полю orderNumber Order
+     *
+     * @param companyName - id объекта Order который необходимо получить
+     * @return - объект Order из БД
+     */
+    @Override
+    public Supplier getSupplierWithInstance(String companyName) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Supplier supplier = null;
+        try {
+            TypedQuery<Supplier> query = entityManager.createQuery(
+                    "SELECT u FROM Supplier u WHERE u.companyName = :companyName", Supplier.class);
+            supplier = query.setParameter("companyName", companyName)
+                    .getSingleResult();
+            log.info("getCustomer() Объект supplier успешно получен из БД {}", supplier);
+            entityManager.close();
+            return supplier;
+        } catch (Exception e) {
+            log.error("getCustomer() Ошибка получения из БД объекта supplier: ", e);
+        } finally {
+            entityManager.close();
+        }
+        return supplier;
+    }
+
+    /**
      * Получение из БД всех объектов Supplier
      *
      * @return - Коллекция List всех объектов Supplier из БД
      */
+    @Override
     public List<Supplier> getAllSupplier() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Supplier> supplierList = new ArrayList<>();
@@ -109,6 +145,7 @@ public class SupplierRepository {
      *
      * @param supplier - удаляемый объект
      */
+    @Override
     public void deleteSupplier(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -134,6 +171,7 @@ public class SupplierRepository {
      *
      * @param id - id удаляемого Product
      */
+    @Override
     public void deleteSupplierWithId(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

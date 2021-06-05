@@ -1,18 +1,25 @@
-package com.zaraev.epam.javacourses.repository;
+package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
+import com.zaraev.epam.javacourses.repository.IProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Profile("!local")
+@Component
 @Slf4j
-public class ProductRepository {
+public class ProductRepository implements IProductRepository {
 
-    public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     /**
      * Запись в БД екземпляра Product
@@ -20,6 +27,7 @@ public class ProductRepository {
      * @param product - экземпляр supplier для занесения в Product
      * @return - вернет занесенный экземпляр Product
      */
+    @Override
     public Product create(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -40,6 +48,7 @@ public class ProductRepository {
      *
      * @param product - экземпляр product, который необходимо изменить
      */
+    @Override
     public void update(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -63,6 +72,7 @@ public class ProductRepository {
      * @param id - id объекта Product который необходимо получить
      * @return - объект Product из БД
      */
+    @Override
     public Product getProduct(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Product product = null;
@@ -80,10 +90,37 @@ public class ProductRepository {
     }
 
     /**
+     * Получение из БД объекта Product по полю orderNumber Product
+     *
+     * @param productName - id объекта Order который необходимо получить
+     * @return - объект Order из БД
+     */
+    @Override
+    public Product getProductWithInstance(String productName) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Product product = null;
+        try {
+            TypedQuery<Product> query = entityManager.createQuery(
+                    "SELECT u FROM Product u WHERE u.productName = :productName", Product.class);
+            product = query.setParameter("productName", productName)
+                    .getSingleResult();
+            log.info("getCustomer() Объект product успешно получен из БД {}", product);
+            entityManager.close();
+            return product;
+        } catch (Exception e) {
+            log.error("getCustomer() Ошибка получения из БД объекта product: ", e);
+        } finally {
+            entityManager.close();
+        }
+        return product;
+    }
+
+    /**
      * Получение из БД всех объектов Product
      *
      * @return - Коллекция List всех объектов Product из БД
      */
+    @Override
     public List<Product> getAllProduct() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Product> productList = null;
@@ -108,6 +145,7 @@ public class ProductRepository {
      *
      * @param product - удаляемый объект
      */
+    @Override
     public void deleteProduct(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -133,6 +171,7 @@ public class ProductRepository {
      *
      * @param id- id удаляемого Product
      */
+    @Override
     public void deleteProductWithId(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

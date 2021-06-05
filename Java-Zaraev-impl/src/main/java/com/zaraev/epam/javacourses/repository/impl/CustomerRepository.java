@@ -1,25 +1,37 @@
-package com.zaraev.epam.javacourses.repository;
+package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
+import com.zaraev.epam.javacourses.repository.ICustomerRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("!local")
+@Component
 @Slf4j
-public class CustomerRepository {
+public class CustomerRepository implements ICustomerRepository {
 
-    public EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WER");
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * Запись в БД екземпляра Customer
      *
      * @return вернет занесенный экземпляр Customer
      */
+    @Override
     public Customer create(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -40,6 +52,8 @@ public class CustomerRepository {
      *
      * @param customer - экземпляр customer, который необходимо изменить
      */
+
+    @Override
     public void update(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -57,12 +71,13 @@ public class CustomerRepository {
         }
     }
 
-     /**
+    /**
      * Получение из БД объекта Customer
      *
      * @param id - id объекта Customer который необходимо получить
      * @return - объект Customer из БД
      */
+    @Override
     public Customer getCustomer(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Customer customer = null;
@@ -80,10 +95,37 @@ public class CustomerRepository {
     }
 
     /**
+     * Получение из БД объекта Customer по экземпляру Customer
+     *
+     * @param customerName - id объекта Customer который необходимо получить
+     * @return - объект Customer из БД
+     */
+    @Override
+    public Customer getCustomerWithInstance(String customerName) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Customer customer = null;
+        try {
+            TypedQuery<Customer> query = entityManager.createQuery(
+                    "SELECT u FROM Customer u WHERE u.customerName = :customerName", Customer.class);
+            customer = query.setParameter("customerName", customerName)
+                    .getSingleResult();
+            log.info("getCustomer() Объект customer успешно получен из БД {}", customer);
+            entityManager.close();
+            return customer;
+        } catch (Exception e) {
+            log.error("getCustomer() Ошибка получения из БД объекта сustomer: ", e);
+        } finally {
+            entityManager.close();
+        }
+        return customer;
+    }
+
+    /**
      * Получение из БД всех объектов Customer
      *
      * @return - Коллекция List всех объектов Customer из БД
      */
+    @Override
     public List<Customer> getAllCustomer() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Customer> customerList = new ArrayList<>();
@@ -108,6 +150,7 @@ public class CustomerRepository {
      *
      * @param customer - удаляемый объект
      */
+    @Override
     public void deleteCustomer(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -130,8 +173,10 @@ public class CustomerRepository {
 
     /**
      * Удаление объекта customer из БД по id
+     *
      * @param id - id удаляемого customer
      */
+    @Override
     public void deleteCustomerWithId(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

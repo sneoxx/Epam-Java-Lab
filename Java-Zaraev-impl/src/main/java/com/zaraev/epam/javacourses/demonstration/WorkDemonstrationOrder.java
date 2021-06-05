@@ -2,28 +2,49 @@ package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.repository.OrderRepository;
-import com.zaraev.epam.javacourses.service.impl.CustomerService;
-import com.zaraev.epam.javacourses.service.impl.OrderService;
+import com.zaraev.epam.javacourses.domain.entity.Supplier;
+import com.zaraev.epam.javacourses.repository.IOrderRepository;
+import com.zaraev.epam.javacourses.service.CustomerService;
+import com.zaraev.epam.javacourses.service.OrderService;
+import com.zaraev.epam.javacourses.service.SupplierService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+@Component
+@Slf4j
 public class WorkDemonstrationOrder {
 
-    OrderRepository orderRepository = new OrderRepository();
+    @Autowired
+    private IOrderRepository orderRepository;
 
-    OrderService orderService = new OrderService();
+    @Autowired
+    private OrderService orderServiceImpl;
 
-    CustomerService customerService = new CustomerService();
+    @Autowired
+    private CustomerService customerServiceImpl;
+
+    @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * Метод для демонстрации работы операций CRUD класса Order
      */
-    public void testOrder() {
-        Customer customer = customerService.createRandomCustomer();
-        Customer customer1 = customerService.createRandomCustomer();
-        Order order = orderService.createRandomOrder(customer);
-        Order order1 = orderService.createRandomOrder(customer1);
+    public void test() {
+        for (String profileName : environment.getActiveProfiles()) {
+            log.info("Активный профиль: " + profileName);
+        }
+        Customer customer = customerServiceImpl.createRandomCustomer();
+        Customer customer1 = customerServiceImpl.createRandomCustomer();
+        Supplier supplier = supplierService.createRandomSupplier();
+        Order order = orderServiceImpl.createRandomOrder(customer, 1);
+        Order order1 = orderServiceImpl.createRandomOrder(customer1,2);
         orderRepository.getOrder(1);
-        customerService.update(customer);
+        customerServiceImpl.update(customer);
         orderRepository.deleteOrder(order1);
     }
 }

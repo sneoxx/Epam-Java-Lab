@@ -1,4 +1,4 @@
-package com.zaraev.epam.javacourses.bufferdata;
+package com.zaraev.epam.javacourses.dto;
 
 import com.google.gson.annotations.Expose;
 import lombok.Data;
@@ -7,13 +7,13 @@ import lombok.Data;
  * Промежуточный класс буффер для проверки корректности данных json в запросе
  */
 @Data
-public class BufferDataSupplier {
+public class CustomerDTO {
 
     @Expose
-    private Integer supplierId;
+    private Integer customerId;
 
     @Expose
-    private String companyName;
+    private String customerName;
 
     @Expose
     private String phone;

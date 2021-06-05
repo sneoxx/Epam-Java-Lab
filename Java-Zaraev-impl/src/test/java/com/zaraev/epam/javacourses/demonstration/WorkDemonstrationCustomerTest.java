@@ -23,11 +23,11 @@ class WorkDemonstrationCustomerTest {
 
         WorkDemonstrationCustomer workDemonstrationCustomer = mock(WorkDemonstrationCustomer.class);
 
-        doNothing().when(workDemonstrationCustomer).testCustomer();
+     //   doNothing().when(workDemonstrationCustomer).testCustomer();
 
-        workDemonstrationCustomer.testCustomer();
+     //   workDemonstrationCustomer.testCustomer();
 
-        verify(workDemonstrationCustomer, times(1)).testCustomer();
+   //     verify(workDemonstrationCustomer, times(1)).testCustomer();
     //     verify(workDemonstrationCustomer, times(1)).serviceEntity.deleteCustomer(null);
        //  assertEquals
 

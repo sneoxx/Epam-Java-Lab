@@ -1,7 +1,6 @@
-package com.zaraev.epam.javacourses.bufferdata;
+package com.zaraev.epam.javacourses.dto;
 
 import com.google.gson.annotations.Expose;
-import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
  * Промежуточный класс буффер для проверки корректности данных json в запросе
  */
 @Data
-public class BufferDataProduct {
+public class ProductDTO {
 
     @Expose
     private Integer productId;
@@ -25,6 +24,6 @@ public class BufferDataProduct {
     private boolean isDiscountinued;
 
     @Expose
-    private Supplier supplier;
+    private Integer supplierId;
 
 }
