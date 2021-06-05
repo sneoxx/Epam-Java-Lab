@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.helper.ServletsHelper;
-import com.zaraev.epam.javacourses.service.impl.ProductService;
+import com.zaraev.epam.javacourses.service.impl.ProductServiceImpl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ServletProduct extends HttpServlet {
+public class ServletProduct extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
 
-    private final ProductService productService = new ProductService();
+    private final ProductServiceImpl productService = new ProductServiceImpl();
 
     private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 

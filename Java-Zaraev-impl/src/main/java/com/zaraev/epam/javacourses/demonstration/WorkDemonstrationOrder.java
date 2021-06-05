@@ -2,52 +2,49 @@ package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.repository.OrderRepository;
-import com.zaraev.epam.javacourses.repository.ProductRepository;
-import com.zaraev.epam.javacourses.service.EService;
-import com.zaraev.epam.javacourses.service.impl.CustomerService;
-import com.zaraev.epam.javacourses.service.impl.OrderService;
-import com.zaraev.epam.javacourses.service.impl.ProductService;
-import com.zaraev.epam.javacourses.service.impl.SupplierService;
+import com.zaraev.epam.javacourses.repository.impl.IOrderRepository;
+import com.zaraev.epam.javacourses.service.CustomerService;
+import com.zaraev.epam.javacourses.service.OrderService;
+import com.zaraev.epam.javacourses.service.SupplierService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WorkDemonstrationOrder implements EService {
+@Slf4j
+public class WorkDemonstrationOrder {
 
     @Autowired
-    private OrderRepository orderRepository;// = new OrderRepository();
+    private IOrderRepository orderRepository;
 
     @Autowired
-    private OrderService orderService;// = new OrderService();
+    private OrderService orderServiceImpl;
 
     @Autowired
-    private CustomerService customerService;// = new CustomerService();
+    private CustomerService customerServiceImpl;
 
     @Autowired
-    private ProductService productService;// = new ProductService();
+    private SupplierService supplierService;
 
     @Autowired
-    private SupplierService supplierService;// = new SupplierService();
-
-    @Autowired
-    private ProductRepository productRepository;// = new ProductRepository();
+    private Environment environment;
 
     /**
      * Метод для демонстрации работы операций CRUD класса Order
      */
-    public void testOrder() {
-        Customer customer = customerService.createRandomCustomer();
-        Customer customer1 = customerService.createRandomCustomer();
+    public void test() {
+        for (String profileName : environment.getActiveProfiles()) {
+            log.info("Активный профиль: " + profileName);
+        }
+        Customer customer = customerServiceImpl.createRandomCustomer();
+        Customer customer1 = customerServiceImpl.createRandomCustomer();
         Supplier supplier = supplierService.createRandomSupplier();
-        Product product = productService.createRandomProduct(supplier);
-        Product product1 = productService.createRandomProduct(supplier);
-        Order order = orderService.createRandomOrder(customer, 1);
-        Order order1 = orderService.createRandomOrder(customer1,2);
-       orderRepository.getOrder(1);
-        customerService.update(customer);
+        Order order = orderServiceImpl.createRandomOrder(customer, 1);
+        Order order1 = orderServiceImpl.createRandomOrder(customer1,2);
+        orderRepository.getOrder(1);
+        customerServiceImpl.update(customer);
         orderRepository.deleteOrder(order1);
     }
 }

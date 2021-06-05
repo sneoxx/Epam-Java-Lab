@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,12 +14,12 @@ import java.util.Set;
 /**
  * Entity класс для работы с таблицей product базы данных
  */
-@Component
+
 @NoArgsConstructor
 @Data
 @Entity
 @Table
-public class Product implements IEntity{
+public class Product implements IEntity {
 
     @Expose
     @Id

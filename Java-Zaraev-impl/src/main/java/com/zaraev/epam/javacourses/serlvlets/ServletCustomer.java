@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.helper.ServletsHelper;
-import com.zaraev.epam.javacourses.service.impl.CustomerService;
+import com.zaraev.epam.javacourses.service.impl.CustomerServiceImpl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ServletCustomer extends HttpServlet {
+public class ServletCustomer extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
 
-    private final CustomerService customerService = new CustomerService();
+    private final CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
 
     private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -28,12 +28,12 @@ public class ServletCustomer extends HttpServlet {
         if (req.getParameterNames().hasMoreElements()) {
             var id = servletsHelper.getIdFromRequest(req);
             if (id != 0) {
-                CustomerDTO customerCheck = customerService.getCustomer(id);
+                CustomerDTO customerCheck = customerServiceImpl.getCustomer(id);
                 var jsonString = this.gson.toJson(customerCheck);
                 servletsHelper.printJson(jsonString, resp);
             }
         } else {
-            var jsonString = gson.toJson(customerService.getAllCustomer(), List.class);
+            var jsonString = gson.toJson(customerServiceImpl.getAllCustomer(), List.class);
             servletsHelper.printJson(jsonString, resp);
         }
     }
@@ -44,7 +44,7 @@ public class ServletCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         var customerDTO = gson.fromJson(servletsHelper.parseJsonToString(req), CustomerDTO.class);
-        var customerCheck = customerService.create(customerDTO);
+        var customerCheck = customerServiceImpl.create(customerDTO);
         var jsonString = this.gson.toJson(customerCheck);
         servletsHelper.printJson(jsonString, resp);
     }
@@ -57,7 +57,7 @@ public class ServletCustomer extends HttpServlet {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
             var customerDTO = gson.fromJson(servletsHelper.parseJsonToString(req), CustomerDTO.class);
-            var customerCheck = customerService.updateCustomerWithId(id, customerDTO);
+            var customerCheck = customerServiceImpl.updateCustomerWithId(id, customerDTO);
             var jsonString = this.gson.toJson(customerCheck);
             servletsHelper.printJson(jsonString, resp);
         }
@@ -70,7 +70,7 @@ public class ServletCustomer extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
-            customerService.deleteCustomerWithId(id);
+            customerServiceImpl.deleteCustomerWithId(id);
         }
     }
 }

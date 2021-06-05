@@ -4,10 +4,11 @@ import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
-import com.zaraev.epam.javacourses.repository.CustomerRepository;
-import com.zaraev.epam.javacourses.repository.OrderRepository;
-import com.zaraev.epam.javacourses.repository.ProductRepository;
-import com.zaraev.epam.javacourses.service.EService;
+import com.zaraev.epam.javacourses.helper.ServiceHelper;
+import com.zaraev.epam.javacourses.repository.impl.ICustomerRepository;
+import com.zaraev.epam.javacourses.repository.impl.IOrderRepository;
+import com.zaraev.epam.javacourses.repository.impl.IProductRepository;
+import com.zaraev.epam.javacourses.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,19 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderService implements EService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private CustomerRepository customerRepository;// = new CustomerRepository();
+    private ICustomerRepository customerRepository;
 
     @Autowired
-    private ProductRepository productRepository;// = new ProductRepository();
+    private IProductRepository productRepository;
 
     @Autowired
-    private OrderRepository orderRepository;// = new OrderRepository();
+    private IOrderRepository orderRepository;
+
+    @Autowired
+    private ServiceHelper serviceHelper;
 
     /**
      * Создание случайного Order и передача на запись в БД
@@ -40,9 +44,10 @@ public class OrderService implements EService {
      * @param customer - экземпляр customer
      * @return - экземпляр order
      */
+    @Override
     public Order createRandomOrder(Customer customer, Integer id) {
         Order order = new Order();
-        order.setOrderNumber(getRandomNumber());
+        order.setOrderNumber(serviceHelper.getRandomNumber());
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
         order.setTotalAmount(BigDecimal.valueOf(100));
         order.setCustomer(customer);
@@ -60,6 +65,7 @@ public class OrderService implements EService {
      * @param orderDTO - Экземпляр orderDTO
      * @return - результат опрерации orderDTO полученнй из базы
      */
+    @Override
     public OrderDTO create(OrderDTO orderDTO) {
         Order order = new Order();
         System.out.println(customerRepository.getCustomer(orderDTO.getCustomerId()));
@@ -84,13 +90,13 @@ public class OrderService implements EService {
      * @param order - экземпляр order, на который необходимо изменить
      * @return - результат опрерации orderDTO
      */
+    @Override
     public OrderDTO update(Order order) {
         order.setOrderNumber(order.getOrderNumber() + "+Upd");
         orderRepository.update(order);
         Order orderCheck = orderRepository.getOrderWithInstance(order.getOrderNumber());
         return createOrderDTO(orderCheck);
     }
-
 
     /**
      * Обновление экземпляра order и передача на обновление в БД
@@ -99,6 +105,7 @@ public class OrderService implements EService {
      * @param orderDTO- экземпляр orderDTO, на который необходимо изменить
      * @return - результат опрерации orderDTO
      */
+    @Override
     public OrderDTO updateOrderWithId(int id, OrderDTO orderDTO) {
         Order updateOrder = orderRepository.getOrder(id);
         log.debug("updateProductWithId() Объект orderDTO передан на обновление: {} ", orderDTO);
@@ -123,6 +130,7 @@ public class OrderService implements EService {
      * @param id - id Customer, которое необходимло получить
      * @return - CustomerDTO созданный из полченного Customer
      */
+    @Override
     public OrderDTO getOrder(int id) {
         Order order = orderRepository.getOrder(id);
         return createOrderDTO(order);
@@ -133,6 +141,7 @@ public class OrderService implements EService {
      *
      * @return - CustomerDTO созданный из полученного Customer
      */
+    @Override
     public List<OrderDTO> getAllOrder() {
         List<Order> orderList = orderRepository.getAllOrder();
         List<OrderDTO> orderDTOList = new ArrayList<>();
@@ -147,6 +156,7 @@ public class OrderService implements EService {
      *
      * @param id - id Customer для удаления
      */
+    @Override
     public void deleteOrderWithId(int id) {
         orderRepository.deleteOrderWithId(id);
     }
@@ -157,6 +167,7 @@ public class OrderService implements EService {
      * @param order - исходный OrderDTO
      * @return - полученный order
      */
+    @Override
     public OrderDTO createOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderId(order.getOrderId());
@@ -171,14 +182,5 @@ public class OrderService implements EService {
         }
         orderDTO.setProducts(products);
         return orderDTO;
-    }
-
-    /**
-     * Генерация случайного числа в заданном диапазоне
-     *
-     * @return - случайное число
-     */
-    public String getRandomNumber() {
-        return Integer.toString(1 + (int) (Math.random() * 10000));
     }
 }

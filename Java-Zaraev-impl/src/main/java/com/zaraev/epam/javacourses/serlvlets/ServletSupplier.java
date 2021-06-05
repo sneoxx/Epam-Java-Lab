@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
 import com.zaraev.epam.javacourses.helper.ServletsHelper;
-import com.zaraev.epam.javacourses.service.impl.SupplierService;
+import com.zaraev.epam.javacourses.service.impl.SupplierServiceImpl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ServletSupplier extends HttpServlet {
-
+public class ServletSupplier extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
 
-    private final SupplierService supplierService = new SupplierService();
+    private final SupplierServiceImpl supplierService = new SupplierServiceImpl();
 
     private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -29,7 +28,7 @@ public class ServletSupplier extends HttpServlet {
         if (req.getParameterNames().hasMoreElements()) {
             var id = servletsHelper.getIdFromRequest(req);
             if (id != 0) {
-                var supplierCheck = supplierService.getSupplierr(id);
+                var supplierCheck = supplierService.getSupplier(id);
                 var jsonString = this.gson.toJson(supplierCheck);
                 servletsHelper.printJson(jsonString, resp);
             }

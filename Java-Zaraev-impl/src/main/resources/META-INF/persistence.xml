@@ -22,7 +22,7 @@
 выставлять по своему усмотрению, чем больше версия диалекта, тем больше возможностей при работе с конкретной бд-->
             <!--<property name="hibernate.hbm2ddl.auto" value="update" />    create / create-drop / update - статус работы JPA-->
 
-            <property name="hibernate.show_sql" value="true" /> <!-- Show SQL in console -->
+            <!--    <property name="hibernate.show_sql" value="true" /> Show SQL in console -->
             <property name="hibernate.format_sql" value="true" /> <!-- Show SQL formatted -->
             <!--  <property name="hibernate.id.new_generator_mappings" value="true"/>-->
           </properties>

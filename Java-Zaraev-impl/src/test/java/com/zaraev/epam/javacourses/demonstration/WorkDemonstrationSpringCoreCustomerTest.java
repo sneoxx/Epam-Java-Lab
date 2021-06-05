@@ -9,7 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-class WorkDemonstrationCustomerTest {
+class WorkDemonstrationSpringCoreCustomerTest {
 
 //    @InjectMocks
 //    WorkDemonstrationCustomer workDemonstrationCustomer;
@@ -23,11 +23,11 @@ class WorkDemonstrationCustomerTest {
 
         WorkDemonstrationCustomer workDemonstrationCustomer = mock(WorkDemonstrationCustomer.class);
 
-        doNothing().when(workDemonstrationCustomer).testCustomer();
+       // doNothing().when(workDemonstrationCustomer).testCustomer();
 
-        workDemonstrationCustomer.testCustomer();
+     //   workDemonstrationCustomer.testCustomer();
 
-        verify(workDemonstrationCustomer, times(1)).testCustomer();
+       // verify(workDemonstrationCustomer, times(1)).testCustomer();
     //     verify(workDemonstrationCustomer, times(1)).serviceEntity.deleteCustomer(null);
        //  assertEquals
 
