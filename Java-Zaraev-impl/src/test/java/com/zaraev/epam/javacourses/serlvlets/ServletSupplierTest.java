@@ -6,18 +6,18 @@ class ServletSupplierTest {
 
     @Test
     public void Dfdfdf(){
-        String myJson = "{\n" +
-                "\"orderId\": 1,\n" +
-                "\"orderNumber\": \"10944+vkq\",\n" +
-                "\"orderDate\": \"May 28, 2021, 3:56:18 PM\",\n" +
-                "\"totalAmount\": 999.00,\n" +
-                "\"customer\":{\n" +
-                "\"customerId\": 3,\n" +
-                "\"customerName\": \"qglx\",\n" +
-                "\"phone\": \"7445\"\n" +
-                "},\n" +
-                "\"products\":[]\n" +
-                "}";
+//        String myJson = "{\n" +
+//                "\"orderId\": 1,\n" +
+//                "\"orderNumber\": \"10944+vkq\",\n" +
+//                "\"orderDate\": \"May 28, 2021, 3:56:18 PM\",\n" +
+//                "\"totalAmount\": 999.00,\n" +
+//                "\"customer\":{\n" +
+//                "\"customerId\": 3,\n" +
+//                "\"customerName\": \"qglx\",\n" +
+//                "\"phone\": \"7445\"\n" +
+//                "},\n" +
+//                "\"products\":[]\n" +
+//                "}";
 
 //        ServletSupplier servletSupplier = new ServletSupplier();
 //        HttpServletRequest reg;
