@@ -23,7 +23,6 @@ public class WorkDemonstrationCustomer {
         Customer customer1 = customerService.createRandomCustomer();
         customerService.getCustomer(1);
         customerService.updateRandomData(customer);
-        System.out.println(customer1 + "fdfdf");
         customerService.deleteCustomerWithId(customer1.getCustomerId());
     }
 }
