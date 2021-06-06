@@ -12,8 +12,6 @@ import java.util.List;
 /**
  * Entity класс для работы с таблицей Supplier базы данных
  */
-
-
 @NoArgsConstructor
 @Data
 @Entity

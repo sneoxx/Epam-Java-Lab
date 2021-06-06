@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Класс для обработки веб запросов к Product
+ */
 public class ServletProduct extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
@@ -57,7 +60,7 @@ public class ServletProduct extends HttpServlet implements IServlet {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
             var productDTO = gson.fromJson(servletsHelper.parseJsonToString(req), ProductDTO.class);
-            var productCheck = productService.updateProductWithId(id, productDTO);
+            var productCheck = productService.update(id, productDTO);
             var jsonString = this.gson.toJson(productCheck);
             servletsHelper.printJson(jsonString, resp);
         }

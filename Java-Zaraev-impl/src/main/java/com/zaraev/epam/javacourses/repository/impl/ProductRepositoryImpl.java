@@ -1,25 +1,27 @@
 package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
-import com.zaraev.epam.javacourses.repository.IProductRepository;
+import com.zaraev.epam.javacourses.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Класс CRUD операций в БД для таблицы Product
+ */
 @Profile("!local")
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class ProductRepository implements IProductRepository {
+public class ProductRepositoryImpl implements ProductRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     /**
      * Запись в БД екземпляра Product
@@ -49,7 +51,7 @@ public class ProductRepository implements IProductRepository {
      * @param product - экземпляр product, который необходимо изменить
      */
     @Override
-    public void update(Product product) {
+    public Product update(Product product) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -59,8 +61,7 @@ public class ProductRepository implements IProductRepository {
             transaction.commit();
             entityManager.close();
             log.info("updateProduct() Объект product успешно обновлен: {} ", product);
-        } catch (Exception e) {
-            log.error("updateProduct() Ошибка обновления объекта product: ", e);
+            return product;
         } finally {
             entityManager.close();
         }
@@ -73,7 +74,7 @@ public class ProductRepository implements IProductRepository {
      * @return - объект Product из БД
      */
     @Override
-    public Product getProduct(int id) {
+    public Product get(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Product product = null;
         try {
@@ -83,32 +84,6 @@ public class ProductRepository implements IProductRepository {
             return product;
         } catch (Exception e) {
             log.error("getProduct() Ошибка получения из БД объекта product: ", e);
-        } finally {
-            entityManager.close();
-        }
-        return product;
-    }
-
-    /**
-     * Получение из БД объекта Product по полю orderNumber Product
-     *
-     * @param productName - id объекта Order который необходимо получить
-     * @return - объект Order из БД
-     */
-    @Override
-    public Product getProductWithInstance(String productName) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Product product = null;
-        try {
-            TypedQuery<Product> query = entityManager.createQuery(
-                    "SELECT u FROM Product u WHERE u.productName = :productName", Product.class);
-            product = query.setParameter("productName", productName)
-                    .getSingleResult();
-            log.info("getCustomer() Объект product успешно получен из БД {}", product);
-            entityManager.close();
-            return product;
-        } catch (Exception e) {
-            log.error("getCustomer() Ошибка получения из БД объекта product: ", e);
         } finally {
             entityManager.close();
         }
@@ -140,31 +115,6 @@ public class ProductRepository implements IProductRepository {
         return productList;
     }
 
-    /**
-     * Удаление объекта product из БД
-     *
-     * @param product - удаляемый объект
-     */
-    @Override
-    public void deleteProduct(Product product) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            Product tempProduct = entityManager.find(Product.class, product.getProductId());
-            transaction.begin();
-            log.debug("deleteProduct() Объект supplier передан на удаление: {}", tempProduct);
-            if (entityManager.contains(tempProduct)) {
-                entityManager.remove(tempProduct);
-                transaction.commit();
-                log.info("deleteProduct() Объект supplier успешно удален: {}", tempProduct);
-            }
-            entityManager.close();
-        } catch (Exception e) {
-            log.error("deleteProduct() Ошибка удаления объекта product: ", e);
-        } finally {
-            entityManager.close();
-        }
-    }
 
     /**
      * Удаление объекта Product из БД по id
@@ -172,7 +122,7 @@ public class ProductRepository implements IProductRepository {
      * @param id- id удаляемого Product
      */
     @Override
-    public void deleteProductWithId(int id) {
+    public void delete(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {

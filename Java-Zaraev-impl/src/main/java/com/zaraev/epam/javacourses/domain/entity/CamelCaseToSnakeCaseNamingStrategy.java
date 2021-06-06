@@ -4,6 +4,9 @@ import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
+/**
+ * Класс для определения стратегии наименования таблиц БД
+ */
 public class CamelCaseToSnakeCaseNamingStrategy
         extends PhysicalNamingStrategyStandardImpl {
 

@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Класс для обработки веб запросов к Supplier
+ */
 public class ServletSupplier extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
@@ -57,7 +60,7 @@ public class ServletSupplier extends HttpServlet implements IServlet {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
             var supplierDTO = gson.fromJson(servletsHelper.parseJsonToString(req), SupplierDTO.class);
-            var supplierCheck = supplierService.updateSupplierWithId(id, supplierDTO);
+            var supplierCheck = supplierService.update(id, supplierDTO);
             var jsonString = this.gson.toJson(supplierCheck);
             servletsHelper.printJson(jsonString, resp);
         }

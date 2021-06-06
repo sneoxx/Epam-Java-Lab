@@ -2,7 +2,7 @@ package com.zaraev.epam.javacourses;
 
 import com.zaraev.epam.javacourses.demonstration.WorkDemonstrationAll;
 import com.zaraev.epam.javacourses.demonstration.WorkDemonstrationCustomer;
-import com.zaraev.epam.javacourses.helper.RepositoryHelper;
+import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,14 +16,18 @@ public class Main {
 
         log.info("Демонстрация работы после перевода на спринг, при активации профиля local значения репозитория будут застаблены");
         ApplicationContext context = new AnnotationConfigApplicationContext("com.zaraev.epam.javacourses");
-        WorkDemonstrationAll workDemonstrationAll = context.getBean(WorkDemonstrationAll.class);
-        workDemonstrationAll.test();
+        context.getEnvironment();
+        for (String profileName : context.getEnvironment().getActiveProfiles()) {
+            log.info("Активный профиль: " + profileName);
+        }
+        WorkDemonstrationAll workDemonstrationAll = new WorkDemonstrationAll();
+        workDemonstrationAll.test(context);
         log.info("Демонстрация локализации значений застабленного Customer");
-        WorkDemonstrationCustomer workDemonstrationCustomer = context.getBean(WorkDemonstrationCustomer.class);
-        RepositoryHelper repositoryHelper = context.getBean(RepositoryHelper.class);
-        workDemonstrationCustomer.test();
+        WorkDemonstrationCustomer workDemonstrationCustomer = new WorkDemonstrationCustomer();
+        CustomerRepository customerRepository = context.getBean(CustomerRepository.class);
+        workDemonstrationCustomer.test(context);
         log.info("Переключаем Local на RU");
-        repositoryHelper.setLocale(new Locale( "ru" ,"RU"));
-        workDemonstrationCustomer.test();
+        customerRepository.setLocale(new Locale("ru", "RU"));
+        workDemonstrationCustomer.test(context);
     }
 }

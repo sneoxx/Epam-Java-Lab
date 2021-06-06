@@ -1,30 +1,34 @@
 package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
-import com.zaraev.epam.javacourses.repository.ICustomerRepository;
+import com.zaraev.epam.javacourses.repository.CustomerRepository;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+
+/**
+ * Класс CRUD операций в БД для таблицы Customer
+ */
 @Profile("!local")
 @Component
+@RequiredArgsConstructor
+@Data
 @Slf4j
-public class CustomerRepository implements ICustomerRepository {
+public class CustomerRepositoryImpl implements CustomerRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
-    @Autowired
-    private Environment environment;
+    private Locale locale;
 
     /**
      * Запись в БД екземпляра Customer
@@ -54,7 +58,7 @@ public class CustomerRepository implements ICustomerRepository {
      */
 
     @Override
-    public void update(Customer customer) {
+    public Customer update(Customer customer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -64,8 +68,7 @@ public class CustomerRepository implements ICustomerRepository {
             transaction.commit();
             entityManager.close();
             log.info("updateCustomer() Объект сustomer успешно обновлен: {} ", customer);
-        } catch (Exception e) {
-            log.error("updateCustomer() Ошибка обновления объекта сustomer: ", e);
+            return customer;
         } finally {
             entityManager.close();
         }
@@ -78,37 +81,11 @@ public class CustomerRepository implements ICustomerRepository {
      * @return - объект Customer из БД
      */
     @Override
-    public Customer getCustomer(int id) {
+    public Customer get(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Customer customer = null;
         try {
             customer = entityManager.find(Customer.class, id);
-            log.info("getCustomer() Объект customer успешно получен из БД {}", customer);
-            entityManager.close();
-            return customer;
-        } catch (Exception e) {
-            log.error("getCustomer() Ошибка получения из БД объекта сustomer: ", e);
-        } finally {
-            entityManager.close();
-        }
-        return customer;
-    }
-
-    /**
-     * Получение из БД объекта Customer по экземпляру Customer
-     *
-     * @param customerName - id объекта Customer который необходимо получить
-     * @return - объект Customer из БД
-     */
-    @Override
-    public Customer getCustomerWithInstance(String customerName) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Customer customer = null;
-        try {
-            TypedQuery<Customer> query = entityManager.createQuery(
-                    "SELECT u FROM Customer u WHERE u.customerName = :customerName", Customer.class);
-            customer = query.setParameter("customerName", customerName)
-                    .getSingleResult();
             log.info("getCustomer() Объект customer успешно получен из БД {}", customer);
             entityManager.close();
             return customer;
@@ -145,31 +122,6 @@ public class CustomerRepository implements ICustomerRepository {
         return customerList;
     }
 
-    /**
-     * Удаление объекта customer из БД
-     *
-     * @param customer - удаляемый объект
-     */
-    @Override
-    public void deleteCustomer(Customer customer) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            Customer tempCustomer = entityManager.find(Customer.class, customer.getCustomerId());
-            transaction.begin();
-            log.debug("deleteCustomer() Объект customer передан на удаление: {}", tempCustomer);
-            if (entityManager.contains(tempCustomer)) {
-                entityManager.remove(tempCustomer);
-                transaction.commit();
-                log.info("deleteCustomer() Объект customer успешно удален: {}", tempCustomer);
-            }
-            entityManager.close();
-        } catch (Exception e) {
-            log.error("deleteCustomer() Ошибка удаления объекта сustomer: ", e);
-        } finally {
-            entityManager.close();
-        }
-    }
 
     /**
      * Удаление объекта customer из БД по id
@@ -177,7 +129,7 @@ public class CustomerRepository implements ICustomerRepository {
      * @param id - id удаляемого customer
      */
     @Override
-    public void deleteCustomerWithId(int id) {
+    public void delete(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -196,4 +148,5 @@ public class CustomerRepository implements ICustomerRepository {
             entityManager.close();
         }
     }
+
 }

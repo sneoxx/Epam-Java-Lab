@@ -1,26 +1,28 @@
 package com.zaraev.epam.javacourses.repository.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.repository.ISupplierRepository;
+import com.zaraev.epam.javacourses.repository.SupplierRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс CRUD операций в БД для таблицы Supplier
+ */
 @Profile("!local")
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class SupplierRepository implements ISupplierRepository {
+public class SupplierRepositoryImpl implements SupplierRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     /**
      * Запись в БД екземпляра Supplier
@@ -49,7 +51,7 @@ public class SupplierRepository implements ISupplierRepository {
      * @param supplier - экземпляр supplier, который необходимо изменить
      */
     @Override
-    public void update(Supplier supplier) {
+    public Supplier update(Supplier supplier) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -59,8 +61,7 @@ public class SupplierRepository implements ISupplierRepository {
             transaction.commit();
             log.info("updateSupplier() Объект supplier успешно обновлен: {} ", supplier);
             entityManager.close();
-        } catch (Exception e) {
-            log.error("updateSupplier() Ошибка обновления объекта supplier: ", e);
+            return supplier;
         } finally {
             entityManager.close();
         }
@@ -73,7 +74,7 @@ public class SupplierRepository implements ISupplierRepository {
      * @return - объект Supplier из БД
      */
     @Override
-    public Supplier getSupplier(int id) {
+    public Supplier get(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Supplier supplier = null;
         try {
@@ -83,32 +84,6 @@ public class SupplierRepository implements ISupplierRepository {
             return supplier;
         } catch (Exception e) {
             log.error("getSupplier() Ошибка получения из БД объекта supplier: ", e);
-        } finally {
-            entityManager.close();
-        }
-        return supplier;
-    }
-
-    /**
-     * Получение из БД объекта Order по полю orderNumber Order
-     *
-     * @param companyName - id объекта Order который необходимо получить
-     * @return - объект Order из БД
-     */
-    @Override
-    public Supplier getSupplierWithInstance(String companyName) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Supplier supplier = null;
-        try {
-            TypedQuery<Supplier> query = entityManager.createQuery(
-                    "SELECT u FROM Supplier u WHERE u.companyName = :companyName", Supplier.class);
-            supplier = query.setParameter("companyName", companyName)
-                    .getSingleResult();
-            log.info("getCustomer() Объект supplier успешно получен из БД {}", supplier);
-            entityManager.close();
-            return supplier;
-        } catch (Exception e) {
-            log.error("getCustomer() Ошибка получения из БД объекта supplier: ", e);
         } finally {
             entityManager.close();
         }
@@ -141,38 +116,12 @@ public class SupplierRepository implements ISupplierRepository {
     }
 
     /**
-     * Удаление объекта supplier из БД
-     *
-     * @param supplier - удаляемый объект
-     */
-    @Override
-    public void deleteSupplier(Supplier supplier) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            Supplier tempSupplier = entityManager.find(Supplier.class, supplier.getSupplierId());
-            transaction.begin();
-            log.debug("deleteSupplier() Объект supplier передан на удаление: {}", tempSupplier);
-            if (entityManager.contains(tempSupplier)) {
-                entityManager.remove(tempSupplier);
-                transaction.commit();
-                log.info("deleteSupplier() Объект supplier успешно удален: {}", tempSupplier);
-            }
-            entityManager.close();
-        } catch (Exception e) {
-            log.error("deleteSupplier() Ошибка удаления объекта supplier: ", e);
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    /**
      * Удаление объекта Product из БД по id
      *
      * @param id - id удаляемого Product
      */
     @Override
-    public void deleteSupplierWithId(int id) {
+    public void delete(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {

@@ -1,27 +1,36 @@
 package com.zaraev.epam.javacourses.repository.stub;
 
+import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.helper.RepositoryHelper;
-import com.zaraev.epam.javacourses.repository.IOrderRepository;
+import com.zaraev.epam.javacourses.repository.OrderRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManagerFactory;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * Класс для возврата застабленных значения класса Order без обращения к самой БД
+ */
 @Profile("local")
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class OrderRepositoryStub implements IOrderRepository {
+public class OrderRepositoryStubImpl implements OrderRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;// = Persistence.createEntityManagerFactory("WER");
+    private final MessageSource messageSource;
 
+    @Value("${locale:en}")
     @Autowired
-    private RepositoryHelper repositoryHelper;
+    private Locale locale;
 
     /**
      * Запись в БД екземпляра Order - Ничего не сделает
@@ -30,7 +39,7 @@ public class OrderRepositoryStub implements IOrderRepository {
      * @return - вернет застабленный экземпляр Order
      */
     public Order create(Order order) {
-        var stub = repositoryHelper.order();
+        var stub = getStubOrder();
         log.info("create() Объект order застаблен {}", stub);
         return stub;
     }
@@ -40,9 +49,10 @@ public class OrderRepositoryStub implements IOrderRepository {
      *
      * @param order - экземпляр order, который необходимо изменить
      */
-    public void update(Order order) {
+    public Order update(Order order) {
+        var stub = getStubOrder();
         log.info("update() Объект order застаблен");
-        return;
+        return stub;
     }
 
     /**
@@ -51,21 +61,9 @@ public class OrderRepositoryStub implements IOrderRepository {
      * @param id - id объекта Order который необходимо получить
      * @return - вернет застабленный экземпляр Order
      */
-    public Order getOrder(int id) {
-        var stub = repositoryHelper.order();
+    public Order get(int id) {
+        var stub = getStubOrder();
         log.info("getstub Объект order застаблен {}", stub);
-        return stub;
-    }
-
-    /**
-     * Получение из БД объекта Order по полю orderNumber Order - Ничего не сделает
-     *
-     * @param orderNumber- id объекта Order который необходимо получить
-     * @return  - вернет застабленный экземпляр Order
-     */
-    public Order getOrderWithInstance(String orderNumber) {
-        var stub = repositoryHelper.order();
-        log.info("getOrderWithInstance() Объект order застаблен {}", stub);
         return stub;
     }
 
@@ -75,7 +73,7 @@ public class OrderRepositoryStub implements IOrderRepository {
      * @return - Коллекция List из застабленного Order
      */
     public List<Order> getAllOrder() {
-        var stub = repositoryHelper.order();
+        var stub = getStubOrder();
         Order[] orders = {stub};
         List<Order> orderList = Arrays.asList(orders);
         log.info("getAllCustomer() Объект customer застаблен {}", orderList);
@@ -83,23 +81,30 @@ public class OrderRepositoryStub implements IOrderRepository {
     }
 
     /**
-     * Удаление объекта order из БД - Ничего не сделает
-     *
-     * @param order - удаляемый объект
-     */
-    public void deleteOrder(Order order) {
-        log.info("create() Объект order застаблен");
-        return;
-    }
-
-    /**
      * Удаление объекта order из БД по id - Ничего не сделает
      *
      * @param id - id удаляемого order
      */
-    public void deleteOrderWithId(int id) {
+    public void delete(int id) {
         log.info("create() Объект order застаблен ");
-        return;
+    }
+
+    private Order getStubOrder() {
+        var order = new Order();
+        order.setOrderId(1);
+        order.setOrderNumber("orderNumber");
+        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+        order.setCustomer(customer());
+        order.setTotalAmount(BigDecimal.valueOf(100));
+        return order;
+    }
+
+    public Customer customer() {
+        var customer = new Customer();
+        customer.setCustomerId(Integer.parseInt(messageSource.getMessage("customerId", null, "1", locale)));
+        customer.setCustomerName(messageSource.getMessage("customerName", null, "Error", locale));
+        customer.setPhone(messageSource.getMessage("customerPhone", null, "Error", locale));
+        return customer;
     }
 
 }

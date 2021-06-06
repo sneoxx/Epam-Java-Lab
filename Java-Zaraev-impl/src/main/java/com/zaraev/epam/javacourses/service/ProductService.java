@@ -6,22 +6,23 @@ import com.zaraev.epam.javacourses.dto.ProductDTO;
 
 import java.util.List;
 
+/**
+ * Интерфейс для работы с ProductServiceImpl
+ */
 public interface ProductService {
 
     Product createRandomProduct(Supplier supplier);
 
     ProductDTO create(ProductDTO productDTO);
 
-    ProductDTO update(Product product);
+    ProductDTO updateRandomData(Product product);
 
-    ProductDTO updateProductWithId(int id, ProductDTO productDTO);
+    ProductDTO update(int id, ProductDTO productDTO);
 
     ProductDTO getProduct(int id);
 
     List<ProductDTO> getAllProduct();
 
     void deleteProductWithId(int id);
-
-    ProductDTO createProductDTO(Product product);
 
 }
