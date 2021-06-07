@@ -5,22 +5,23 @@ import com.zaraev.epam.javacourses.dto.SupplierDTO;
 
 import java.util.List;
 
+/**
+ * Интерфейс для работы с SupplierServiceImpl
+ */
 public interface SupplierService {
 
     Supplier createRandomSupplier();
 
     SupplierDTO create(SupplierDTO supplierDTO);
 
-    SupplierDTO update(Supplier supplier);
+    SupplierDTO updateRandomData(Supplier supplier);
 
-    SupplierDTO updateSupplierWithId(int id, SupplierDTO supplierDTO);
+    SupplierDTO update(int id, SupplierDTO supplierDTO);
 
     SupplierDTO getSupplier(int id);
 
     List<SupplierDTO> getAllSupplier();
 
     void deleteSupplierWithId(int id);
-
-    SupplierDTO createSupplierDTO(Supplier supplier);
 
 }

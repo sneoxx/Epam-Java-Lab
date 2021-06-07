@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.service.impl;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
 import com.zaraev.epam.javacourses.helper.ServiceHelper;
-import com.zaraev.epam.javacourses.repository.ISupplierRepository;
+import com.zaraev.epam.javacourses.repository.SupplierRepository;
 import com.zaraev.epam.javacourses.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,16 +13,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для работы с SupplierRepository
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SupplierServiceImpl implements SupplierService {
 
     @Autowired
-    private ISupplierRepository supplierRepository;
+    private SupplierRepository supplierRepository;
 
-    @Autowired
-    private ServiceHelper serviceHelper;
+    private final ServiceHelper serviceHelper = new ServiceHelper();
 
     /**
      * Создание случайного supplier и передача на запись в БД
@@ -34,8 +36,7 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(serviceHelper.generateRandomWord());
         supplier.setPhone(serviceHelper.getRandomNumber());
-        supplierRepository.create(supplier);
-        return supplier;
+        return supplierRepository.create(supplier);
     }
 
     /**
@@ -50,8 +51,8 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setCompanyName(supplierDTO.getCompanyName());
         supplier.setPhone(supplierDTO.getPhone());
         supplierRepository.create(supplier);
-        Supplier supplierCheck = supplierRepository.getSupplierWithInstance(supplier.getCompanyName());
-        return createSupplierDTO(supplierCheck);
+        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
+        return serviceHelper.createSupplierDTO(supplierCheck);
     }
 
     /**
@@ -61,11 +62,11 @@ public class SupplierServiceImpl implements SupplierService {
      * @return - Экземпляр supplierDTO
      */
     @Override
-    public SupplierDTO update(Supplier supplier) {
+    public SupplierDTO updateRandomData(Supplier supplier) {
         supplier.setCompanyName(supplier.getCompanyName() + "+" + serviceHelper.generateRandomWord());
         supplierRepository.update(supplier);
-        Supplier supplierCheck = supplierRepository.getSupplierWithInstance(supplier.getCompanyName());
-        return createSupplierDTO(supplierCheck);
+        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
+        return serviceHelper.createSupplierDTO(supplierCheck);
     }
 
     /**
@@ -76,15 +77,15 @@ public class SupplierServiceImpl implements SupplierService {
      * @return - Экземпляр supplierDTO
      */
     @Override
-    public SupplierDTO updateSupplierWithId(int id, SupplierDTO supplierDTO) {
-        Supplier updateSupplier = supplierRepository.getSupplier(id);
+    public SupplierDTO update(int id, SupplierDTO supplierDTO) {
+        Supplier updateSupplier = supplierRepository.get(id);
         log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
         updateSupplier.setCompanyName(supplierDTO.getCompanyName());
         updateSupplier.setPhone(supplierDTO.getPhone());
         log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
         supplierRepository.update(updateSupplier);
-        Supplier supplierCheck = supplierRepository.getSupplierWithInstance(updateSupplier.getCompanyName());
-        return createSupplierDTO(supplierCheck);
+        Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
+        return serviceHelper.createSupplierDTO(supplierCheck);
     }
 
     /**
@@ -95,8 +96,8 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public SupplierDTO getSupplier(int id) {
-        Supplier supplier = supplierRepository.getSupplier(id);
-        return createSupplierDTO(supplier);
+        Supplier supplier = supplierRepository.get(id);
+        return serviceHelper.createSupplierDTO(supplier);
     }
 
     /**
@@ -109,7 +110,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Supplier> customerList = supplierRepository.getAllSupplier();
         List<SupplierDTO> customerDTOList = new ArrayList<>();
         for (Supplier supplier : customerList) {
-            customerDTOList.add(createSupplierDTO(supplier));
+            customerDTOList.add(serviceHelper.createSupplierDTO(supplier));
         }
         return customerDTOList;
     }
@@ -121,21 +122,8 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public void deleteSupplierWithId(int id) {
-        supplierRepository.deleteSupplierWithId(id);
+        supplierRepository.delete(id);
     }
 
-    /**
-     * Создание SupplierDTO из supplier
-     *
-     * @param supplier - исходный supplier
-     * @return - полученный SupplierDTO
-     */
-    @Override
-    public SupplierDTO createSupplierDTO(Supplier supplier) {
-        SupplierDTO supplierDTO = new SupplierDTO();
-        supplierDTO.setSupplierId(supplier.getSupplierId());
-        supplierDTO.setCompanyName(supplier.getCompanyName());
-        supplierDTO.setPhone(supplier.getPhone());
-        return supplierDTO;
-    }
+
 }

@@ -2,43 +2,30 @@ package com.zaraev.epam.javacourses.demonstration;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.repository.IProductRepository;
 import com.zaraev.epam.javacourses.service.ProductService;
 import com.zaraev.epam.javacourses.service.SupplierService;
+import com.zaraev.epam.javacourses.service.impl.ProductServiceImpl;
+import com.zaraev.epam.javacourses.service.impl.SupplierServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
 
-@Component
+/**
+ * Метод для демонстрации работы операций CRUD класса Product
+ */
 @Slf4j
 public class WorkDemonstrationProduct {
 
-    @Autowired
-    private IProductRepository productRepository;
-
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private SupplierService supplierService;
-
-    @Autowired
-    private Environment environment;
-
-    /**
-     *Метод для демонстрации работы операций CRUD класса Product
-     */
-    public void test() {
-        for (String profileName : environment.getActiveProfiles()) {
-            log.info("Активный профиль: " + profileName);
-        }
+    public void test(ApplicationContext context) {
+        ProductService productService = context.getBean(ProductServiceImpl.class);
+        SupplierService supplierService = context.getBean(SupplierServiceImpl.class);
         Supplier supplier = supplierService.createRandomSupplier();
         Supplier supplier1 = supplierService.createRandomSupplier();
         Product product = productService.createRandomProduct(supplier);
         Product product1 = productService.createRandomProduct(supplier1);
-        productRepository.getProduct(1);
-        productService.update(product);
-        productRepository.deleteProduct(product1);
+        productService.getProduct(1);
+        productService.updateRandomData(product);
+        productService.deleteProductWithId(product1.getProductId());
     }
+
+
 }

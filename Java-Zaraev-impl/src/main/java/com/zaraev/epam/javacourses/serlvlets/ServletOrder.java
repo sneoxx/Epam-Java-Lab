@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Класс для обработки веб запросов к Order
+ */
 public class ServletOrder extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
@@ -57,7 +60,7 @@ public class ServletOrder extends HttpServlet implements IServlet {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
             var orderDTO = gson.fromJson(servletsHelper.parseJsonToString(req), OrderDTO.class);
-            var orderCheck = orderServiceImpl.updateOrderWithId(id, orderDTO);
+            var orderCheck = orderServiceImpl.update(id, orderDTO);
             var jsonString = this.gson.toJson(orderCheck);
             servletsHelper.printJson(jsonString, resp);
         }

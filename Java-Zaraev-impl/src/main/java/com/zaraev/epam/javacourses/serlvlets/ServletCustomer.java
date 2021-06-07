@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Класс для обработки веб запросов к Customer
+ */
 public class ServletCustomer extends HttpServlet implements IServlet {
 
     private final ServletsHelper servletsHelper = new ServletsHelper();
@@ -57,7 +60,7 @@ public class ServletCustomer extends HttpServlet implements IServlet {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
             var customerDTO = gson.fromJson(servletsHelper.parseJsonToString(req), CustomerDTO.class);
-            var customerCheck = customerServiceImpl.updateCustomerWithId(id, customerDTO);
+            var customerCheck = customerServiceImpl.update(id, customerDTO);
             var jsonString = this.gson.toJson(customerCheck);
             servletsHelper.printJson(jsonString, resp);
         }
