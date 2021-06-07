@@ -1,28 +1,34 @@
 package com.zaraev.epam.javacourses.repository.stub;
 
 import com.zaraev.epam.javacourses.domain.entity.Customer;
-import com.zaraev.epam.javacourses.helper.RepositoryHelper;
-import com.zaraev.epam.javacourses.repository.ICustomerRepository;
+import com.zaraev.epam.javacourses.repository.CustomerRepository;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
+/**
+ * Класс для возврата застабленных значения класса Customer без обращения к самой БД
+ */
 @Profile("local")
-@Component
+@Repository
+@RequiredArgsConstructor
+@Data
 @Slf4j
-public class CustomerRepositoryStub implements ICustomerRepository {
+public class CustomerRepositoryStubImpl implements CustomerRepository {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;// = Persistence.createEntityManagerFactory("WER");
+    private final MessageSource messageSource;
 
-    @Autowired
-    private RepositoryHelper repositoryHelper;
+    @Value("${locale:en}")
+    private Locale locale;
 
     /**
      * Запись в БД екземпляра Customer - Ничего не сделает
@@ -31,7 +37,7 @@ public class CustomerRepositoryStub implements ICustomerRepository {
      */
     @Override
     public Customer create(Customer customer) {
-        var stub = repositoryHelper.customer();
+        var stub = getStubCustomer();
         log.info("create() Объект customer застаблен {}", stub);
         return stub;
     }
@@ -42,9 +48,10 @@ public class CustomerRepositoryStub implements ICustomerRepository {
      * @param customer - экземпляр customer, который необходимо изменить
      */
     @Override
-    public void update(Customer customer) {
-        log.info("update() Объект customer застаблен ");
-        return;
+    public Customer update(Customer customer) {
+        var stub = getStubCustomer();
+        log.info("update() Объект customer застаблен {}", stub);
+        return stub;
     }
 
     /**
@@ -54,23 +61,9 @@ public class CustomerRepositoryStub implements ICustomerRepository {
      * @return - вернет застабленный экземпляр Customer
      */
     @Override
-    public Customer getCustomer(int id) {
-        var stub = repositoryHelper.customer();
-        ;
+    public Customer get(int id) {
+        var stub = getStubCustomer();
         log.info("getCustomer() Объект customer застаблен {}", stub);
-        return stub;
-    }
-
-    /**
-     * Получение из БД объекта Customer по экземпляру Customer - Ничего не сделает
-     *
-     * @param customerName - id объекта Customer который необходимо получить
-     * @return - вернет застабленный экземпляр Customer
-     */
-    @Override
-    public Customer getCustomerWithInstance(String customerName) {
-        var stub = repositoryHelper.customer();
-        log.info("getCustomerWithInstance() Объект customer застаблен {}", stub);
         return stub;
     }
 
@@ -81,22 +74,12 @@ public class CustomerRepositoryStub implements ICustomerRepository {
      */
     @Override
     public List<Customer> getAllCustomer() {
-        var stub = repositoryHelper.customer();
+        var stub = getStubCustomer();
         Customer[] customers = {stub};
         log.info("getAllCustomer() Объект customer застаблен", Arrays.asList(customers));
         return Arrays.asList(customers);
     }
 
-    /**
-     * Удаление объекта customer из БД - Ничего не сделает
-     *
-     * @param customer - удаляемый объект
-     */
-    @Override
-    public void deleteCustomer(Customer customer) {
-        log.info("deleteCustomer() Объект customer застаблен");
-        return;
-    }
 
     /**
      * Удаление объекта customer из БД по id - Ничего не сделает
@@ -104,8 +87,16 @@ public class CustomerRepositoryStub implements ICustomerRepository {
      * @param id - id удаляемого customer
      */
     @Override
-    public void deleteCustomerWithId(int id) {
+    public void delete(int id) {
         log.info("deleteCustomerWithId() Объект customer застаблен");
-        return;
     }
+
+    private Customer getStubCustomer() {
+        var customer = new Customer();
+        customer.setCustomerId(Integer.parseInt(messageSource.getMessage("customerId", null, "1", locale)));
+        customer.setCustomerName(messageSource.getMessage("customerName", null, "Error", locale));
+        customer.setPhone(messageSource.getMessage("customerPhone", null, "Error", locale));
+        return customer;
+    }
+
 }

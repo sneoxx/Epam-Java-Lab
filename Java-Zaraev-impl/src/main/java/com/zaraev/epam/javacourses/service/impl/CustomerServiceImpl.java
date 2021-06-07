@@ -4,7 +4,7 @@ package com.zaraev.epam.javacourses.service.impl;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.helper.ServiceHelper;
-import com.zaraev.epam.javacourses.repository.ICustomerRepository;
+import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import com.zaraev.epam.javacourses.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для работы с CustomerRepository
+ */
 @Service
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private ICustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
-    @Autowired
-    private ServiceHelper serviceHelper;
+    private final ServiceHelper serviceHelper = new ServiceHelper();
 
     /**
      * Создание случайного сustomer и передача на запись в БД
@@ -29,12 +31,12 @@ public class CustomerServiceImpl implements CustomerService {
      * @return - экземпляр customer
      */
     @Override
-    public Customer createRandomCustomer() {
+    public CustomerDTO createRandomCustomer() {
         Customer customer = new Customer();
         customer.setCustomerName(serviceHelper.generateRandomWord());
         customer.setPhone(serviceHelper.getRandomNumber());
-        customerRepository.create(customer);
-        return customer;
+        Customer customer1 = customerRepository.create(customer);
+        return serviceHelper.createDTOFromCustomer(customer1);
     }
 
     /**
@@ -49,22 +51,22 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCustomerName(customerDTO.getCustomerName());
         customer.setPhone(customerDTO.getPhone());
         customerRepository.create(customer);
-        Customer customerCheck = customerRepository.getCustomerWithInstance(customer.getCustomerName());
-        return createCustomerDTO(customerCheck);
+        Customer customerCheck = customerRepository.get(customer.getCustomerId());
+        return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
     /**
      * Обновление екземпляра customer и передача на обновление в БД
      *
-     * @param customer - экземпляр customer, на который необходимо изменить
+     * @param customerDTO - экземпляр customer, на который необходимо изменить
      * @return - результат опрерации сustomerDTO
      */
     @Override
-    public CustomerDTO update(Customer customer) {
-        customer.setCustomerName(customer.getCustomerName() + "+" + serviceHelper.generateRandomWord());
-        customerRepository.update(customer);
-        Customer customerCheck = customerRepository.getCustomerWithInstance(customer.getCustomerName());
-        return createCustomerDTO(customerCheck);
+    public CustomerDTO updateRandomData(CustomerDTO customerDTO) {
+        customerDTO.setCustomerName(customerDTO.getCustomerName() + "+" + serviceHelper.generateRandomWord());
+        customerRepository.update(serviceHelper.createCustomerFromDTO(customerDTO));
+        Customer customerCheck = customerRepository.get(customerDTO.getCustomerId());
+        return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
     /**
@@ -75,15 +77,15 @@ public class CustomerServiceImpl implements CustomerService {
      * @return - результат опрерации сustomerDTO
      */
     @Override
-    public CustomerDTO updateCustomerWithId(int id, CustomerDTO customerDTO) {
-        Customer updatecustomer = customerRepository.getCustomer(id);
+    public CustomerDTO update(int id, CustomerDTO customerDTO) {
+        Customer updateCustomer = customerRepository.get(id);
         log.debug("updateProductWithId() Объект customerDTO передан на обновление: {} ", customerDTO);
-        updatecustomer.setCustomerName(customerDTO.getCustomerName());
-        updatecustomer.setPhone(customerDTO.getPhone());
-        log.info("updateProductWithId() Объект customer успешно обновлен: {} ", updatecustomer);
-        customerRepository.update(updatecustomer);
-        Customer customerCheck = customerRepository.getCustomerWithInstance(updatecustomer.getCustomerName());
-        return createCustomerDTO(customerCheck);
+        updateCustomer.setCustomerName(customerDTO.getCustomerName());
+        updateCustomer.setPhone(customerDTO.getPhone());
+        log.info("updateProductWithId() Объект customer успешно обновлен: {} ", updateCustomer);
+        customerRepository.update(updateCustomer);
+        Customer customerCheck = customerRepository.get(updateCustomer.getCustomerId());
+        return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
     /**
@@ -94,8 +96,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public CustomerDTO getCustomer(int id) {
-        Customer customer = customerRepository.getCustomer(id);
-        return createCustomerDTO(customer);
+        Customer customer = customerRepository.get(id);
+        return serviceHelper.createDTOFromCustomer(customer);
     }
 
     /**
@@ -108,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customerList = customerRepository.getAllCustomer();
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for (Customer customer : customerList) {
-            customerDTOList.add(createCustomerDTO(customer));
+            customerDTOList.add(serviceHelper.createDTOFromCustomer(customer));
         }
         return customerDTOList;
     }
@@ -120,21 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void deleteCustomerWithId(int id) {
-        customerRepository.deleteCustomerWithId(id);
+        customerRepository.delete(id);
     }
 
-    /**
-     * Создание сustomerDTO из customer
-     *
-     * @param customer - исходный supplier
-     * @return - полученный сustomerDTO
-     */
-    @Override
-    public CustomerDTO createCustomerDTO(Customer customer) {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setCustomerName(customer.getCustomerName());
-        customerDTO.setPhone(customer.getPhone());
-        customerDTO.setCustomerId(customer.getCustomerId());
-        return customerDTO;
-    }
 }

@@ -1,31 +1,36 @@
 package com.zaraev.epam.javacourses.demonstration;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import org.springframework.context.ApplicationContext;
+
+/**
+ * Метод для демонстрации работы операций CRUD всех классов
+ */
 public class WorkDemonstrationAll {
 
-    @Autowired
     private WorkDemonstrationCustomer workDemonstrationCustomer;
 
-    @Autowired
     private WorkDemonstrationProduct workDemonstrationProduct;
 
-    @Autowired
     private WorkDemonstrationSupplier workDemonstrationSupplier;
 
-    @Autowired
     private WorkDemonstrationOrder workDemonstrationOrder;
+
+    public WorkDemonstrationAll() {
+        this.workDemonstrationCustomer = new WorkDemonstrationCustomer();
+        this.workDemonstrationSupplier = new WorkDemonstrationSupplier();
+        this.workDemonstrationProduct = new WorkDemonstrationProduct();
+        this.workDemonstrationOrder = new WorkDemonstrationOrder();
+    }
 
     /**
      * Метод для демонстрации работы операций CRUD всех сущностей БД
      */
-    public void test() {
-        workDemonstrationCustomer.test();
-        workDemonstrationSupplier.test();
-        workDemonstrationProduct.test();
-        workDemonstrationOrder.test();
+    public void test(ApplicationContext context) {
+        workDemonstrationCustomer.test(context);
+        workDemonstrationSupplier.test(context);
+        workDemonstrationProduct.test(context);
+        workDemonstrationOrder.test(context);
 
     }
 }

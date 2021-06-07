@@ -1,7 +1,5 @@
 package com.zaraev.epam.javacourses.helper;
 
-import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,14 +9,14 @@ import java.util.stream.Collectors;
 /**
  * Класс с общими методами для классов Servlet
  */
-@Component
 public class ServletsHelper {
 
     /**
      * Вывод на экран json
+     *
      * @param jsonString - строка json для вывода
-     * @param resp - Response сервлета
-     * @throws IOException
+     * @param resp       - Response сервлета
+     * @throws IOException - ошибки IOException пробошены
      */
     public void printJson(String jsonString, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
@@ -30,9 +28,10 @@ public class ServletsHelper {
 
     /**
      * Перевод Json в String
+     *
      * @param req Request сервлета
      * @return - вернет String
-     * @throws IOException
+     * @throws IOException - ошибки IOException пробошены
      */
     public String parseJsonToString(HttpServletRequest req) throws IOException {
         return req.getReader()
@@ -42,6 +41,7 @@ public class ServletsHelper {
 
     /**
      * Получить id из Request сервлета
+     *
      * @param req - Request сервлета
      * @return - int id
      */
@@ -54,6 +54,7 @@ public class ServletsHelper {
 
     /**
      * Валидация Request и получение id из Request сервлета
+     *
      * @param req - Request сервлета
      * @return - int id
      */
