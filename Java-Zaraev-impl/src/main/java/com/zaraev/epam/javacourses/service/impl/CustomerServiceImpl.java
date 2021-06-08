@@ -166,9 +166,8 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomer(int id) {
 //        Customer customer = customerRepository.get(id);
 //        return serviceHelper.createDTOFromCustomer(customer);
-        return serviceHelper.createDTOFromCustomer(customerRepository.findById(id).get());
+        return serviceHelper.createDTOFromCustomer(customerRepository.getOne(id));
     }
-
 
     /**
      * Получение всех CustomerDTO из базы

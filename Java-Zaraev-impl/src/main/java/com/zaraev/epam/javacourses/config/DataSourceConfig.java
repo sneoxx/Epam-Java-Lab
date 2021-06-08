@@ -11,6 +11,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Работа с БД
+ */
 @Configuration
 public class DataSourceConfig {
     @Bean

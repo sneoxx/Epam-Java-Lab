@@ -42,6 +42,10 @@
         <spring-context.version>5.2.6.RELEASE</spring-context.version>
 
         <spring-data-jpa.version>2.2.7.RELEASE</spring-data-jpa.version>
+        <javax.servlet-api1.version>4.0.0</javax.servlet-api1.version>
+        <jackson-databind.version>2.9.2</jackson-databind.version>
+        <validation-api.version>2.0.0.Final</validation-api.version>
+        <h2.version>1.4.200</h2.version>
     </properties>
 
     <build>
@@ -211,27 +215,41 @@
                 <version>${spring-data-jpa.version}</version>
             </dependency>
 
+            <!-- Spring Web MVC основные для спринг web-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring-core.version}</version>
+            </dependency>
 
- <!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-orm</artifactId>-->
-<!--                <version>${spring-orm.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-jdo</artifactId>-->
-<!--                <version>${spring-jdo.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-web</artifactId>-->
-<!--                <version>${spring-web.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-webmvc</artifactId>-->
-<!--                <version>${spring-webmvc1.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api1.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Для маппинга в JSON для преобразования из обьектов в json и обратно-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+
+            <!-- JSR 349  Валидация-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+
+            <!-- Рантайм БД -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>runtime</scope>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
