@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -21,7 +21,7 @@ import java.util.Locale;
  * Класс для возврата застабленных значения класса Order без обращения к самой БД
  */
 @Profile("local")
-@Component
+@Repository
 @RequiredArgsConstructor
 @Slf4j
 public class OrderRepositoryStubImpl implements OrderRepository {

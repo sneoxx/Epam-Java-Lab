@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Locale;
  * Класс для возврата застабленных значения класса Customer без обращения к самой БД
  */
 @Profile("local")
-@Component
+@Repository
 @RequiredArgsConstructor
 @Data
 @Slf4j

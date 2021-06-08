@@ -8,10 +8,9 @@ import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
 import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
+import com.zaraev.epam.javacourses.repository.SupplierRepository;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Класс с общими методами для классов Service
@@ -47,7 +46,7 @@ public class ServiceHelper {
      * @param customer - исходный supplier
      * @return - полученный сustomerDTO
      */
-    public CustomerDTO createCustomerDTO(Customer customer) {
+    public CustomerDTO createDTOFromCustomer(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerName(customer.getCustomerName());
         customerDTO.setPhone(customer.getPhone());
@@ -61,7 +60,7 @@ public class ServiceHelper {
      * @param customerDTO - исходный supplierDTO
      * @return - полученный сustomer
      */
-    public Customer createDTOfromCustomer(CustomerDTO customerDTO) {
+    public Customer createCustomerFromDTO(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         customer.setCustomerName(customerDTO.getCustomerName());
         customer.setPhone(customerDTO.getPhone());
@@ -70,26 +69,21 @@ public class ServiceHelper {
     }
 
     /**
-     * Создание OrderDTO из order)
+     * Создание OrderDTO из order
      *
-     * @param order - исходный OrderDTO
+     * @param order - исходный Order
      * @return - полученный order
      */
-    public OrderDTO createOrderDTO(Order order) {
+    public OrderDTO createDTOFromOrder(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderId(order.getOrderId());
         orderDTO.setOrderDate(order.getOrderDate());
         orderDTO.setOrderNumber(order.getOrderNumber());
         orderDTO.setCustomerId(order.getCustomer().getCustomerId());
         orderDTO.setTotalAmount(order.getTotalAmount());
-        Set<Integer> products = new HashSet<>();
-        for (Product product : order.getProducts()) {
-            Integer foundProduct = product.getProductId();
-            products.add(foundProduct);
-        }
-        orderDTO.setProducts(products);
         return orderDTO;
     }
+
 
     /**
      * Создание ProductDTO из product
@@ -97,7 +91,7 @@ public class ServiceHelper {
      * @param product - исходный product
      * @return - полученный ProductDTO
      */
-    public ProductDTO createProductDTO(Product product) {
+    public ProductDTO createDTOFromProduct(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setProductId(product.getProductId());
         productDTO.setProductName(product.getProductName());
@@ -108,16 +102,51 @@ public class ServiceHelper {
     }
 
     /**
+     * Создание ProductDTO из product
+     *
+     * @param productDTO - исходный product
+     * @return - полученный ProductDTO
+     */
+    public Product createProductFromDTO(ProductDTO productDTO,SupplierRepository supplierRepository) {
+        Product product = new Product();
+        product.setProductId(productDTO.getProductId());
+        product.setProductName(productDTO.getProductName());
+        product.setDiscountinued(productDTO.isDiscountinued());
+        product.setUnitPrice(productDTO.getUnitPrice());
+        System.out.println(productDTO.getSupplierId());
+        product.setSupplier(supplierRepository.get(productDTO.getSupplierId()));
+        return product;
+    }
+
+
+    /**
      * Создание SupplierDTO из supplier
      *
      * @param supplier - исходный supplier
      * @return - полученный SupplierDTO
      */
-    public SupplierDTO createSupplierDTO(Supplier supplier) {
+    public SupplierDTO createDTOFromSupplier(Supplier supplier) {
         SupplierDTO supplierDTO = new SupplierDTO();
         supplierDTO.setSupplierId(supplier.getSupplierId());
         supplierDTO.setCompanyName(supplier.getCompanyName());
         supplierDTO.setPhone(supplier.getPhone());
         return supplierDTO;
     }
+
+
+    /**
+     * Создание supplier из SupplierDTO
+     *
+     * @param supplierDTO - исходный supplier
+     * @return - полученный SupplierDTO
+     */
+    public Supplier createSupplierFromDTO(SupplierDTO supplierDTO) {
+        Supplier supplier = new Supplier();
+        supplier.setSupplierId(supplierDTO.getSupplierId());
+        supplier.setCompanyName(supplierDTO.getCompanyName());
+        supplier.setPhone(supplierDTO.getPhone());
+        return supplier;
+    }
+
+
 }

@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -20,7 +20,7 @@ import java.util.*;
  * Класс для возврата застабленных значения класса Product без обращения к самой БД
  */
 @Profile("local")
-@Component
+@Repository
 @RequiredArgsConstructor
 @Slf4j
 public class ProductRepositoryStubImpl implements ProductRepository {

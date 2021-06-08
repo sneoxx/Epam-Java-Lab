@@ -1,7 +1,7 @@
 package com.zaraev.epam.javacourses.service;
 
-import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
+import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    Order createRandomOrder(Customer customer, Integer id);
+    OrderDTO createRandomOrder(CustomerDTO customerDTO, Integer id);
 
     OrderDTO create(OrderDTO orderDTO);
 

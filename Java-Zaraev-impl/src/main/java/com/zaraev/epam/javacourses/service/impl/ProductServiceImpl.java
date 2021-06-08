@@ -1,8 +1,8 @@
 package com.zaraev.epam.javacourses.service.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
-import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.dto.ProductDTO;
+import com.zaraev.epam.javacourses.dto.SupplierDTO;
 import com.zaraev.epam.javacourses.helper.ServiceHelper;
 import com.zaraev.epam.javacourses.repository.ProductRepository;
 import com.zaraev.epam.javacourses.repository.SupplierRepository;
@@ -30,22 +30,23 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private SupplierRepository supplierRepository;
 
+
     private final ServiceHelper serviceHelper = new ServiceHelper();
 
     /**
      * Создание случайного supplier и передача на запись в БД экзмепляра supplier
      *
-     * @param supplier - экземпляр supplier
+     * @param supplierDTO - экземпляр supplier
      * @return - экземпляр product
      */
     @Override
-    public Product createRandomProduct(Supplier supplier) {
+    public ProductDTO createRandomProduct(SupplierDTO supplierDTO) {
         Product product = new Product();
         product.setProductName(serviceHelper.generateRandomWord());
         product.setDiscountinued(true);
         product.setUnitPrice(BigDecimal.valueOf(100));
-        product.setSupplier(supplier);
-        return productRepository.create(product);
+        product.setSupplier(serviceHelper.createSupplierFromDTO(supplierDTO));
+        return serviceHelper.createDTOFromProduct(productRepository.create(product));
     }
 
     /**
@@ -63,21 +64,21 @@ public class ProductServiceImpl implements ProductService {
         product.setSupplier(supplierRepository.get(productDTO.getSupplierId()));
         productRepository.create(product);
         Product productCheck = productRepository.get(product.getProductId());
-        return serviceHelper.createProductDTO(productCheck);
+        return serviceHelper.createDTOFromProduct(productCheck);
     }
 
     /**
      * Обновление екземпляра product и передача на запись в БД
      *
-     * @param product - экземпляр product, на который необходимо изменить
+     * @param productDTO - экземпляр productDTO, на который необходимо изменить
      * @return - результат опрерации orderDTO
      */
     @Override
-    public ProductDTO updateRandomData(Product product) {
-        product.setProductName(product.getProductName() + "+" + serviceHelper.generateRandomWord());
-        productRepository.update(product);
-        Product productCheck = productRepository.get(product.getProductId());
-        return serviceHelper.createProductDTO(productCheck);
+    public ProductDTO updateRandomData(ProductDTO productDTO) {
+        productDTO.setProductName(productDTO.getProductName() + "+" + serviceHelper.generateRandomWord());
+        productRepository.update(serviceHelper.createProductFromDTO(productDTO,supplierRepository));
+        Product productCheck = productRepository.get(productDTO.getProductId());
+        return serviceHelper.createDTOFromProduct(productCheck);
     }
 
     /**
@@ -97,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("updateProductWithId() Объект product успешно обновлен: {} ", updateProduct);
         productRepository.update(updateProduct);
         Product productCheck = productRepository.get(updateProduct.getProductId());
-        return serviceHelper.createProductDTO(productCheck);
+        return serviceHelper.createDTOFromProduct(productCheck);
     }
 
     /**
@@ -109,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO getProduct(int id) {
         Product product = productRepository.get(id);
-        return serviceHelper.createProductDTO(product);
+        return serviceHelper.createDTOFromProduct(product);
     }
 
     /**
@@ -122,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.getAllProduct();
         List<ProductDTO> productDTOList = new ArrayList<>();
         for (Product product : productList) {
-            productDTOList.add(serviceHelper.createProductDTO(product));
+            productDTOList.add(serviceHelper.createDTOFromProduct(product));
         }
         return productDTOList;
     }
@@ -136,6 +137,5 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductWithId(int id) {
         productRepository.delete(id);
     }
-
 
 }

@@ -16,7 +16,7 @@ public class ServletsHelper {
      *
      * @param jsonString - строка json для вывода
      * @param resp       - Response сервлета
-     * @throws IOException
+     * @throws IOException - ошибки IOException пробошены
      */
     public void printJson(String jsonString, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
@@ -31,7 +31,7 @@ public class ServletsHelper {
      *
      * @param req Request сервлета
      * @return - вернет String
-     * @throws IOException
+     * @throws IOException - ошибки IOException пробошены
      */
     public String parseJsonToString(HttpServletRequest req) throws IOException {
         return req.getReader()

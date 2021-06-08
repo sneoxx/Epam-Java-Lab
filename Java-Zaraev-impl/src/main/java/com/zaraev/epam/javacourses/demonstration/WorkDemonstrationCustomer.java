@@ -1,6 +1,6 @@
 package com.zaraev.epam.javacourses.demonstration;
 
-import com.zaraev.epam.javacourses.domain.entity.Customer;
+import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import com.zaraev.epam.javacourses.service.CustomerService;
 import com.zaraev.epam.javacourses.service.impl.CustomerServiceImpl;
@@ -19,8 +19,8 @@ public class WorkDemonstrationCustomer {
 
     public void test(ApplicationContext context) {
         CustomerService customerService = context.getBean(CustomerServiceImpl.class);
-        Customer customer = customerService.createRandomCustomer();
-        Customer customer1 = customerService.createRandomCustomer();
+        CustomerDTO customer = customerService.createRandomCustomer();
+        CustomerDTO customer1 = customerService.createRandomCustomer();
         customerService.getCustomer(1);
         customerService.updateRandomData(customer);
         customerService.deleteCustomerWithId(customer1.getCustomerId());

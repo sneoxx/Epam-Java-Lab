@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.Locale;
 /**
  * Класс для возврата застабленных значения класса Supplier без обращения к самой БД
  */
+@Repository
 @Profile("local")
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class SupplierRepositoryStubImpl implements SupplierRepository {

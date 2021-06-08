@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Интерфейс для работы с SupplierRepository
  */
+
 public interface SupplierRepository {
 
     Supplier create(Supplier product);

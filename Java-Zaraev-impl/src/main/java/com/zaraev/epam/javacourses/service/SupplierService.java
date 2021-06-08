@@ -1,6 +1,5 @@
 package com.zaraev.epam.javacourses.service;
 
-import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
 
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.List;
  */
 public interface SupplierService {
 
-    Supplier createRandomSupplier();
+    SupplierDTO createRandomSupplier();
 
     SupplierDTO create(SupplierDTO supplierDTO);
 
-    SupplierDTO updateRandomData(Supplier supplier);
+    SupplierDTO updateRandomData(SupplierDTO supplierDTO);
 
     SupplierDTO update(int id, SupplierDTO supplierDTO);
 

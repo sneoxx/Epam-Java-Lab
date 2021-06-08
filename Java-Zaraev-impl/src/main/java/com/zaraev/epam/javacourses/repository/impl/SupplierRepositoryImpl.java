@@ -22,6 +22,7 @@ import java.util.List;
 @Slf4j
 public class SupplierRepositoryImpl implements SupplierRepository {
 
+
     private final EntityManagerFactory entityManagerFactory;
 
     /**

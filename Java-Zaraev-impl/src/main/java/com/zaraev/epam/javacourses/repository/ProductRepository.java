@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Интерфейс для работы с ProductRepository
  */
+
 public interface ProductRepository {
 
     Product create(Product product);

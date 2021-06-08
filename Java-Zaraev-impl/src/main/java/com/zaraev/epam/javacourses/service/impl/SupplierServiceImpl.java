@@ -32,11 +32,11 @@ public class SupplierServiceImpl implements SupplierService {
      * @return экземпляр supplier
      */
     @Override
-    public Supplier createRandomSupplier() {
+    public SupplierDTO createRandomSupplier() {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(serviceHelper.generateRandomWord());
         supplier.setPhone(serviceHelper.getRandomNumber());
-        return supplierRepository.create(supplier);
+        return serviceHelper.createDTOFromSupplier(supplierRepository.create(supplier));
     }
 
     /**
@@ -52,22 +52,24 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setPhone(supplierDTO.getPhone());
         supplierRepository.create(supplier);
         Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
-        return serviceHelper.createSupplierDTO(supplierCheck);
+        return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
     /**
      * Обновление екземпляра supplier и передача на запись в БД
      *
-     * @param supplier - Экземпляр supplier
+     * @param supplierDTO - Экземпляр supplier
      * @return - Экземпляр supplierDTO
      */
     @Override
-    public SupplierDTO updateRandomData(Supplier supplier) {
-        supplier.setCompanyName(supplier.getCompanyName() + "+" + serviceHelper.generateRandomWord());
-        supplierRepository.update(supplier);
-        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
-        return serviceHelper.createSupplierDTO(supplierCheck);
+    public SupplierDTO updateRandomData(SupplierDTO supplierDTO) {
+        supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
+        supplierRepository.update(serviceHelper.createSupplierFromDTO(supplierDTO));
+        Supplier supplierCheck = supplierRepository.get(supplierDTO.getSupplierId());
+        return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
+
+
 
     /**
      * Обновление екземпляра supplier и передача на запись в БД
@@ -85,7 +87,7 @@ public class SupplierServiceImpl implements SupplierService {
         log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
         supplierRepository.update(updateSupplier);
         Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
-        return serviceHelper.createSupplierDTO(supplierCheck);
+        return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
     /**
@@ -97,7 +99,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public SupplierDTO getSupplier(int id) {
         Supplier supplier = supplierRepository.get(id);
-        return serviceHelper.createSupplierDTO(supplier);
+        return serviceHelper.createDTOFromSupplier(supplier);
     }
 
     /**
@@ -110,7 +112,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Supplier> customerList = supplierRepository.getAllSupplier();
         List<SupplierDTO> customerDTOList = new ArrayList<>();
         for (Supplier supplier : customerList) {
-            customerDTOList.add(serviceHelper.createSupplierDTO(supplier));
+            customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
         }
         return customerDTOList;
     }
@@ -124,6 +126,9 @@ public class SupplierServiceImpl implements SupplierService {
     public void deleteSupplierWithId(int id) {
         supplierRepository.delete(id);
     }
+
+
+
 
 
 }

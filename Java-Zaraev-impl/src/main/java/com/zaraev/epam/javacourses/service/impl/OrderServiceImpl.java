@@ -1,8 +1,8 @@
 package com.zaraev.epam.javacourses.service.impl;
 
-import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.domain.entity.Product;
+import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
 import com.zaraev.epam.javacourses.helper.ServiceHelper;
 import com.zaraev.epam.javacourses.repository.CustomerRepository;
@@ -44,22 +44,27 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Создание случайного Order и передача на запись в БД
      *
-     * @param customer - экземпляр customer
+     * @param customerDTO - экземпляр customer
      * @return - экземпляр order
      */
     @Override
-    public Order createRandomOrder(Customer customer, Integer id) {
+    public OrderDTO createRandomOrder(CustomerDTO customerDTO, Integer id) {
         Order order = new Order();
         order.setOrderNumber(serviceHelper.getRandomNumber());
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
         order.setTotalAmount(BigDecimal.valueOf(100));
-        order.setCustomer(customer);
+        order.setCustomer(serviceHelper.createCustomerFromDTO(customerDTO));
         Set<Product> products = new HashSet<>();
         Product product = productRepository.get(id);
+        System.out.println(product + "ttyd");
         products.add(product);
         order.setProducts(products);
-        return orderRepository.create(order);
+        Order order1 = orderRepository.create(order);
+        System.out.println(order1.getProducts()+ "ttyde1");
+        return serviceHelper.createDTOFromOrder(order1);
     }
+
+
 
     /**
      * Создание и передача на запись в БД
@@ -83,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
         order.setProducts(products);
         orderRepository.create(order);
         Order orderCheck = orderRepository.get(order.getOrderId());
-        return serviceHelper.createOrderDTO(orderCheck);
+        return serviceHelper.createDTOFromOrder(orderCheck);
     }
 
     /**
@@ -97,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderNumber(order.getOrderNumber() + "+Upd");
         orderRepository.update(order);
         Order orderCheck = orderRepository.get(order.getOrderId());
-        return serviceHelper.createOrderDTO(orderCheck);
+        return serviceHelper.createDTOFromOrder(orderCheck);
     }
 
     /**
@@ -123,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("updateProductWithId() Объект order успешно обновлен: {} ", updateOrder);
         orderRepository.update(updateOrder);
         Order orderCheck = orderRepository.get(updateOrder.getOrderId());
-        return serviceHelper.createOrderDTO(orderCheck);
+        return serviceHelper.createDTOFromOrder(orderCheck);
     }
 
     /**
@@ -135,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO getOrder(int id) {
         Order order = orderRepository.get(id);
-        return serviceHelper.createOrderDTO(order);
+        return serviceHelper.createDTOFromOrder(order);
     }
 
     /**
@@ -148,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orderList = orderRepository.getAllOrder();
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Order order : orderList) {
-            orderDTOList.add(serviceHelper.createOrderDTO(order));
+            orderDTOList.add(serviceHelper.createDTOFromOrder(order));
         }
         return orderDTOList;
     }
