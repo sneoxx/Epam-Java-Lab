@@ -22,6 +22,6 @@ public interface CustomerService {
 
     List<CustomerDTO> getAllCustomer();
 
-    void deleteById(int id);
+    CustomerDTO deleteById(int id);
 
 }

@@ -7,22 +7,22 @@
 
     <servlet>
         <servlet-name>servletSupplier</servlet-name>
-        <servlet-class>com.zaraev.epam.javacourses.serlvlets.ServletSupplier</servlet-class>
+        <servlet-class>com.zaraev.epam.javacourses.resource.SupplierResourceImpl</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>servletCustomer</servlet-name>
-        <servlet-class>com.zaraev.epam.javacourses.serlvlets.ServletCustomer</servlet-class>
+        <servlet-class>com.zaraev.epam.javacourses.resource.CustomerResourceImpl</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>servletOrder</servlet-name>
-        <servlet-class>com.zaraev.epam.javacourses.serlvlets.ServletOrder</servlet-class>
+        <servlet-class>com.zaraev.epam.javacourses.resource.OrderResourceImpl</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>servletProduct</servlet-name>
-        <servlet-class>com.zaraev.epam.javacourses.serlvlets.ServletProduct</servlet-class>
+        <servlet-class>com.zaraev.epam.javacourses.resource.ProductResourceImpl</servlet-class>
     </servlet>
 
     <servlet-mapping>

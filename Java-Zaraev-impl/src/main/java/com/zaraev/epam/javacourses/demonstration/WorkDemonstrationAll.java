@@ -28,8 +28,8 @@ public class WorkDemonstrationAll {
      */
     public void test(ApplicationContext context) {
         workDemonstrationCustomer.test(context);
-        workDemonstrationSupplier.test(context);
-        workDemonstrationProduct.test(context);
-        workDemonstrationOrder.test(context);
+//        workDemonstrationSupplier.test(context);
+//        workDemonstrationProduct.test(context);
+//        workDemonstrationOrder.test(context);
     }
 }

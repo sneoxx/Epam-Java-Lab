@@ -195,9 +195,10 @@ public class ProductServiceImpl implements ProductService {
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteById(int id) {
+    public ProductDTO deleteById(int id) {
+        ProductDTO productDTO = serviceHelper.createDTOFromProduct(productRepository.getOne(id));
         productRepository.deleteById(id);
-      //  productRepository.delete(id);
+        return productDTO;
     }
 
 }

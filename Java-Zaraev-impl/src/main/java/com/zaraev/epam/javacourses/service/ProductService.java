@@ -22,6 +22,6 @@ public interface ProductService {
 
     List<ProductDTO> getAllProduct();
 
-    void deleteById(int id);
+    ProductDTO deleteById(int id);
 
 }

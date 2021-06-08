@@ -156,7 +156,7 @@ public class CustomerServiceImpl implements CustomerService {
 //    }
 
 
-        /**
+    /**
      * Получение CustomerDTO из базы
      *
      * @param id - id Customer, которое необходимло получить
@@ -166,9 +166,8 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomer(int id) {
 //        Customer customer = customerRepository.get(id);
 //        return serviceHelper.createDTOFromCustomer(customer);
-        return serviceHelper.createDTOFromCustomer(customerRepository.findById(id).get());
+        return serviceHelper.createDTOFromCustomer(customerRepository.getOne(id));
     }
-
 
     /**
      * Получение всех CustomerDTO из базы
@@ -215,9 +214,11 @@ public class CustomerServiceImpl implements CustomerService {
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteById(int id) {
+    public CustomerDTO deleteById(int id) {
+        CustomerDTO customerDTO = serviceHelper.createDTOFromCustomer(customerRepository.getOne(id));
         customerRepository.deleteById(id);
-      //  customerRepository.delete(id);
+        //  customerRepository.delete(id);
+        return customerDTO;
     }
 
 

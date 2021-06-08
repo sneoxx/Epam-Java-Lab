@@ -246,9 +246,10 @@ public class OrderServiceImpl implements OrderService {
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteById(int id) {
+    public OrderDTO deleteById(int id) {
+       OrderDTO orderDTO = serviceHelper.createDTOFromOrder(orderRepository.getOne(id));
         orderRepository.deleteById(id);
-      //  orderRepository.delete(id);
+      return orderDTO;
     }
 
 }

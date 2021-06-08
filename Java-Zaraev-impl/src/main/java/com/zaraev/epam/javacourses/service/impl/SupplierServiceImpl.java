@@ -179,13 +179,11 @@ public class SupplierServiceImpl implements SupplierService {
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteById(int id) {
+    public SupplierDTO deleteById(int id) {
+        SupplierDTO supplierDTO = serviceHelper.createDTOFromSupplier(supplierRepository.getOne(id));
         supplierRepository.deleteById(id);
-    //    supplierRepository.delete(id);
+        return supplierDTO;
     }
-
-
-
 
 
 }

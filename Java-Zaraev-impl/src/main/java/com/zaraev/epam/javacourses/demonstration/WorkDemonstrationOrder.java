@@ -25,7 +25,7 @@ public class WorkDemonstrationOrder {
         OrderDTO order = orderService.createRandomOrder(customer, 1);
         OrderDTO order1 = orderService.createRandomOrder(customer1, 1);
         orderService.getOrder(1);
-        //orderService.update(1, order);
+       //orderService.update(1, order);
         customerService.updateRandomData(customer);
         orderService.deleteById(order.getOrderId());
     }
