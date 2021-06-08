@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -25,6 +26,7 @@ import java.util.Set;
  * Сервис для работы с OrderRepository
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class OrderServiceImpl implements OrderService {
@@ -55,14 +57,32 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(BigDecimal.valueOf(100));
         order.setCustomer(serviceHelper.createCustomerFromDTO(customerDTO));
         Set<Product> products = new HashSet<>();
-        Product product = productRepository.get(id);
-        System.out.println(product + "ttyd");
+
+
+        Product product = productRepository.getOne(id);
         products.add(product);
         order.setProducts(products);
-        Order order1 = orderRepository.create(order);
+        Order order1 = orderRepository.saveAndFlush(order);
         System.out.println(order1.getProducts()+ "ttyde1");
         return serviceHelper.createDTOFromOrder(order1);
     }
+
+//    @Override
+//    public OrderDTO createRandomOrder(CustomerDTO customerDTO, Integer id) {
+//        Order order = new Order();
+//        order.setOrderNumber(serviceHelper.getRandomNumber());
+//        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+//        order.setTotalAmount(BigDecimal.valueOf(100));
+//        order.setCustomer(serviceHelper.createCustomerFromDTO(customerDTO));
+//        Set<Product> products = new HashSet<>();
+//        Product product = productRepository.get(id);
+//        System.out.println(product + "ttyd");
+//        products.add(product);
+//        order.setProducts(products);
+//        Order order1 = orderRepository.create(order);
+//        System.out.println(order1.getProducts()+ "ttyde1");
+//        return serviceHelper.createDTOFromOrder(order1);
+//    }
 
 
 
@@ -75,21 +95,40 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
         Order order = new Order();
-        System.out.println(customerRepository.get(orderDTO.getCustomerId()));
+        System.out.println(customerRepository.getOne(orderDTO.getCustomerId()));
         order.setOrderNumber(orderDTO.getOrderNumber());
         order.setOrderDate(orderDTO.getOrderDate());
         order.setTotalAmount(orderDTO.getTotalAmount());
-        order.setCustomer(customerRepository.get(orderDTO.getCustomerId()));
+        order.setCustomer(customerRepository.getOne(orderDTO.getCustomerId()));
         Set<Product> products = new HashSet<>();
         for (Integer product : orderDTO.getProducts()) {
-            Product foundProduct = productRepository.get(product);
+            Product foundProduct = productRepository.getOne(product);
             products.add(foundProduct);
         }
         order.setProducts(products);
-        orderRepository.create(order);
-        Order orderCheck = orderRepository.get(order.getOrderId());
+        orderRepository.saveAndFlush(order);
+        Order orderCheck = orderRepository.getOne(order.getOrderId());
         return serviceHelper.createDTOFromOrder(orderCheck);
     }
+
+//    @Override
+//    public OrderDTO create(OrderDTO orderDTO) {
+//        Order order = new Order();
+//        System.out.println(customerRepository.get(orderDTO.getCustomerId()));
+//        order.setOrderNumber(orderDTO.getOrderNumber());
+//        order.setOrderDate(orderDTO.getOrderDate());
+//        order.setTotalAmount(orderDTO.getTotalAmount());
+//        order.setCustomer(customerRepository.get(orderDTO.getCustomerId()));
+//        Set<Product> products = new HashSet<>();
+//        for (Integer product : orderDTO.getProducts()) {
+//            Product foundProduct = productRepository.get(product);
+//            products.add(foundProduct);
+//        }
+//        order.setProducts(products);
+//        orderRepository.create(order);
+//        Order orderCheck = orderRepository.get(order.getOrderId());
+//        return serviceHelper.createDTOFromOrder(orderCheck);
+//    }
 
     /**
      * Обновление экземпляра order и передача на обновление в БД
@@ -100,10 +139,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO updateRandomData(Order order) {
         order.setOrderNumber(order.getOrderNumber() + "+Upd");
-        orderRepository.update(order);
-        Order orderCheck = orderRepository.get(order.getOrderId());
+        orderRepository.saveAndFlush(order);
+        Order orderCheck = orderRepository.getOne(order.getOrderId());
         return serviceHelper.createDTOFromOrder(orderCheck);
     }
+
+//    @Override
+//    public OrderDTO updateRandomData(Order order) {
+//        order.setOrderNumber(order.getOrderNumber() + "+Upd");
+//        orderRepository.update(order);
+//        Order orderCheck = orderRepository.get(order.getOrderId());
+//        return serviceHelper.createDTOFromOrder(orderCheck);
+//    }
 
     /**
      * Обновление экземпляра order и передача на обновление в БД
@@ -114,22 +161,41 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDTO update(int id, OrderDTO orderDTO) {
-        Order updateOrder = orderRepository.get(id);
+        Order updateOrder = orderRepository.getOne(id);
         log.debug("updateProductWithId() Объект orderDTO передан на обновление: {} ", orderDTO);
         updateOrder.setOrderNumber(orderDTO.getOrderNumber());
         updateOrder.setOrderDate(orderDTO.getOrderDate());
         updateOrder.setTotalAmount(orderDTO.getTotalAmount());
         Set<Product> products = new HashSet<>();
         for (Integer product : orderDTO.getProducts()) {
-            Product foundProduct = productRepository.get(product);
+            Product foundProduct = productRepository.getOne(product);
             products.add(foundProduct);
         }
         updateOrder.setProducts(products);
         log.info("updateProductWithId() Объект order успешно обновлен: {} ", updateOrder);
-        orderRepository.update(updateOrder);
-        Order orderCheck = orderRepository.get(updateOrder.getOrderId());
+        orderRepository.saveAndFlush(updateOrder);
+        Order orderCheck = orderRepository.getOne(updateOrder.getOrderId());
         return serviceHelper.createDTOFromOrder(orderCheck);
     }
+
+//    @Override
+//    public OrderDTO update(int id, OrderDTO orderDTO) {
+//        Order updateOrder = orderRepository.get(id);
+//        log.debug("updateProductWithId() Объект orderDTO передан на обновление: {} ", orderDTO);
+//        updateOrder.setOrderNumber(orderDTO.getOrderNumber());
+//        updateOrder.setOrderDate(orderDTO.getOrderDate());
+//        updateOrder.setTotalAmount(orderDTO.getTotalAmount());
+//        Set<Product> products = new HashSet<>();
+//        for (Integer product : orderDTO.getProducts()) {
+//            Product foundProduct = productRepository.get(product);
+//            products.add(foundProduct);
+//        }
+//        updateOrder.setProducts(products);
+//        log.info("updateProductWithId() Объект order успешно обновлен: {} ", updateOrder);
+//        orderRepository.update(updateOrder);
+//        Order orderCheck = orderRepository.get(updateOrder.getOrderId());
+//        return serviceHelper.createDTOFromOrder(orderCheck);
+//    }
 
     /**
      * Получение CustomerDTO из базы
@@ -139,9 +205,15 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDTO getOrder(int id) {
-        Order order = orderRepository.get(id);
+        Order order = orderRepository.getOne(id);
         return serviceHelper.createDTOFromOrder(order);
     }
+
+//    @Override
+//    public OrderDTO getOrder(int id) {
+//        Order order = orderRepository.get(id);
+//        return serviceHelper.createDTOFromOrder(order);
+//    }
 
     /**
      * Получение всех CustomerDTO из базы
@@ -150,7 +222,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderDTO> getAllOrder() {
-        List<Order> orderList = orderRepository.getAllOrder();
+        List<Order> orderList = orderRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Order order : orderList) {
             orderDTOList.add(serviceHelper.createDTOFromOrder(order));
@@ -158,14 +230,25 @@ public class OrderServiceImpl implements OrderService {
         return orderDTOList;
     }
 
+//    @Override
+//    public List<OrderDTO> getAllOrder() {
+//        List<Order> orderList = orderRepository.getAllOrder();
+//        List<OrderDTO> orderDTOList = new ArrayList<>();
+//        for (Order order : orderList) {
+//            orderDTOList.add(serviceHelper.createDTOFromOrder(order));
+//        }
+//        return orderDTOList;
+//    }
+
     /**
      * Удаление Customer из базы по id
      *
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteOrderWithId(int id) {
-        orderRepository.delete(id);
+    public void deleteById(int id) {
+        orderRepository.deleteById(id);
+      //  orderRepository.delete(id);
     }
 
 }

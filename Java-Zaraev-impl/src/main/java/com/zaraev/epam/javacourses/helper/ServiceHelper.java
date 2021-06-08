@@ -114,10 +114,10 @@ public class ServiceHelper {
         product.setDiscountinued(productDTO.isDiscountinued());
         product.setUnitPrice(productDTO.getUnitPrice());
         System.out.println(productDTO.getSupplierId());
-        product.setSupplier(supplierRepository.get(productDTO.getSupplierId()));
+        product.setSupplier(supplierRepository.getOne(productDTO.getSupplierId()));
+        //product.setSupplier(supplierRepository.get(productDTO.getSupplierId()));
         return product;
     }
-
 
     /**
      * Создание SupplierDTO из supplier

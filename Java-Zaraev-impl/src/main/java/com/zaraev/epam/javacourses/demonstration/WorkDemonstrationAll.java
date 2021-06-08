@@ -31,6 +31,5 @@ public class WorkDemonstrationAll {
         workDemonstrationSupplier.test(context);
         workDemonstrationProduct.test(context);
         workDemonstrationOrder.test(context);
-
     }
 }

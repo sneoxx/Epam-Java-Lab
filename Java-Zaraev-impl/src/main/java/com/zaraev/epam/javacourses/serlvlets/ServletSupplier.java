@@ -73,7 +73,7 @@ public class ServletSupplier extends HttpServlet implements IServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
-            supplierService.deleteSupplierWithId(id);
+            supplierService.deleteById(id);
         }
     }
 }

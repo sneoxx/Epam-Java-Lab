@@ -23,6 +23,6 @@ public interface OrderService {
 
     List<OrderDTO> getAllOrder();
 
-    void deleteOrderWithId(int id);
+    void deleteById(int id);
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface SupplierService {
 
+
     SupplierDTO createRandomSupplier();
 
     SupplierDTO create(SupplierDTO supplierDTO);
@@ -21,6 +22,6 @@ public interface SupplierService {
 
     List<SupplierDTO> getAllSupplier();
 
-    void deleteSupplierWithId(int id);
+    void deleteById(int id);
 
 }

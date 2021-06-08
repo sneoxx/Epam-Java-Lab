@@ -73,7 +73,7 @@ public class ServletCustomer extends HttpServlet implements IServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         var id = servletsHelper.validateAndGetIdFromRequest(req);
         if (id != 0) {
-            customerServiceImpl.deleteCustomerWithId(id);
+            customerServiceImpl.deleteById(id);
         }
     }
 }

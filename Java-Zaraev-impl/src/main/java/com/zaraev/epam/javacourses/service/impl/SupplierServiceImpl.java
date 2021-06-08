@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * Сервис для работы с SupplierRepository
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class SupplierServiceImpl implements SupplierService {
@@ -36,8 +38,16 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(serviceHelper.generateRandomWord());
         supplier.setPhone(serviceHelper.getRandomNumber());
-        return serviceHelper.createDTOFromSupplier(supplierRepository.create(supplier));
+        return serviceHelper.createDTOFromSupplier(supplierRepository.saveAndFlush(supplier));
     }
+
+//    @Override
+//    public SupplierDTO createRandomSupplier() {
+//        Supplier supplier = new Supplier();
+//        supplier.setCompanyName(serviceHelper.generateRandomWord());
+//        supplier.setPhone(serviceHelper.getRandomNumber());
+//        return serviceHelper.createDTOFromSupplier(supplierRepository.create(supplier));
+//    }
 
     /**
      * Создание екземпляра supplier и передача на запись в БД на основании объекта supplierDTO
@@ -50,10 +60,21 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(supplierDTO.getCompanyName());
         supplier.setPhone(supplierDTO.getPhone());
-        supplierRepository.create(supplier);
-        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
+        supplierRepository.saveAndFlush(supplier);
+        Supplier supplierCheck = supplierRepository.getOne(supplier.getSupplierId());
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
+
+
+//    @Override
+//    public SupplierDTO create(SupplierDTO supplierDTO) {
+//        Supplier supplier = new Supplier();
+//        supplier.setCompanyName(supplierDTO.getCompanyName());
+//        supplier.setPhone(supplierDTO.getPhone());
+//        supplierRepository.create(supplier);
+//        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
+//        return serviceHelper.createDTOFromSupplier(supplierCheck);
+//    }
 
     /**
      * Обновление екземпляра supplier и передача на запись в БД
@@ -64,11 +85,18 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public SupplierDTO updateRandomData(SupplierDTO supplierDTO) {
         supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
-        supplierRepository.update(serviceHelper.createSupplierFromDTO(supplierDTO));
-        Supplier supplierCheck = supplierRepository.get(supplierDTO.getSupplierId());
+        supplierRepository.saveAndFlush(serviceHelper.createSupplierFromDTO(supplierDTO));
+        Supplier supplierCheck = supplierRepository.getOne(supplierDTO.getSupplierId());
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
+//    @Override
+//    public SupplierDTO updateRandomData(SupplierDTO supplierDTO) {
+//        supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
+//        supplierRepository.update(serviceHelper.createSupplierFromDTO(supplierDTO));
+//        Supplier supplierCheck = supplierRepository.get(supplierDTO.getSupplierId());
+//        return serviceHelper.createDTOFromSupplier(supplierCheck);
+//    }
 
 
     /**
@@ -80,15 +108,27 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public SupplierDTO update(int id, SupplierDTO supplierDTO) {
-        Supplier updateSupplier = supplierRepository.get(id);
+        Supplier updateSupplier = supplierRepository.getOne(id);
         log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
         updateSupplier.setCompanyName(supplierDTO.getCompanyName());
         updateSupplier.setPhone(supplierDTO.getPhone());
         log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
-        supplierRepository.update(updateSupplier);
-        Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
+        supplierRepository.saveAndFlush(updateSupplier);
+        Supplier supplierCheck = supplierRepository.getOne(updateSupplier.getSupplierId());
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
+
+//    @Override
+//    public SupplierDTO update(int id, SupplierDTO supplierDTO) {
+//        Supplier updateSupplier = supplierRepository.get(id);
+//        log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
+//        updateSupplier.setCompanyName(supplierDTO.getCompanyName());
+//        updateSupplier.setPhone(supplierDTO.getPhone());
+//        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
+//        supplierRepository.update(updateSupplier);
+//        Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
+//        return serviceHelper.createDTOFromSupplier(supplierCheck);
+//    }
 
     /**
      * Получение CustomerDTO из базы
@@ -98,9 +138,15 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public SupplierDTO getSupplier(int id) {
-        Supplier supplier = supplierRepository.get(id);
+        Supplier supplier = supplierRepository.getOne(id);
         return serviceHelper.createDTOFromSupplier(supplier);
     }
+
+//    @Override
+//    public SupplierDTO getSupplier(int id) {
+//        Supplier supplier = supplierRepository.get(id);
+//        return serviceHelper.createDTOFromSupplier(supplier);
+//    }
 
     /**
      * Получение всех CustomerDTO из базы
@@ -109,13 +155,23 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public List<SupplierDTO> getAllSupplier() {
-        List<Supplier> customerList = supplierRepository.getAllSupplier();
+        List<Supplier> customerList = supplierRepository.findAll();
         List<SupplierDTO> customerDTOList = new ArrayList<>();
         for (Supplier supplier : customerList) {
             customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
         }
         return customerDTOList;
     }
+//
+//    @Override
+//    public List<SupplierDTO> getAllSupplier() {
+//        List<Supplier> customerList = supplierRepository.getAllSupplier();
+//        List<SupplierDTO> customerDTOList = new ArrayList<>();
+//        for (Supplier supplier : customerList) {
+//            customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
+//        }
+//        return customerDTOList;
+//    }
 
     /**
      * Удаление Customer из базы по id
@@ -123,8 +179,9 @@ public class SupplierServiceImpl implements SupplierService {
      * @param id - id Customer для удаления
      */
     @Override
-    public void deleteSupplierWithId(int id) {
-        supplierRepository.delete(id);
+    public void deleteById(int id) {
+        supplierRepository.deleteById(id);
+    //    supplierRepository.delete(id);
     }
 
 

@@ -1,23 +1,13 @@
 package com.zaraev.epam.javacourses.repository;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Интерфейс для работы с SupplierRepository
  */
-
-public interface SupplierRepository {
-
-    Supplier create(Supplier product);
-
-    Supplier update(Supplier supplier);
-
-    Supplier get(int id);
-
-    List<Supplier> getAllSupplier();
-
-    void delete(int id);
+@Repository
+public interface SupplierRepository extends JpaRepository<Supplier, Integer>  {
 
 }
