@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 /**
- * Промежуточный класс буффер для проверки корректности данных json в запросе
+ * DTO класс Order
  */
 @Data
 public class OrderDTO {

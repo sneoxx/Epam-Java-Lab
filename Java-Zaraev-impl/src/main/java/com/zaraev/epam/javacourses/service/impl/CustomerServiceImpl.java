@@ -27,40 +27,27 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final ServiceHelper serviceHelper = new ServiceHelper();
 
-
     /**
-     * Создание случайного сustomer и передача на запись в БД
+     * Создание и запись в БД рандомного Supplier
      *
-     * @return - экземпляр customer
+     * @return - сustomerDTO конвертированный из Customer записанного в базу
      */
     @Override
     public CustomerDTO createRandomCustomer() {
         Customer customer = new Customer();
         customer.setCustomerName(serviceHelper.generateRandomWord());
         customer.setPhone(serviceHelper.getRandomNumber());
-        Customer customer1 = customerRepository.saveAndFlush(customer);
-        return serviceHelper.createDTOFromCustomer(customer1);
+        customerRepository.saveAndFlush(customer);
+        Customer customerCheck = customerRepository.getOne(customer.getCustomerId());
+        log.debug("createRandomCustomer() Объект customer успешно записан в БД: {} ", customerCheck);
+        return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
-//    /**
-//     * Создание случайного сustomer и передача на запись в БД
-//     *
-//     * @return - экземпляр customer
-//     */
-//    @Override
-//    public CustomerDTO createRandomCustomer() {
-//        Customer customer = new Customer();
-//        customer.setCustomerName(serviceHelper.generateRandomWord());
-//        customer.setPhone(serviceHelper.getRandomNumber());
-//        Customer customer1 = customerRepository.create(customer);
-//        return serviceHelper.createDTOFromCustomer(customer1);
-//    }
-
     /**
-     * Создание и передача на запись в БД екземпляра customer
+     * Создание и запись в БД екземпляра customer
      *
      * @param customerDTO - Экземпляр customerDTO
-     * @return - результат опрерации сustomerDTO полученный из базы
+     * @return - сustomerDTO конвертированный из Customer записанного в базу
      */
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
@@ -69,110 +56,60 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(customerDTO.getPhone());
         customerRepository.saveAndFlush(customer);
         Customer customerCheck = customerRepository.getOne(customer.getCustomerId());
+        log.debug("create() Объект customer успешно записан в БД: {} ", customerCheck);
         return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
-//    /**
-//     * Создание и передача на запись в БД екземпляра customer
-//     *
-//     * @param customerDTO - Экземпляр customerDTO
-//     * @return - результат опрерации сustomerDTO полученный из базы
-//     */
-//    @Override
-//    public CustomerDTO create(CustomerDTO customerDTO) {
-//        Customer customer = new Customer();
-//        customer.setCustomerName(customerDTO.getCustomerName());
-//        customer.setPhone(customerDTO.getPhone());
-//        customerRepository.create(customer);
-//        Customer customerCheck = customerRepository.get(customer.getCustomerId());
-//        return serviceHelper.createDTOFromCustomer(customerCheck);
-//    }
-
-
     /**
-     * Обновление екземпляра customer и передача на обновление в БД
+     * Обновление случайными данными и запись в БД екземпляра Customer
      *
      * @param customerDTO - экземпляр customer, на который необходимо изменить
-     * @return - результат опрерации сustomerDTO
+     * @return - результат операции сustomerDTO конвертированный из Customer полученного из базы
      */
     @Override
     public CustomerDTO updateRandomData(CustomerDTO customerDTO) {
         customerDTO.setCustomerName(customerDTO.getCustomerName() + "+" + serviceHelper.generateRandomWord());
         customerRepository.saveAndFlush(serviceHelper.createCustomerFromDTO(customerDTO));
         Customer customerCheck = customerRepository.getOne(customerDTO.getCustomerId());
+        log.debug("updateRandomData() Объект customer успешно обновлен в БД: {} ", customerCheck);
         return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
-//    /**
-//     * Обновление екземпляра customer и передача на обновление в БД
-//     *
-//     * @param customerDTO - экземпляр customer, на который необходимо изменить
-//     * @return - результат опрерации сustomerDTO
-//     */
-//    @Override
-//    public CustomerDTO updateRandomData(CustomerDTO customerDTO) {
-//        customerDTO.setCustomerName(customerDTO.getCustomerName() + "+" + serviceHelper.generateRandomWord());
-//        customerRepository.update(serviceHelper.createCustomerFromDTO(customerDTO));
-//        Customer customerCheck = customerRepository.get(customerDTO.getCustomerId());
-//        return serviceHelper.createDTOFromCustomer(customerCheck);
-//    }
-
     /**
-     * Обновление экземпляра customer и передача на обновление в БД
+     * Обновление и запись в БД экземпляра customer
      *
      * @param id          - id экземпляра customer в базе, который необходимо изменить
      * @param customerDTO - экземпляр customer, на который необходимо изменить
-     * @return - результат опрерации сustomerDTO
+     * @return - CustomerDTO конвертированный из обновленного Customer
      */
     @Override
     public CustomerDTO update(int id, CustomerDTO customerDTO) {
         Customer updateCustomer = customerRepository.getOne(id);
-        log.debug("updateProductWithId() Объект customerDTO передан на обновление: {} ", customerDTO);
         updateCustomer.setCustomerName(customerDTO.getCustomerName());
         updateCustomer.setPhone(customerDTO.getPhone());
-        log.info("updateProductWithId() Объект customer успешно обновлен: {} ", updateCustomer);
         customerRepository.saveAndFlush(updateCustomer);
         Customer customerCheck = customerRepository.getOne(updateCustomer.getCustomerId());
+        log.debug("updateRandomData() Объект customer успешно обновлен в БД: {} ", customerCheck);
         return serviceHelper.createDTOFromCustomer(customerCheck);
     }
 
-//    /**
-//     * Обновление экземпляра customer и передача на обновление в БД
-//     *
-//     * @param id          - id экземпляра customer в базе, который необходимо изменить
-//     * @param customerDTO - экземпляр customer, на который необходимо изменить
-//     * @return - результат опрерации сustomerDTO
-//     */
-//    @Override
-//    public CustomerDTO update(int id, CustomerDTO customerDTO) {
-//        Customer updateCustomer = customerRepository.get(id);
-//        log.debug("updateProductWithId() Объект customerDTO передан на обновление: {} ", customerDTO);
-//        updateCustomer.setCustomerName(customerDTO.getCustomerName());
-//        updateCustomer.setPhone(customerDTO.getPhone());
-//        log.info("updateProductWithId() Объект customer успешно обновлен: {} ", updateCustomer);
-//        customerRepository.update(updateCustomer);
-//        Customer customerCheck = customerRepository.get(updateCustomer.getCustomerId());
-//        return serviceHelper.createDTOFromCustomer(customerCheck);
-//    }
-
-
     /**
-     * Получение CustomerDTO из базы
+     * Получение Customerиз базы
      *
      * @param id - id Customer, которое необходимло получить
-     * @return - CustomerDTO созданный из полченного Customer
+     * @return - CustomerDTO созданный из полученного Customer
      */
     @Override
     public CustomerDTO getCustomer(int id) {
-//        Customer customer = customerRepository.get(id);
-//        return serviceHelper.createDTOFromCustomer(customer);
-        return serviceHelper.createDTOFromCustomer(customerRepository.getOne(id));
+        Customer customer = customerRepository.getOne(id);
+        log.debug("getCustomer() Объект customer успешно получен из БД: {}", customer);
+        return serviceHelper.createDTOFromCustomer(customer);
     }
 
     /**
-     * Получение всех CustomerDTO из базы
+     * Получение всех Customer из базы
      *
-     * @return - CustomerDTO созданный из полученного Customer
+     * @return - коллекция CustomerDTO конвертированная из полученного коллекции Customer
      */
     @Override
     public List<CustomerDTO> getAllCustomer() {
@@ -181,45 +118,22 @@ public class CustomerServiceImpl implements CustomerService {
         for (Customer customer : customerList) {
             customerDTOList.add(serviceHelper.createDTOFromCustomer(customer));
         }
-//        return customerDTOList;
-//        List<Customer> customerList = customerRepository.getAllCustomer();
-//        List<CustomerDTO> customerDTOList = new ArrayList<>();
-//        for (Customer customer : customerList) {
-//            customerDTOList.add(serviceHelper.createDTOFromCustomer(customer));
-//        }
-//        return customerDTOList;
-//    }
+        log.debug("getAllCustomer() Объекты customer успешно получены из БД");
         return customerDTOList;
     }
-
-//    /**
-//     * Получение всех CustomerDTO из базы
-//     *
-//     * @return - CustomerDTO созданный из полученного Customer
-//     */
-//    @Override
-//    public List<CustomerDTO> getAllCustomer() {
-//        List<Customer> customerList = customerRepository.getAllCustomer();
-//        List<CustomerDTO> customerDTOList = new ArrayList<>();
-//        for (Customer customer : customerList) {
-//            customerDTOList.add(serviceHelper.createDTOFromCustomer(customer));
-//        }
-//        return customerDTOList;
-//    }
-
 
     /**
      * Удаление Customer из базы по id
      *
      * @param id - id Customer для удаления
+     * @return - CustomerDTO конвертированный из удаленного Customer
      */
     @Override
+
     public CustomerDTO deleteById(int id) {
         CustomerDTO customerDTO = serviceHelper.createDTOFromCustomer(customerRepository.getOne(id));
         customerRepository.deleteById(id);
-        //  customerRepository.delete(id);
+        log.debug("deleteById() Объект customer успешно удален из БД");
         return customerDTO;
     }
-
-
 }

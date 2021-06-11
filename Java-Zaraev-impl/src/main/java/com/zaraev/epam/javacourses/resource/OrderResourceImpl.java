@@ -1,9 +1,6 @@
 package com.zaraev.epam.javacourses.resource;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
-import com.zaraev.epam.javacourses.helper.ServletsHelper;
 import com.zaraev.epam.javacourses.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +15,11 @@ import java.util.List;
 @Slf4j
 public class OrderResourceImpl implements OrderResource {
 
-    private final ServletsHelper servletsHelper = new ServletsHelper();
-
     @Autowired
     private OrderService orderService;
 
-    private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-
     /**
-     * Получение заказ по id переданного в запросе
+     * Получение заказа по id переданного в запросе
      */
     @Override
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
@@ -69,64 +62,9 @@ public class OrderResourceImpl implements OrderResource {
      * Удаление заказа по id переданного в запросе
      */
     @Override
-    @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
     public OrderDTO delete(@PathVariable("id") int id) {
             log.info("delete() - Удален customer с id {}", id);
             return orderService.deleteById(id);
     }
 }
-
-//
-//    /**
-//     * Получение товара по id переданного в запросе или получение всех товаров в случае отсутствия id
-//     */
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        if (req.getParameterNames().hasMoreElements()) {
-//            var id = servletsHelper.getIdFromRequest(req);
-//            if (id != 0) {
-//                OrderDTO orderCheck = orderServiceImpl.getOrder(id);
-//                var jsonString = this.gson.toJson(orderCheck);
-//                servletsHelper.printJson(jsonString, resp);
-//            }
-//        } else {
-//            var jsonString = gson.toJson(orderServiceImpl.getAllOrder(), List.class);
-//            servletsHelper.printJson(jsonString, resp);
-//        }
-//    }
-//
-//    /**
-//     * Создание нового товара из переданного json в запросе
-//     */
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        OrderDTO orderDTO = gson.fromJson(servletsHelper.parseJsonToString(req), OrderDTO.class);
-//        OrderDTO orderCheck = orderServiceImpl.create(orderDTO);
-//        var jsonString = this.gson.toJson(orderCheck);
-//        servletsHelper.printJson(jsonString, resp);
-//    }
-//
-//    /**
-//     * Обновление полей товара из переданного json в запросе
-//     */
-//    @Override
-//    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        var id = servletsHelper.validateAndGetIdFromRequest(req);
-//        if (id != 0) {
-//            var orderDTO = gson.fromJson(servletsHelper.parseJsonToString(req), OrderDTO.class);
-//            var orderCheck = orderServiceImpl.update(id, orderDTO);
-//            var jsonString = this.gson.toJson(orderCheck);
-//            servletsHelper.printJson(jsonString, resp);
-//        }
-//    }
-//
-//    /**
-//     * Удаление товара по id переданного в запросе
-//     */
-//    @Override
-//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-//        var id = servletsHelper.validateAndGetIdFromRequest(req);
-//        if (id != 0) {
-//            orderServiceImpl.deleteById(id);
-//        }
-//    }

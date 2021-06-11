@@ -1,35 +1,22 @@
 package com.zaraev.epam.javacourses.resource;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
-import com.zaraev.epam.javacourses.helper.ServletsHelper;
-import com.zaraev.epam.javacourses.service.impl.SupplierServiceImpl;
+import com.zaraev.epam.javacourses.service.SupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /**
  * Класс для обработки веб запросов к Supplier
  */
+@RestController
 @Slf4j
 public class SupplierResourceImpl implements SupplierResource {
 
-  //  private final ServletsHelper servletsHelper = new ServletsHelper();
-
     @Autowired
-    private  SupplierServiceImpl supplierService;
-
-  //  private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private SupplierService supplierService;
 
     /**
      * Получение поставщика по id переданного в запросе или получение всех поставщиков в случае отсутсвия id
@@ -42,9 +29,9 @@ public class SupplierResourceImpl implements SupplierResource {
     }
 
     @Override
-    @RequestMapping(value = "/product/", method = RequestMethod.GET)
+    @RequestMapping(value = "/supplier", method = RequestMethod.GET)
     public List<SupplierDTO> getAll(){
-        log.info("getAll()- Получены все product");
+        log.info("getAll()- Получены все supplier");
         return supplierService.getAllSupplier();
     }
 
@@ -52,35 +39,29 @@ public class SupplierResourceImpl implements SupplierResource {
      * Создаем нового поставщика из переданного json в запросе
      */
     @Override
-    public SupplierDTO create(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var supplierDTO = gson.fromJson(servletsHelper.parseJsonToString(req), SupplierDTO.class);
-        var supplierCheck = supplierService.create(supplierDTO);
-        var jsonString = this.gson.toJson(supplierCheck);
-        servletsHelper.printJson(jsonString, resp);
+    @RequestMapping(value = "/supplier", method = RequestMethod.POST)
+    public SupplierDTO create(@RequestBody SupplierDTO supplierDTO) {
+        log.info("create() - Создан новый supplier {}", supplierDTO);
+        return supplierService.create(supplierDTO);
     }
 
     /**
      * Обновление полей поставщика из переданного json в запросе
      */
     @Override
-    public SupplierDTO update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        var id = servletsHelper.validateAndGetIdFromRequest(req);
-        if (id != 0) {
-            var supplierDTO = gson.fromJson(servletsHelper.parseJsonToString(req), SupplierDTO.class);
-            var supplierCheck = supplierService.update(id, supplierDTO);
-            var jsonString = this.gson.toJson(supplierCheck);
-            servletsHelper.printJson(jsonString, resp);
-        }
+    @RequestMapping(value = "/supplier/{id}", method = RequestMethod.PUT)
+    public SupplierDTO update(@PathVariable("id") int id, @RequestBody SupplierDTO supplierDTO)  {
+        log.info("update() - Обновлен supplier c id {}", id);
+        return supplierService.update(id, supplierDTO);
     }
 
     /**
-     * Удаление поствщика по id переданного в запросе
+     * Удаление поставщика по id переданного в запросе
      */
     @Override
-    public SupplierDTO delete(HttpServletRequest req, HttpServletResponse resp) {
-        var id = servletsHelper.validateAndGetIdFromRequest(req);
-        if (id != 0) {
-            supplierService.deleteById(id);
-        }
+    @RequestMapping(value = "/supplier/{id}", method = RequestMethod.DELETE)
+    public SupplierDTO delete(@PathVariable("id") int id) {
+        log.info("delete() - Удален supplier с id {}", id);
+        return supplierService.deleteById(id);
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import lombok.Data;
 
 /**
- * Промежуточный класс буффер для проверки корректности данных json в запросе
+ * DTO класс Supplier
  */
 @Data
 public class SupplierDTO {

@@ -33,7 +33,6 @@
         <hibernate-core.version>5.4.31.Final</hibernate-core.version>
         <hibernate-entitymanager.version>5.4.31.Final</hibernate-entitymanager.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
-        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <gson.version>2.8.6</gson.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
@@ -42,10 +41,10 @@
         <spring-context.version>5.2.6.RELEASE</spring-context.version>
 
         <spring-data-jpa.version>2.2.7.RELEASE</spring-data-jpa.version>
-        <javax.servlet-api1.version>4.0.0</javax.servlet-api1.version>
         <jackson-databind.version>2.9.2</jackson-databind.version>
         <validation-api.version>2.0.0.Final</validation-api.version>
         <h2.version>1.4.200</h2.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     </properties>
 
     <build>
@@ -217,9 +216,10 @@
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api1.version}</version>
+                <version>${javax.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+
 
             <!-- Для маппинга в JSON для преобразования из обьектов в json и обратно-->
             <dependency>

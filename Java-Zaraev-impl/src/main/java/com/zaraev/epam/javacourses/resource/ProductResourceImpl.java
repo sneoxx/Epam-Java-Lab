@@ -4,25 +4,19 @@ import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Класс для обработки веб запросов к Product
  */
+@RestController
 @Slf4j
 public class ProductResourceImpl implements ProductResource {
 
-  //  private final ServletsHelper servletsHelper = new ServletsHelper();
-
     @Autowired
-    private  ProductService productService;
-
-   // private final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private ProductService productService;
 
     /**
      * Получение товара по id переданного в запросе
@@ -38,7 +32,7 @@ public class ProductResourceImpl implements ProductResource {
      * Получение всех товаров
      */
     @Override
-    @RequestMapping(value = "/product/", method = RequestMethod.GET)
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
     public List<ProductDTO> getAll() {
         log.info("getAll()- Получены все product");
         return productService.getAllProduct();
@@ -57,11 +51,11 @@ public class ProductResourceImpl implements ProductResource {
     /**
      * Обновление полей товара из переданного json в запросе
      */
-   @Override
+    @Override
     @RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
-   public ProductDTO update(@PathVariable("id") int id, @RequestBody ProductDTO productDTO) {
-       log.info("update() - Обновлен product c id {}", id);
-       return productService.update(id, productDTO);
+    public ProductDTO update(@PathVariable("id") int id, @RequestBody ProductDTO productDTO) {
+        log.info("update() - Обновлен product c id {}", id);
+        return productService.update(id, productDTO);
     }
 
     /**

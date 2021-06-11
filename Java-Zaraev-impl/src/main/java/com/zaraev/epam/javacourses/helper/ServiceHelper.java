@@ -10,26 +10,16 @@ import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
 import com.zaraev.epam.javacourses.repository.SupplierRepository;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Класс с общими методами для классов Service
  */
 public class ServiceHelper {
 
-    /**
-     * Генерация случайного слова
-     *
-     * @return - случайное слово
-     */
-    public String generateRandomWord() {
-        Random random = new Random();
-        char[] word = new char[random.nextInt(2) + 3];
-        for (int j = 0; j < word.length; j++) {
-            word[j] = (char) ('a' + random.nextInt(26));
-        }
-        return new String(word);
-    }
+
 
     /**
      * Генерация случайного числа в заданном диапазоне
@@ -81,9 +71,14 @@ public class ServiceHelper {
         orderDTO.setOrderNumber(order.getOrderNumber());
         orderDTO.setCustomerId(order.getCustomer().getCustomerId());
         orderDTO.setTotalAmount(order.getTotalAmount());
+        Set<Integer> products = new HashSet<>();
+        for (Product product : order.getProducts()) {
+            Integer foundProduct = product.getProductId();
+            products.add(foundProduct);
+        }
+        orderDTO.setProducts(products);
         return orderDTO;
     }
-
 
     /**
      * Создание ProductDTO из product
@@ -115,7 +110,6 @@ public class ServiceHelper {
         product.setUnitPrice(productDTO.getUnitPrice());
         System.out.println(productDTO.getSupplierId());
         product.setSupplier(supplierRepository.getOne(productDTO.getSupplierId()));
-        //product.setSupplier(supplierRepository.get(productDTO.getSupplierId()));
         return product;
     }
 
@@ -133,7 +127,6 @@ public class ServiceHelper {
         return supplierDTO;
     }
 
-
     /**
      * Создание supplier из SupplierDTO
      *
@@ -148,5 +141,17 @@ public class ServiceHelper {
         return supplier;
     }
 
-
+    /**
+     * Генерация случайного слова
+     *
+     * @return - случайное слово
+     */
+    public String generateRandomWord() {
+        Random random = new Random();
+        char[] word = new char[random.nextInt(2) + 3];
+        for (int j = 0; j < word.length; j++) {
+            word[j] = (char) ('a' + random.nextInt(26));
+        }
+        return new String(word);
+    }
 }

@@ -29,31 +29,26 @@ public class SupplierServiceImpl implements SupplierService {
     private final ServiceHelper serviceHelper = new ServiceHelper();
 
     /**
-     * Создание случайного supplier и передача на запись в БД
+     * Создание и запись в БД рандомного Supplier
      *
-     * @return экземпляр supplier
+     * @return экземпляр supplierDTO
      */
     @Override
     public SupplierDTO createRandomSupplier() {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(serviceHelper.generateRandomWord());
         supplier.setPhone(serviceHelper.getRandomNumber());
-        return serviceHelper.createDTOFromSupplier(supplierRepository.saveAndFlush(supplier));
+        supplierRepository.saveAndFlush(supplier);
+        Supplier supplierCheck = supplierRepository.getOne(supplier.getSupplierId());
+        log.debug("createRandomSupplier() Объект product успешно записан в БД: {} ", supplierCheck);
+        return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
-//    @Override
-//    public SupplierDTO createRandomSupplier() {
-//        Supplier supplier = new Supplier();
-//        supplier.setCompanyName(serviceHelper.generateRandomWord());
-//        supplier.setPhone(serviceHelper.getRandomNumber());
-//        return serviceHelper.createDTOFromSupplier(supplierRepository.create(supplier));
-//    }
-
     /**
-     * Создание екземпляра supplier и передача на запись в БД на основании объекта supplierDTO
+     * Создание и запись в БД екземпляра Supplier на основании объекта supplierDTO
      *
      * @param supplierDTO - Экземпляр supplierDTO
-     * @return - экземпляр supplierDTO
+     * @return - supplierDTO конвертированный из Supplier записанного в базу
      */
     @Override
     public SupplierDTO create(SupplierDTO supplierDTO) {
@@ -62,24 +57,14 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setPhone(supplierDTO.getPhone());
         supplierRepository.saveAndFlush(supplier);
         Supplier supplierCheck = supplierRepository.getOne(supplier.getSupplierId());
+        log.debug("create() Объект product успешно записан в БД: {} ", supplierCheck);
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
-
-//    @Override
-//    public SupplierDTO create(SupplierDTO supplierDTO) {
-//        Supplier supplier = new Supplier();
-//        supplier.setCompanyName(supplierDTO.getCompanyName());
-//        supplier.setPhone(supplierDTO.getPhone());
-//        supplierRepository.create(supplier);
-//        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
-//        return serviceHelper.createDTOFromSupplier(supplierCheck);
-//    }
-
     /**
-     * Обновление екземпляра supplier и передача на запись в БД
+     * Обновление случайными данными и запись в БД екземпляра Supplier
      *
-     * @param supplierDTO - Экземпляр supplier
+     * @param supplierDTO - Экземпляр supplierDTO
      * @return - Экземпляр supplierDTO
      */
     @Override
@@ -87,71 +72,45 @@ public class SupplierServiceImpl implements SupplierService {
         supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
         supplierRepository.saveAndFlush(serviceHelper.createSupplierFromDTO(supplierDTO));
         Supplier supplierCheck = supplierRepository.getOne(supplierDTO.getSupplierId());
+        log.debug("updateRandomData() Объект supplier успешно обновлен в БД: {} ", supplierCheck);
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
-//    @Override
-//    public SupplierDTO updateRandomData(SupplierDTO supplierDTO) {
-//        supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
-//        supplierRepository.update(serviceHelper.createSupplierFromDTO(supplierDTO));
-//        Supplier supplierCheck = supplierRepository.get(supplierDTO.getSupplierId());
-//        return serviceHelper.createDTOFromSupplier(supplierCheck);
-//    }
-
-
     /**
-     * Обновление екземпляра supplier и передача на запись в БД
+     * Обновление и запись в БД экземпляра Supplier
      *
      * @param id          - id экземпляра supplier в базе, который необходимо изменить
-     * @param supplierDTO - экземпляр supplierDTO, который необходимо изменить
-     * @return - Экземпляр supplierDTO
+     * @param supplierDTO - экземпляр supplierDTO, на который необходимо изменить
+     * @return - результат операции supplierDTO конвертированный из Supllier полученного из базы
      */
     @Override
     public SupplierDTO update(int id, SupplierDTO supplierDTO) {
         Supplier updateSupplier = supplierRepository.getOne(id);
-        log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
         updateSupplier.setCompanyName(supplierDTO.getCompanyName());
         updateSupplier.setPhone(supplierDTO.getPhone());
-        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
         supplierRepository.saveAndFlush(updateSupplier);
         Supplier supplierCheck = supplierRepository.getOne(updateSupplier.getSupplierId());
+        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", supplierCheck);
         return serviceHelper.createDTOFromSupplier(supplierCheck);
     }
 
-//    @Override
-//    public SupplierDTO update(int id, SupplierDTO supplierDTO) {
-//        Supplier updateSupplier = supplierRepository.get(id);
-//        log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
-//        updateSupplier.setCompanyName(supplierDTO.getCompanyName());
-//        updateSupplier.setPhone(supplierDTO.getPhone());
-//        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
-//        supplierRepository.update(updateSupplier);
-//        Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
-//        return serviceHelper.createDTOFromSupplier(supplierCheck);
-//    }
-
     /**
-     * Получение CustomerDTO из базы
+     * Получение Supplier из базы
      *
-     * @param id - id Customer, которое необходимло получить
-     * @return - CustomerDTO созданный из полченного Customer
+     * @param id - id Supplier, которое необходимло получить
+     * @return - - SupplierDTO конвертированный из полученного Supplier
      */
     @Override
     public SupplierDTO getSupplier(int id) {
         Supplier supplier = supplierRepository.getOne(id);
+        log.debug("getSupplier() Объект supplier успешно получен из БД");
         return serviceHelper.createDTOFromSupplier(supplier);
     }
 
-//    @Override
-//    public SupplierDTO getSupplier(int id) {
-//        Supplier supplier = supplierRepository.get(id);
-//        return serviceHelper.createDTOFromSupplier(supplier);
-//    }
-
     /**
-     * Получение всех CustomerDTO из базы
+     * Получение всех Supplier из базы
      *
-     * @return - CustomerDTO созданный из полученного Customer
+     * @return - коллекция SupplierDTO конвертированная из полученого Supplier
      */
     @Override
     public List<SupplierDTO> getAllSupplier() {
@@ -160,30 +119,22 @@ public class SupplierServiceImpl implements SupplierService {
         for (Supplier supplier : customerList) {
             customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
         }
+        log.debug("getAllSupplier() Объекты supplier успешно получены из БД");
         return customerDTOList;
     }
-//
-//    @Override
-//    public List<SupplierDTO> getAllSupplier() {
-//        List<Supplier> customerList = supplierRepository.getAllSupplier();
-//        List<SupplierDTO> customerDTOList = new ArrayList<>();
-//        for (Supplier supplier : customerList) {
-//            customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
-//        }
-//        return customerDTOList;
-//    }
 
     /**
-     * Удаление Customer из базы по id
+     * Удаление Supplier из базы по id
      *
-     * @param id - id Customer для удаления
+     * @param id - id Supplier для удаления
+     * @return - SupplierDTO конвертированный из удаленного Supplier
      */
     @Override
     public SupplierDTO deleteById(int id) {
         SupplierDTO supplierDTO = serviceHelper.createDTOFromSupplier(supplierRepository.getOne(id));
         supplierRepository.deleteById(id);
+        log.debug("deleteById() Объект supplier успешно удален из БД");
         return supplierDTO;
     }
-
 
 }

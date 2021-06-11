@@ -1,36 +1,36 @@
 package com.zaraev.epam.javacourses.resource;
 
-import com.zaraev.epam.javacourses.dto.ProductDTO;
+import com.zaraev.epam.javacourses.dto.SupplierDTO;
 
 import java.util.List;
 
 /**
- * Интерфейс для работы с сервлетами
+ * Интерфейс для работы с контроллером Supplier
  */
-public interface ProductResource {
+public interface SupplierResource {
 
     /**
      * Получение товара по id переданного в запросе
      */
-    ProductDTO get(int id);
+    SupplierDTO get(int id);
 
     /**
      * Получение всех товаров
      */
-    List<ProductDTO> getAll();
+    List<SupplierDTO> getAll();
 
     /**
      * Создание нового товара из переданного json в запросе
      */
-    ProductDTO create(ProductDTO productDTO);
+    SupplierDTO create(SupplierDTO supplierDTO);
 
     /**
      * Обновление полей товара из переданного json в запросе
      */
-    ProductDTO update(int id, ProductDTO productDTO);
+    SupplierDTO update(int id, SupplierDTO supplierDTO);
 
     /**
      * Удаление товара по id переданного в запросе
      */
-    ProductDTO delete(int id);
+    SupplierDTO delete(int id);
 }
