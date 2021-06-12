@@ -33,20 +33,18 @@
         <hibernate-core.version>5.4.31.Final</hibernate-core.version>
         <hibernate-entitymanager.version>5.4.31.Final</hibernate-entitymanager.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
-        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <gson.version>2.8.6</gson.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
         <spring-core.version>5.2.6.RELEASE</spring-core.version>
         <spring-context.version>5.2.6.RELEASE</spring-context.version>
-        <spring-orm.version>5.3.7</spring-orm.version>
-        <spring-orm1.version>5.3.7</spring-orm1.version>
-        <spring-webmvc.version>5.3.7</spring-webmvc.version>
-        <spring-web.version>5.3.7</spring-web.version>
-        <spring-jdo.version>2.0.8</spring-jdo.version>
-        <spring-webmvc1.version>5.3.7</spring-webmvc1.version>
-        <spring-boot-starter-data-jpa.version>2.5.0</spring-boot-starter-data-jpa.version>
+        <spring-data-jpa.version>2.2.7.RELEASE</spring-data-jpa.version>
+        <jackson-databind.version>2.9.2</jackson-databind.version>
+        <validation-api.version>2.0.0.Final</validation-api.version>
+        <h2.version>1.4.200</h2.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+        <gson.version1>2.8.6</gson.version1>
     </properties>
 
     <build>
@@ -153,6 +151,7 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback-classic.version}</version>
             </dependency>
+            <!-- tests-->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
@@ -165,17 +164,19 @@
                 <version>${mockito-all.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- add liquibase-->
+            <!-- postgresql-->
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
             </dependency>
+            <!-- add liquibase-->
             <dependency>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
                 <version>${liquibase-core.version}</version>
             </dependency>
+            <!-- add hibernate-->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
@@ -186,19 +187,7 @@
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${hibernate-entitymanager.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
-            </dependency>
-
+            <!-- Spring Core-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -209,32 +198,42 @@
                 <artifactId>spring-context</artifactId>
                 <version>${spring-context.version}</version>
             </dependency>
-
+            <!-- Spring Data-->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring-orm.version}</version>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data-jpa.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-jpa</artifactId>
-                <version>${spring-boot-starter-data-jpa.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdo</artifactId>
-                <version>${spring-jdo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring-web.version}</version>
-            </dependency>
+            <!-- Spring Web MVC основные для спринг web-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>${spring-webmvc1.version}</version>
+                <version>${spring-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Для маппинга в JSON для преобразования из обьектов в json и обратно-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <!-- JSR 349  Валидация-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+            <!-- Рантайм БД -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
         </dependencies>

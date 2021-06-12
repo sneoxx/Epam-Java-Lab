@@ -1,23 +1,13 @@
 package com.zaraev.epam.javacourses.repository;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Интерфейс для работы с ProductRepository
  */
-
-public interface ProductRepository {
-
-    Product create(Product product);
-
-    Product update(Product product);
-
-    Product get(int id);
-
-    List<Product> getAllProduct();
-
-    void delete(int id);
+@Repository
+public interface ProductRepository  extends JpaRepository<Product, Integer>  {
 
 }

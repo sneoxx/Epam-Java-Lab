@@ -1,7 +1,6 @@
 package com.zaraev.epam.javacourses.domain.entity;
 
 
-import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,16 +17,13 @@ import java.util.List;
 @Table
 public class Supplier {
 
-    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_id")
     private Integer supplierId;
 
-    @Expose
     private String companyName;
 
-    @Expose
     private String phone;
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

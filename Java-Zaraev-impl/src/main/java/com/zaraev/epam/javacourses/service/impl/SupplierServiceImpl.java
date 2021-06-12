@@ -1,134 +1,146 @@
 package com.zaraev.epam.javacourses.service.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
-import com.zaraev.epam.javacourses.dto.SupplierDTO;
-import com.zaraev.epam.javacourses.helper.ServiceHelper;
 import com.zaraev.epam.javacourses.repository.SupplierRepository;
 import com.zaraev.epam.javacourses.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Сервис для работы с SupplierRepository
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class SupplierServiceImpl implements SupplierService {
 
-    @Autowired
-    private SupplierRepository supplierRepository;
-
-    private final ServiceHelper serviceHelper = new ServiceHelper();
+    private final SupplierRepository supplierRepository;
 
     /**
-     * Создание случайного supplier и передача на запись в БД
+     * Создание и запись в БД рандомного Supplier
      *
-     * @return экземпляр supplier
+     * @return - supplier записанный в базу
      */
     @Override
-    public SupplierDTO createRandomSupplier() {
+    public Supplier createRandomSupplier() {
         Supplier supplier = new Supplier();
-        supplier.setCompanyName(serviceHelper.generateRandomWord());
-        supplier.setPhone(serviceHelper.getRandomNumber());
-        return serviceHelper.createDTOFromSupplier(supplierRepository.create(supplier));
+        supplier.setCompanyName(generateRandomWord());
+        supplier.setPhone(getRandomNumber());
+        Supplier supplierCheck = supplierRepository.save(supplier);
+        log.debug("createRandomSupplier() Объект product успешно записан в БД: {} ", supplierCheck);
+        return supplierCheck;
     }
 
     /**
-     * Создание екземпляра supplier и передача на запись в БД на основании объекта supplierDTO
+     * Создание и запись в БД екземпляра Supplier
      *
-     * @param supplierDTO - Экземпляр supplierDTO
-     * @return - экземпляр supplierDTO
+     * @param supplier - Экземпляр supplier для записи
+     * @return - supplier записанный в базу
      */
     @Override
-    public SupplierDTO create(SupplierDTO supplierDTO) {
-        Supplier supplier = new Supplier();
-        supplier.setCompanyName(supplierDTO.getCompanyName());
-        supplier.setPhone(supplierDTO.getPhone());
-        supplierRepository.create(supplier);
-        Supplier supplierCheck = supplierRepository.get(supplier.getSupplierId());
-        return serviceHelper.createDTOFromSupplier(supplierCheck);
+    public Supplier create(Supplier supplier) {
+        Supplier supplierCheck = supplierRepository.save(supplier);
+        log.debug("create() Объект product успешно записан в БД: {} ", supplierCheck);
+        return supplierCheck;
     }
 
     /**
-     * Обновление екземпляра supplier и передача на запись в БД
+     * Обновление случайными данными и запись в БД екземпляра Supplier
      *
-     * @param supplierDTO - Экземпляр supplier
-     * @return - Экземпляр supplierDTO
+     * @param supplier - Экземпляр supplier
+     * @return - supplier обновленый в базе
      */
     @Override
-    public SupplierDTO updateRandomData(SupplierDTO supplierDTO) {
-        supplierDTO.setCompanyName(supplierDTO.getCompanyName() + "+" + serviceHelper.generateRandomWord());
-        supplierRepository.update(serviceHelper.createSupplierFromDTO(supplierDTO));
-        Supplier supplierCheck = supplierRepository.get(supplierDTO.getSupplierId());
-        return serviceHelper.createDTOFromSupplier(supplierCheck);
-    }
-
-
-
-    /**
-     * Обновление екземпляра supplier и передача на запись в БД
-     *
-     * @param id          - id экземпляра supplier в базе, который необходимо изменить
-     * @param supplierDTO - экземпляр supplierDTO, который необходимо изменить
-     * @return - Экземпляр supplierDTO
-     */
-    @Override
-    public SupplierDTO update(int id, SupplierDTO supplierDTO) {
-        Supplier updateSupplier = supplierRepository.get(id);
-        log.debug("updatesupplierWithId() Объект supplierDTO передан на обновление: {} ", supplierDTO);
-        updateSupplier.setCompanyName(supplierDTO.getCompanyName());
-        updateSupplier.setPhone(supplierDTO.getPhone());
-        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", updateSupplier);
-        supplierRepository.update(updateSupplier);
-        Supplier supplierCheck = supplierRepository.get(updateSupplier.getSupplierId());
-        return serviceHelper.createDTOFromSupplier(supplierCheck);
+    public Supplier updateRandomData(Supplier supplier) {
+        supplier.setCompanyName(supplier.getCompanyName() + "+" + generateRandomWord());
+        Supplier supplierCheck = supplierRepository.save(supplier);
+        log.debug("updateRandomData() Объект supplier успешно обновлен в БД: {} ", supplierCheck);
+        return supplierCheck;
     }
 
     /**
-     * Получение CustomerDTO из базы
+     * Обновление и запись в БД экземпляра Supplier
      *
-     * @param id - id Customer, которое необходимло получить
-     * @return - CustomerDTO созданный из полченного Customer
+     * @param id       - id экземпляра supplier в базе, который необходимо изменить
+     * @param supplier - экземпляр supplier, на который необходимо изменить
+     * @return - supplier обновленый в базе
      */
     @Override
-    public SupplierDTO getSupplier(int id) {
-        Supplier supplier = supplierRepository.get(id);
-        return serviceHelper.createDTOFromSupplier(supplier);
+    public Supplier update(int id, Supplier supplier) {
+        Supplier updateSupplier = supplierRepository.getOne(id);
+        updateSupplier.setCompanyName(supplier.getCompanyName());
+        updateSupplier.setPhone(supplier.getPhone());
+        Supplier supplierCheck = supplierRepository.save(updateSupplier);
+        log.info("updatesupplierWithId() Объект supplier успешно обновлен: {} ", supplierCheck);
+        return supplierCheck;
     }
 
     /**
-     * Получение всех CustomerDTO из базы
+     * Получение Supplier из базы
      *
-     * @return - CustomerDTO созданный из полученного Customer
+     * @param id - id Supplier, которое необходимло получить
+     * @return - supplier полученный из базы или новый supplier в случае отстутствия такового id в БД
      */
     @Override
-    public List<SupplierDTO> getAllSupplier() {
-        List<Supplier> customerList = supplierRepository.getAllSupplier();
-        List<SupplierDTO> customerDTOList = new ArrayList<>();
-        for (Supplier supplier : customerList) {
-            customerDTOList.add(serviceHelper.createDTOFromSupplier(supplier));
+    public Supplier getSupplier(int id) {
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(RuntimeException::new);
+        log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
+        return supplier;
+    }
+
+    /**
+     * Получение всех Supplier из базы
+     *
+     * @return - коллекция list Supplier
+     */
+    @Override
+    public List<Supplier> getAllSupplier() {
+        List<Supplier> supplierList = supplierRepository.findAll();
+        log.debug("getAllSupplier() Объекты supplier успешно получены из БД: {}", supplierList);
+        return supplierList;
+    }
+
+    /**
+     * Удаление Supplier из базы по id
+     *
+     * @param id - id Supplier для удаления
+     * @return - удаленный Supplier
+     */
+    @Override
+    public Supplier deleteById(int id) {
+        Supplier supplier = supplierRepository.getOne(id);
+        supplierRepository.deleteById(id);
+        log.debug("deleteById() Объект supplier успешно удален из БД: {}", supplier);
+        return supplier;
+    }
+
+    /**
+     * Генерация случайного числа в заданном диапазоне
+     *
+     * @return - случайное число
+     */
+    public String getRandomNumber() {
+        return Integer.toString(1 + (int) (Math.random() * 10000));
+    }
+
+    /**
+     * Генерация случайного слова
+     *
+     * @return - случайное слово
+     */
+    public String generateRandomWord() {
+        Random random = new Random();
+        char[] word = new char[random.nextInt(2) + 3];
+        for (int j = 0; j < word.length; j++) {
+            word[j] = (char) ('a' + random.nextInt(26));
         }
-        return customerDTOList;
+        return new String(word);
     }
-
-    /**
-     * Удаление Customer из базы по id
-     *
-     * @param id - id Customer для удаления
-     */
-    @Override
-    public void deleteSupplierWithId(int id) {
-        supplierRepository.delete(id);
-    }
-
-
-
-
 
 }
