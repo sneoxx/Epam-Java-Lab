@@ -1,12 +1,11 @@
 package com.zaraev.epam.javacourses.resource;
 
-import com.zaraev.epam.javacourses.converter.CustomerDTOFromCustomerConverter;
-import com.zaraev.epam.javacourses.converter.CustomerFromCustomerDTOConverter;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -22,20 +21,25 @@ public class CustomerResourceImpl implements CustomerResource {
 
     private final CustomerService customerService;
 
-    private final CustomerDTOFromCustomerConverter customerDTOfromCustomerConverter;
+    private final ConversionService conversionService;
 
-    private final CustomerFromCustomerDTOConverter customerFromCustomerDTOConverter;
+   // private final CustomerDTOFromCustomerConverter customerDTOfromCustomerConverter;
 
+  //  private final CustomerFromCustomerDTOConverter customerFromCustomerDTOConverter;
+//
     /**
      * Получение клиента по id переданного в запросе
      *
-     * @param id - id запроса
+     * @param id - id из запроса
      * @return - экземпляр CustomerDTO
      */
     @Override
     public CustomerDTO get(int id) {
-        log.info("get() - Получен customer по id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.getCustomer(id));
+        Customer customerResult = customerService.getCustomer(id);
+        CustomerDTO customerDTOCheck = conversionService.convert(customerResult, CustomerDTO.class);
+      //  CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.getCustomer(id));
+        log.info("get() - Получен customer: {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
@@ -44,12 +48,13 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public List<CustomerDTO> getAll() {
-        log.info("getAll()- Получены все customer");
         List<Customer> customerList = customerService.getAllCustomer();
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for (Customer customer : customerList) {
-            customerDTOList.add(customerDTOfromCustomerConverter.convert(customer));
+            customerDTOList.add(conversionService.convert(customer, CustomerDTO.class));
+       //     customerDTOList.add(customerDTOfromCustomerConverter.convert(customer));
         }
+        log.info("getAll()- Получены все customer");
         return customerDTOList;
     }
 
@@ -60,8 +65,12 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
-        log.info("create() - Создан новый customer {}", customerDTO);
-        return customerDTOfromCustomerConverter.convert(customerService.create(customerFromCustomerDTOConverter.convert(customerDTO)));
+        Customer customerConvert = conversionService.convert(customerDTO,Customer.class);
+        Customer customerResult = customerService.create(customerConvert);
+        CustomerDTO customerDTOCheck = conversionService.convert(customerResult, CustomerDTO.class);
+        //CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.create(customerFromCustomerDTOConverter.convert(customerDTO)));
+        log.info("create() - Создан новый customer {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
@@ -72,16 +81,25 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public CustomerDTO update(int id, CustomerDTO customerDTO) {
-        log.info("update() - Обновлен customer c id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.update(id, customerFromCustomerDTOConverter.convert(customerDTO)));
+        Customer customerConvert = conversionService.convert(customerDTO,Customer.class);
+        Customer customerResult = customerService.update(id, customerConvert);
+      //  Customer customer = customerService.update(id, conversionService.convert(customerDTO,Customer.class));
+        CustomerDTO customerDTOCheck = conversionService.convert(customerResult, CustomerDTO.class);
+       // CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.update(id, customerFromCustomerDTOConverter.convert(customerDTO)));
+        log.info("update() - Обновлен customer: {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
-     * Удаление клиента по id переданного в запросе
+     * Удаление заказа по id переданного в запросе
+     * @param id - id удаляемого объекта
+     * @return - удаленный объект
      */
     @Override
     public CustomerDTO delete(int id) {
-        log.info("delete() - Удален customer с id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.deleteById(id));
+        Customer customerResult = customerService.deleteById(id);
+        CustomerDTO customerDTO = conversionService.convert(customerResult, CustomerDTO.class);
+        log.info("delete() - Удален customer: {}", customerDTO);
+        return customerDTO;
     }
 }

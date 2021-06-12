@@ -11,17 +11,17 @@ import java.util.List;
 public interface CustomerService {
 
     /**
-     * Создание и запись в БД рандомного Supplier
+     * Создание и запись в БД рандомного Customer
      *
-     * @return - сustomerDTO конвертированный из Customer записанного в базу
+     * @return - сustomer записанный в базу
      */
     Customer createRandomCustomer();
 
     /**
      * Создание и запись в БД екземпляра customer
      *
-     * @param customer - Экземпляр customerDTO
-     * @return - сustomerDTO конвертированный из Customer записанного в базу
+     * @param customer - Экземпляр customer
+     * @return - сustomer записанный в базу
      */
     Customer create(Customer customer);
 
@@ -29,7 +29,7 @@ public interface CustomerService {
      * Обновление случайными данными и запись в БД екземпляра Customer
      *
      * @param customer - экземпляр customer, на который необходимо изменить
-     * @return - результат операции сustomerDTO конвертированный из Customer полученного из базы
+     * @return - сustomer обновленный в базе
      */
     Customer updateRandomData(Customer customer);
 
@@ -38,7 +38,7 @@ public interface CustomerService {
      *
      * @param id          - id экземпляра customer в базе, который необходимо изменить
      * @param customer - экземпляр customer, на который необходимо изменить
-     * @return - CustomerDTO конвертированный из обновленного Customer
+     * @return - сustomer обновленный в базе
      */
     Customer update(int id, Customer customer);
 
@@ -46,14 +46,14 @@ public interface CustomerService {
      * Получение Customer из базы
      *
      * @param id - id Customer, которое необходимло получить
-     * @return - CustomerDTO созданный из полученного Customer
+     * @return - сustomer полученный из базы или новый сustomer в случае отстутствия такового id в БД
      */
     Customer getCustomer(int id);
 
     /**
      * Получение всех Customer из базы
      *
-     * @return - коллекция CustomerDTO конвертированная из полученного коллекции Customer
+     * @return - коллекция list Customer
      */
     List<Customer> getAllCustomer();
 
@@ -61,7 +61,7 @@ public interface CustomerService {
      * Удаление Customer из базы по id
      *
      * @param id - id Customer для удаления
-     * @return - CustomerDTO конвертированный из удаленного Customer
+     * @return - удаленный Customer
      */
     Customer deleteById(int id);
 

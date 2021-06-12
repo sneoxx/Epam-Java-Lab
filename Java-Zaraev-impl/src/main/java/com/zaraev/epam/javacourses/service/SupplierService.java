@@ -12,7 +12,7 @@ public interface SupplierService {
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @return экземпляр supplier
+     * @return - supplier записанный в базу
      */
     Supplier createRandomSupplier();
 
@@ -20,7 +20,7 @@ public interface SupplierService {
      * Создание и запись в БД екземпляра Supplier на основании объекта supplierDTO
      *
      * @param supplier - Экземпляр supplier
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @return - supplier записанный в базу
      */
     Supplier create(Supplier supplier);
 
@@ -45,14 +45,14 @@ public interface SupplierService {
      * Получение Supplier из базы
      *
      * @param id - id Supplier, которое необходимло получить
-     * @return - - SupplierDTO конвертированный из полученного Supplier
+     * @return - - Supplier
      */
     Supplier getSupplier(int id);
 
     /**
      * Получение всех Supplier из базы
      *
-     * @return - коллекция SupplierDTO конвертированная из полученого Supplier
+     * @return - коллекция list Supplier
      */
     List<Supplier> getAllSupplier();
 
@@ -60,7 +60,7 @@ public interface SupplierService {
      * Удаление Supplier из базы по id
      *
      * @param id - id Supplier для удаления
-     * @return - SupplierDTO конвертированный из удаленного Supplier
+     * @return - удаленный Supplier
      */
     Supplier deleteById(int id);
 

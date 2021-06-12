@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -26,7 +25,7 @@ public class SupplierServiceImpl implements SupplierService {
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @return экземпляр supplierDTO
+     * @return - supplier записанный в базу
      */
     @Override
     public Supplier createRandomSupplier() {
@@ -39,10 +38,10 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     /**
-     * Создание и запись в БД екземпляра Supplier на основании объекта supplierDTO
+     * Создание и запись в БД екземпляра Supplier
      *
-     * @param supplier - Экземпляр supplierDTO
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @param supplier - Экземпляр supplier для записи
+     * @return - supplier записанный в базу
      */
     @Override
     public Supplier create(Supplier supplier) {
@@ -54,8 +53,8 @@ public class SupplierServiceImpl implements SupplierService {
     /**
      * Обновление случайными данными и запись в БД екземпляра Supplier
      *
-     * @param supplier - Экземпляр supplierDTO
-     * @return - Экземпляр supplierDTO
+     * @param supplier - Экземпляр supplier
+     * @return - supplier обновленый в базе
      */
     @Override
     public Supplier updateRandomData(Supplier supplier) {
@@ -69,8 +68,8 @@ public class SupplierServiceImpl implements SupplierService {
      * Обновление и запись в БД экземпляра Supplier
      *
      * @param id          - id экземпляра supplier в базе, который необходимо изменить
-     * @param supplier - экземпляр supplierDTO, на который необходимо изменить
-     * @return - результат операции supplierDTO конвертированный из Supllier полученного из базы
+     * @param supplier - экземпляр supplier, на который необходимо изменить
+     * @return - supplier обновленый в базе
      */
     @Override
     public Supplier update(int id, Supplier supplier) {
@@ -86,25 +85,28 @@ public class SupplierServiceImpl implements SupplierService {
      * Получение Supplier из базы
      *
      * @param id - id Supplier, которое необходимло получить
-     * @return - - SupplierDTO конвертированный из полученного Supplier
+     * @return - supplier полученный из базы или новый supplier в случае отстутствия такового id в БД
      */
     @Override
     public Supplier getSupplier(int id) {
-        Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
-        if(optionalSupplier.isPresent()) {
-            Supplier supplier = optionalSupplier.get();
-            log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
-            return optionalSupplier.get();
-            }
-        log.debug("getProduct() Объект supplier не найден, создан новый supplier");
-        return new Supplier();
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(RuntimeException::new);
+        log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
+        return supplier;
+//        Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
+//        if(optionalSupplier.isPresent()) {
+//            Supplier supplier = optionalSupplier.get();
+//            log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
+//            return optionalSupplier.get();
+//            }
+//        log.debug("getProduct() Объект supplier не найден, создан новый supplier");
+//        return new Supplier();
+//    }
     }
-
 
     /**
      * Получение всех Supplier из базы
      *
-     * @return - коллекция SupplierDTO конвертированная из полученого Supplier
+     * @return - коллекция list Supplier
      */
     @Override
     public List<Supplier> getAllSupplier() {
@@ -117,7 +119,7 @@ public class SupplierServiceImpl implements SupplierService {
      * Удаление Supplier из базы по id
      *
      * @param id - id Supplier для удаления
-     * @return - SupplierDTO конвертированный из удаленного Supplier
+     * @return - удаленный Supplier
      */
     @Override
     public Supplier deleteById(int id) {

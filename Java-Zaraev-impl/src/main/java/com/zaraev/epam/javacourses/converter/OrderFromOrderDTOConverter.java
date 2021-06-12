@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Конвертер из Order в OrderDTO
+ */
 @Component
 public class OrderFromOrderDTOConverter implements Converter<OrderDTO, Order> {
 

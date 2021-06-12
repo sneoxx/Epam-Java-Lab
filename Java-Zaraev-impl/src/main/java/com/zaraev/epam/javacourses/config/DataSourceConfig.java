@@ -30,7 +30,7 @@ public class DataSourceConfig {
         return entityManagerFactory;
     }
 
-    @Bean
+   @Bean
     public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());

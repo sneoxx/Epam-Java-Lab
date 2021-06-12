@@ -6,6 +6,9 @@ import com.zaraev.epam.javacourses.dto.ProductDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Конвертер из ProductDTO в Product
+ */
 @Component
 public class ProductFromProductDTOConverter implements Converter<ProductDTO, Product> {
 

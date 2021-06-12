@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -28,8 +27,8 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Создание случайного product и запись в БД
      *
-     * @param supplier - экземпляр supplierDTO
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @param supplier - экземпляр supplier для записи
+     * @return - product записанный в базу
      */
     @Override
     public Product createRandomProduct(Supplier supplier) {
@@ -46,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @param product - Экземпляр productDTO
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @param product - Экземпляр product
+     * @return - product записанный в базу
      */
     @Override
     public Product create(Product product) {
@@ -59,8 +58,8 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Обновление случайными данными и запись в БД екземпляра Product
      *
-     * @param product - экземпляр productDTO, на который необходимо изменить
-     * @return - результат операции productDTO конвертированный из Product полученного из базы
+     * @param product - экземпляр product, на который необходимо изменить
+     * @return - product обновленный в базе
      */
     @Override
     public Product updateRandomData(Product product) {
@@ -74,8 +73,8 @@ public class ProductServiceImpl implements ProductService {
      * Обновление и запись в БД екземпляра product
      *
      * @param id         - id экземпляра product в базе, который необходимо изменить
-     * @param product - экземпляр productDTO, на который необходимо изменить
-     * @return - ProductDTO конвертированный из обновленного Product
+     * @param product - экземпляр product, на который необходимо изменить
+     * @return - product обновленный в базе
      */
     @Override
     public Product update(int id, Product product) {
@@ -92,24 +91,27 @@ public class ProductServiceImpl implements ProductService {
      * Получение Product из базы
      *
      * @param id - id Product, которое необходимло получить
-     * @return - ProductDTO созданный из полченного Customer
+     * @return - Product полученный из базы или новый Product в случае отстутствия такового id в БД
      */
     @Override
     public Product getProduct(int id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if(optionalProduct.isPresent()) {
-            Product product = optionalProduct.get();
-            log.debug("getProduct() Объект product успешно получен из БД: {}", product);
-            return optionalProduct.get();
-        }
-        log.debug("getProduct() Объект product не найден, создан новый Product");
-        return new Product();
+       Product product=  productRepository.findById(id).orElseThrow(RuntimeException::new);
+        log.debug("getProduct() Объект product успешно получен из БД: {}", product);
+        return product;
+//        Optional<Product> optionalProduct = productRepository.findById(id);
+//        if(optionalProduct.isPresent()) {
+//            Product product = optionalProduct.get();
+//            log.debug("getProduct() Объект product успешно получен из БД: {}", product);
+//            return optionalProduct.get();
+//        }
+//        log.debug("getProduct() Объект product не найден, создан новый Product");
+//        return new Product();
     }
 
     /**
      * Получение всех Product из базы
      *
-     * @return - коллекция ProductDTO конвертированная из полученной коллекции Product
+     * @return - коллекция list Product
      */
     @Override
     public List<Product> getAllProduct() {
@@ -122,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
      * Удаление Product из базы по id
      *
      * @param id - id Product для удаления
-     * @return - ProductDTO конвертированный из удаленного Product
+     * @return - удаленный Product
      */
     @Override
     public Product deleteById(int id) {
