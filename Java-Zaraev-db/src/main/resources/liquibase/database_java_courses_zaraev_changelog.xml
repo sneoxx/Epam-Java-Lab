@@ -7,5 +7,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <include file="src/main/resources/liquibase/v1/db_epamcourses_create_table.changelog-1.1.0.xml"/>
+    <include file="src/main/resources/liquibase/v1/db_epamcourses_create_table.changelog-1.2.0.xml"/>
 </databaseChangeLog>
 
