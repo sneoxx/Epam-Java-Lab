@@ -1,36 +1,43 @@
 package com.zaraev.epam.javacourses.resource;
 
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Интерфейс для работы с контроллером Supplier
  */
+@RequestMapping("/supplier")
 public interface SupplierResource {
 
     /**
      * Получение товара по id переданного в запросе
      */
-    SupplierDTO get(int id);
+    @GetMapping("/{id}")
+    SupplierDTO get(@PathVariable("id") int id);
 
     /**
      * Получение всех товаров
      */
+    @GetMapping
     List<SupplierDTO> getAll();
 
     /**
      * Создание нового товара из переданного json в запросе
      */
-    SupplierDTO create(SupplierDTO supplierDTO);
+    @PostMapping
+    SupplierDTO create(@RequestBody SupplierDTO supplierDTO);
 
     /**
      * Обновление полей товара из переданного json в запросе
      */
-    SupplierDTO update(int id, SupplierDTO supplierDTO);
+    @PutMapping("/{id}")
+    SupplierDTO update(@PathVariable("id") int id, @RequestBody SupplierDTO supplierDTO);
 
     /**
      * Удаление товара по id переданного в запросе
      */
-    SupplierDTO delete(int id);
+    @DeleteMapping("/{id}")
+    SupplierDTO delete(@PathVariable("id") int id);
 }

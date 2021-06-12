@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2021-06-12_drop_unique_constraint_table_product_column_supplier_id" author="Rustam_Zaraev">
+        <dropUniqueConstraint
+                constraintName="product_supplier_id_key"
+                schemaName="zaraev"
+                tableName="product"
+                uniqueColumns="supplier_id"/>
+    </changeSet>
+
+
+</databaseChangeLog>

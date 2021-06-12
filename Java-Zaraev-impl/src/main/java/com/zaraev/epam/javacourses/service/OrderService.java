@@ -1,8 +1,7 @@
 package com.zaraev.epam.javacourses.service;
 
+import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
-import com.zaraev.epam.javacourses.dto.CustomerDTO;
-import com.zaraev.epam.javacourses.dto.OrderDTO;
 
 import java.util.List;
 
@@ -14,18 +13,18 @@ public interface OrderService {
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @param customerDTO - экземпляр customerDTO
+     * @param customer - экземпляр customerDTO
      * @return - OrderDTO конвертированный из Order записанного в базу
      */
-    OrderDTO createRandomOrder(CustomerDTO customerDTO, Integer id);
+    Order createRandomOrder(Customer customer, Integer id);
 
     /**
      * Создание и запись в БД экземпляра order
      *
-     * @param orderDTO - Экземпляр orderDTO
+     * @param order - Экземпляр orderDTO
      * @return - OrderDTO конвертированный из Order записанного в базу
      */
-    OrderDTO create(OrderDTO orderDTO);
+    Order create(Order order);
 
     /**
      * Обновление случайными данными и запись в БД екземпляра Order
@@ -33,16 +32,16 @@ public interface OrderService {
      * @param order - экземпляр order, на который необходимо изменить
      * @return - - результат операции OrderDTO конвертированный из Order полученного из базы
      */
-    OrderDTO updateRandomData(Order order);
+    Order updateRandomData(Order order);
 
     /**
      * Обновление и запись в БД  order
      *
      * @param id       - id экземпляра order в базе, который необходимо изменить
-     * @param orderDTO - экземпляр orderDTO, на который необходимо изменить
+     * @param order - экземпляр orderDTO, на который необходимо изменить
      * @return - OrderDTO конвертированный из обновленного Order
      */
-    OrderDTO update(int id, OrderDTO orderDTO);
+    Order update(int id, Order order);
 
     /**
      * Получение Order из базы
@@ -50,14 +49,14 @@ public interface OrderService {
      * @param id - id Order, которое необходимло получить
      * @return - OrderDTO созданный из полученного Order
      */
-    OrderDTO getOrder(int id);
+    Order getOrder(int id);
 
     /**
      * Получение всех Order из базы
      *
      * @return - коллекция CustomerDTO конвертированная из полученной коллекции Customer
      */
-    List<OrderDTO> getAllOrder();
+    List<Order> getAllOrder();
 
     /**
      * Удаление Order из базы по id
@@ -65,6 +64,6 @@ public interface OrderService {
      * @param id - id Order для удаления
      * @return - OrderDTO конвертированный из удаленного Order
      */
-    OrderDTO deleteById(int id);
+    Order deleteById(int id);
 
 }

@@ -1,6 +1,6 @@
 package com.zaraev.epam.javacourses.service;
 
-import com.zaraev.epam.javacourses.dto.CustomerDTO;
+import com.zaraev.epam.javacourses.domain.entity.Customer;
 
 import java.util.List;
 
@@ -15,47 +15,47 @@ public interface CustomerService {
      *
      * @return - сustomerDTO конвертированный из Customer записанного в базу
      */
-    CustomerDTO createRandomCustomer();
+    Customer createRandomCustomer();
 
     /**
      * Создание и запись в БД екземпляра customer
      *
-     * @param customerDTO - Экземпляр customerDTO
+     * @param customer - Экземпляр customerDTO
      * @return - сustomerDTO конвертированный из Customer записанного в базу
      */
-    CustomerDTO create(CustomerDTO customerDTO);
+    Customer create(Customer customer);
 
     /**
      * Обновление случайными данными и запись в БД екземпляра Customer
      *
-     * @param customerDTO - экземпляр customer, на который необходимо изменить
+     * @param customer - экземпляр customer, на который необходимо изменить
      * @return - результат операции сustomerDTO конвертированный из Customer полученного из базы
      */
-    CustomerDTO updateRandomData(CustomerDTO customerDTO);
+    Customer updateRandomData(Customer customer);
 
     /**
      * Обновление и запись в БД экземпляра customer
      *
      * @param id          - id экземпляра customer в базе, который необходимо изменить
-     * @param customerDTO - экземпляр customer, на который необходимо изменить
+     * @param customer - экземпляр customer, на который необходимо изменить
      * @return - CustomerDTO конвертированный из обновленного Customer
      */
-    CustomerDTO update(int id, CustomerDTO customerDTO);
+    Customer update(int id, Customer customer);
 
     /**
-     * Получение Customerиз базы
+     * Получение Customer из базы
      *
      * @param id - id Customer, которое необходимло получить
      * @return - CustomerDTO созданный из полученного Customer
      */
-    CustomerDTO getCustomer(int id);
+    Customer getCustomer(int id);
 
     /**
      * Получение всех Customer из базы
      *
      * @return - коллекция CustomerDTO конвертированная из полученного коллекции Customer
      */
-    List<CustomerDTO> getAllCustomer();
+    List<Customer> getAllCustomer();
 
     /**
      * Удаление Customer из базы по id
@@ -63,6 +63,6 @@ public interface CustomerService {
      * @param id - id Customer для удаления
      * @return - CustomerDTO конвертированный из удаленного Customer
      */
-    CustomerDTO deleteById(int id);
+    Customer deleteById(int id);
 
 }

@@ -1,21 +1,18 @@
 package com.zaraev.epam.javacourses.service.impl;
 
 import com.zaraev.epam.javacourses.domain.entity.Product;
-import com.zaraev.epam.javacourses.dto.ProductDTO;
-import com.zaraev.epam.javacourses.dto.SupplierDTO;
-import com.zaraev.epam.javacourses.helper.ServiceHelper;
+import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.repository.ProductRepository;
-import com.zaraev.epam.javacourses.repository.SupplierRepository;
 import com.zaraev.epam.javacourses.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 /**
  * Сервис для работы с ProductRepository
@@ -26,85 +23,69 @@ import java.util.List;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private SupplierRepository supplierRepository;
-
-
-    private final ServiceHelper serviceHelper = new ServiceHelper();
+    private final ProductRepository productRepository;
 
     /**
      * Создание случайного product и запись в БД
      *
-     * @param supplierDTO - экземпляр supplierDTO
+     * @param supplier - экземпляр supplierDTO
      * @return - supplierDTO конвертированный из Supplier записанного в базу
      */
     @Override
-    public ProductDTO createRandomProduct(SupplierDTO supplierDTO) {
+    public Product createRandomProduct(Supplier supplier) {
         Product product = new Product();
-        product.setProductName(serviceHelper.generateRandomWord());
+        product.setProductName(generateRandomWord());
         product.setDiscountinued(true);
         product.setUnitPrice(BigDecimal.valueOf(100));
-        product.setSupplier(serviceHelper.createSupplierFromDTO(supplierDTO));
-        productRepository.saveAndFlush(product);
-        Product productCheck = productRepository.getOne(product.getProductId());
+        product.setSupplier(supplier);
+        Product productCheck = productRepository.save(product);
         log.debug("createRandomProduct() Объект product успешно записан в БД: {} ", productCheck);
-        return serviceHelper.createDTOFromProduct(productCheck);
+        return productCheck;
     }
 
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @param productDTO - Экземпляр productDTO
+     * @param product - Экземпляр productDTO
      * @return - supplierDTO конвертированный из Supplier записанного в базу
      */
     @Override
-    public ProductDTO create(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setProductName(productDTO.getProductName());
-        product.setDiscountinued(productDTO.isDiscountinued());
-        product.setUnitPrice(productDTO.getUnitPrice());
-        product.setSupplier(supplierRepository.getOne(productDTO.getSupplierId()));
-        productRepository.saveAndFlush(product);
-        Product productCheck = productRepository.getOne(product.getProductId());
+    public Product create(Product product) {
+        Product productCheck =  productRepository.save(product);
         log.debug("create() Объект product успешно записан в БД: {} ", productCheck);
-        return serviceHelper.createDTOFromProduct(productCheck);
+        return productCheck;
     }
 
     /**
      * Обновление случайными данными и запись в БД екземпляра Product
      *
-     * @param productDTO - экземпляр productDTO, на который необходимо изменить
+     * @param product - экземпляр productDTO, на который необходимо изменить
      * @return - результат операции productDTO конвертированный из Product полученного из базы
      */
     @Override
-    public ProductDTO updateRandomData(ProductDTO productDTO) {
-        productDTO.setProductName(productDTO.getProductName() + "+" + serviceHelper.generateRandomWord());
-        productRepository.saveAndFlush(serviceHelper.createProductFromDTO(productDTO, supplierRepository));
-        Product productCheck = productRepository.getOne(productDTO.getProductId());
+    public Product updateRandomData(Product product) {
+        product.setProductName(product.getProductName() + "+" + generateRandomWord());
+        Product productCheck = productRepository.save(product);
         log.debug("updateRandomData() Объект order успешно обновлен в БД: {} ", productCheck);
-        return serviceHelper.createDTOFromProduct(productCheck);
+        return productCheck;
     }
 
     /**
      * Обновление и запись в БД екземпляра product
      *
      * @param id         - id экземпляра product в базе, который необходимо изменить
-     * @param productDTO - экземпляр productDTO, на который необходимо изменить
+     * @param product - экземпляр productDTO, на который необходимо изменить
      * @return - ProductDTO конвертированный из обновленного Product
      */
     @Override
-    public ProductDTO update(int id, ProductDTO productDTO) {
+    public Product update(int id, Product product) {
         Product updateProduct = productRepository.getOne(id);
-        updateProduct.setProductName(productDTO.getProductName());
-        updateProduct.setUnitPrice(productDTO.getUnitPrice());
-        updateProduct.setDiscountinued(productDTO.isDiscountinued());
-        productRepository.saveAndFlush(updateProduct);
-        Product productCheck = productRepository.getOne(updateProduct.getProductId());
+        updateProduct.setProductName(product.getProductName());
+        updateProduct.setUnitPrice(product.getUnitPrice());
+        updateProduct.setDiscountinued(product.isDiscountinued());
+        Product productCheck = productRepository.save(updateProduct);
         log.info("updateProductWithId() Объект product успешно обновлен: {} ", productCheck);
-        return serviceHelper.createDTOFromProduct(productCheck);
+        return productCheck;
     }
 
     /**
@@ -114,10 +95,15 @@ public class ProductServiceImpl implements ProductService {
      * @return - ProductDTO созданный из полченного Customer
      */
     @Override
-    public ProductDTO getProduct(int id) {
-        Product product = productRepository.getOne(id);
-        log.debug("getProduct() Объект product успешно получен из БД");
-        return serviceHelper.createDTOFromProduct(product);
+    public Product getProduct(int id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            log.debug("getProduct() Объект product успешно получен из БД: {}", product);
+            return optionalProduct.get();
+        }
+        log.debug("getProduct() Объект product не найден, создан новый Product");
+        return new Product();
     }
 
     /**
@@ -126,14 +112,10 @@ public class ProductServiceImpl implements ProductService {
      * @return - коллекция ProductDTO конвертированная из полученной коллекции Product
      */
     @Override
-    public List<ProductDTO> getAllProduct() {
+    public List<Product> getAllProduct() {
         List<Product> productList = productRepository.findAll();
-        List<ProductDTO> productDTOList = new ArrayList<>();
-        for (Product product : productList) {
-            productDTOList.add(serviceHelper.createDTOFromProduct(product));
-        }
-        log.debug("getAllProduct() Объекты product успешно получены из БД");
-        return productDTOList;
+        log.debug("getAllProduct() Объекты product успешно получены из БД: {}", productList);
+        return productList;
     }
 
     /**
@@ -143,10 +125,25 @@ public class ProductServiceImpl implements ProductService {
      * @return - ProductDTO конвертированный из удаленного Product
      */
     @Override
-    public ProductDTO deleteById(int id) {
-        ProductDTO productDTO = serviceHelper.createDTOFromProduct(productRepository.getOne(id));
+    public Product deleteById(int id) {
+        Product productCheck = productRepository.getOne(id);
         productRepository.deleteById(id);
-        log.debug("deleteById() Объект product успешно удален из БД");
-        return productDTO;
+        log.debug("deleteById() Объект product успешно удален из БД: {}", productCheck);
+        return productCheck;
     }
+
+    /**
+     * Генерация случайного слова
+     *
+     * @return - случайное слово
+     */
+    public String generateRandomWord() {
+        Random random = new Random();
+        char[] word = new char[random.nextInt(2) + 3];
+        for (int j = 0; j < word.length; j++) {
+            word[j] = (char) ('a' + random.nextInt(26));
+        }
+        return new String(word);
+    }
+
 }

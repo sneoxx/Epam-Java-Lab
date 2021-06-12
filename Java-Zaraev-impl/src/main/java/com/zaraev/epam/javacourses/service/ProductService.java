@@ -1,7 +1,7 @@
 package com.zaraev.epam.javacourses.service;
 
-import com.zaraev.epam.javacourses.dto.ProductDTO;
-import com.zaraev.epam.javacourses.dto.SupplierDTO;
+import com.zaraev.epam.javacourses.domain.entity.Product;
+import com.zaraev.epam.javacourses.domain.entity.Supplier;
 
 import java.util.List;
 
@@ -13,35 +13,35 @@ public interface ProductService {
     /**
      * Создание случайного product и запись в БД
      *
-     * @param supplierDTO - экземпляр supplierDTO
+     * @param supplier - экземпляр supplierDTO
      * @return - supplierDTO конвертированный из Supplier записанного в базу
      */
-    ProductDTO createRandomProduct(SupplierDTO supplierDTO);
+    Product createRandomProduct(Supplier supplier);
 
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @param productDTO - Экземпляр productDTO
+     * @param product - Экземпляр productDTO
      * @return - supplierDTO конвертированный из Supplier записанного в базу
      */
-    ProductDTO create(ProductDTO productDTO);
+    Product create(Product product);
 
     /**
      * Обновление случайными данными и запись в БД екземпляра Product
      *
-     * @param productDTO - экземпляр productDTO, на который необходимо изменить
+     * @param product - экземпляр productDTO, на который необходимо изменить
      * @return - результат операции productDTO конвертированный из Product полученного из базы
      */
-    ProductDTO updateRandomData(ProductDTO productDTO);
+    Product updateRandomData(Product product);
 
     /**
      * Обновление и запись в БД екземпляра product
      *
      * @param id         - id экземпляра product в базе, который необходимо изменить
-     * @param productDTO - экземпляр productDTO, на который необходимо изменить
+     * @param product - экземпляр productDTO, на который необходимо изменить
      * @return - ProductDTO конвертированный из обновленного Product
      */
-    ProductDTO update(int id, ProductDTO productDTO);
+    Product update(int id, Product product);
 
     /**
      * Получение Product из базы
@@ -49,14 +49,14 @@ public interface ProductService {
      * @param id - id Product, которое необходимло получить
      * @return - ProductDTO созданный из полченного Customer
      */
-    ProductDTO getProduct(int id);
+    Product getProduct(int id);
 
     /**
      * Получение всех Product из базы
      *
      * @return - коллекция ProductDTO конвертированная из полученной коллекции Product
      */
-    List<ProductDTO> getAllProduct();
+    List<Product> getAllProduct();
 
     /**
      * Удаление Product из базы по id
@@ -64,6 +64,6 @@ public interface ProductService {
      * @param id - id Product для удаления
      * @return - ProductDTO конвертированный из удаленного Product
      */
-    ProductDTO deleteById(int id);
+    Product deleteById(int id);
 
 }

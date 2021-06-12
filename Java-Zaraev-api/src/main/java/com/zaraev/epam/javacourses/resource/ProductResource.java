@@ -1,36 +1,43 @@
 package com.zaraev.epam.javacourses.resource;
 
 import com.zaraev.epam.javacourses.dto.ProductDTO;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Интерфейс для работы с контроллером Product
  */
+@RequestMapping("/product")
 public interface ProductResource {
 
     /**
      * Получение товара по id переданного в запросе
      */
-    ProductDTO get(int id);
+    @GetMapping("/{id}")
+    ProductDTO get(@PathVariable("id") int id);
 
     /**
      * Получение всех товаров
      */
+    @GetMapping
     List<ProductDTO> getAll();
 
     /**
      * Создание нового товара из переданного json в запросе
      */
-    ProductDTO create(ProductDTO productDTO);
+    @PostMapping
+    ProductDTO create(@RequestBody ProductDTO productDTO);
 
     /**
      * Обновление полей товара из переданного json в запросе
      */
-    ProductDTO update(int id, ProductDTO productDTO);
+    @PutMapping("/{id}")
+    ProductDTO update(@PathVariable("id") int id, @RequestBody ProductDTO productDTO);
 
     /**
      * Удаление товара по id переданного в запросе
      */
-    ProductDTO delete(int id);
+    @DeleteMapping("/{id}")
+    ProductDTO delete(@PathVariable("id") int id);
 }
