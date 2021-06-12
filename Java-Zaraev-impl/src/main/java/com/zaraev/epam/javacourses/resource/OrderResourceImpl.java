@@ -1,15 +1,19 @@
 package com.zaraev.epam.javacourses.resource;
 
 import com.zaraev.epam.javacourses.domain.entity.Order;
+import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
 import com.zaraev.epam.javacourses.service.OrderService;
+import com.zaraev.epam.javacourses.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Класс для обработки веб запросов к Order
@@ -21,11 +25,9 @@ public class OrderResourceImpl implements OrderResource {
 
     private final OrderService orderService;
 
+    private final ProductService productService;
+
     private final ConversionService conversionService;
-
-  //  private final OrderDTOFromOrderConverter orderDTOFromOrderConverter;
-
-   // private final OrderFromOrderDTOConverter orderFromOrderDTOConverter;
 
     /**
      * Получение заказа по id переданного в запросе
@@ -37,7 +39,6 @@ public class OrderResourceImpl implements OrderResource {
     public OrderDTO get(int id) {
         Order orderResult = orderService.getOrder(id);
         OrderDTO orderDTOCheck = conversionService.convert(orderResult, OrderDTO.class);
-       // OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.getOrder(id));
         log.info("get() - Получен order: {}", orderDTOCheck);
         return orderDTOCheck;
     }
@@ -53,7 +54,6 @@ public class OrderResourceImpl implements OrderResource {
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Order order : orderList) {
             orderDTOList.add(conversionService.convert(order, OrderDTO.class));
-          // orderDTOList.add(orderDTOFromOrderConverter.convert(order));
         }
         log.info("getAll()- Получены все order");
         return orderDTOList;
@@ -67,10 +67,15 @@ public class OrderResourceImpl implements OrderResource {
      */
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
-        Order orderConvert = conversionService.convert(orderDTO,Order.class);
+        Order orderConvert = conversionService.convert(orderDTO, Order.class);
+        Set<Product> products = new HashSet<>();
+        for (Product product : orderConvert.getProducts()) {
+            Integer foundProduct = product.getProductId();
+            products.add(productService.getProduct(foundProduct));
+        }
+        orderConvert.setProducts(products);
         Order orderResult = orderService.create(orderConvert);
         OrderDTO orderDTOCheck = conversionService.convert(orderResult, OrderDTO.class);
-        //OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.create(orderFromOrderDTOConverter.convert(orderDTO)));
         log.info("create() - Создан новый order {}", orderDTOCheck);
         return orderDTOCheck;
     }
@@ -84,24 +89,29 @@ public class OrderResourceImpl implements OrderResource {
      */
     @Override
     public OrderDTO update(int id, OrderDTO orderDTO) {
-        Order orderConvert = conversionService.convert(orderDTO,Order.class);
+        Order orderConvert = conversionService.convert(orderDTO, Order.class);
+        Set<Product> products = new HashSet<>();
+        for (Product product : orderConvert.getProducts()) {
+            Integer foundProduct = product.getProductId();
+            products.add(productService.getProduct(foundProduct));
+        }
+        orderConvert.setProducts(products);
         Order orderResult = orderService.update(id, orderConvert);
         OrderDTO orderDTOCheck = conversionService.convert(orderResult, OrderDTO.class);
-       // OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.update(id, orderFromOrderDTOConverter.convert(orderDTO)));
         log.info("update() - Обновлен order: {}", orderDTOCheck);
         return orderDTOCheck;
     }
 
     /**
      * Удаление заказа по id переданного в запросе
+     *
      * @param id - id удаляемого объекта
-     * @return - удаленный объект
+     * @return - удаленный объект orderDTO
      */
     @Override
     public OrderDTO delete(int id) {
         Order orderResult = orderService.deleteById(id);
         OrderDTO orderDTOCheck = conversionService.convert(orderResult, OrderDTO.class);
-       // OrderDTO orderDTO = orderDTOFromOrderConverter.convert(orderService.deleteById(id));
         log.info("delete() - Удален order: {}", orderDTOCheck);
         return orderDTOCheck;
     }

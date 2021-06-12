@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product create(Product product) {
-        Product productCheck =  productRepository.save(product);
+        Product productCheck = productRepository.save(product);
         log.debug("create() Объект product успешно записан в БД: {} ", productCheck);
         return productCheck;
     }
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Обновление и запись в БД екземпляра product
      *
-     * @param id         - id экземпляра product в базе, который необходимо изменить
+     * @param id      - id экземпляра product в базе, который необходимо изменить
      * @param product - экземпляр product, на который необходимо изменить
      * @return - product обновленный в базе
      */
@@ -95,17 +95,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product getProduct(int id) {
-       Product product=  productRepository.findById(id).orElseThrow(RuntimeException::new);
+        Product product = productRepository.findById(id).orElseThrow(RuntimeException::new);
         log.debug("getProduct() Объект product успешно получен из БД: {}", product);
         return product;
-//        Optional<Product> optionalProduct = productRepository.findById(id);
-//        if(optionalProduct.isPresent()) {
-//            Product product = optionalProduct.get();
-//            log.debug("getProduct() Объект product успешно получен из БД: {}", product);
-//            return optionalProduct.get();
-//        }
-//        log.debug("getProduct() Объект product не найден, создан новый Product");
-//        return new Product();
     }
 
     /**

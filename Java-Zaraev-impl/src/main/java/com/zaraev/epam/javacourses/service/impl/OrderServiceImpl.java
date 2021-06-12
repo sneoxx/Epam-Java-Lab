@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Сервис для работы с OrderRepository
@@ -107,14 +109,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id).orElseThrow(RuntimeException::new);
         log.debug("getOrder() Объект order успешно получен из БД: {}", order);
         return order;
-//        Optional<Order> optionalOrder = orderRepository.findById(id);
-//        if(optionalOrder.isPresent()) {
-//            Order order = optionalOrder.get();
-//            log.debug("getOrder() Объект order успешно получен из БД: {}", order);
-//            return optionalOrder.get();
-//        }
-//        log.debug("getProduct() Объект order не найден, создан новый Order");
-//        return new Order();
     }
 
     /**

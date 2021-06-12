@@ -26,13 +26,21 @@ public class OrderFromOrderDTOConverter implements Converter<OrderDTO, Order> {
         customer.setCustomerId(orderDTO.getCustomerId());
         order.setCustomer(customer);
         order.setTotalAmount(orderDTO.getTotalAmount());
+
         Set<Product> products = new HashSet<>();
         for (Integer product : orderDTO.getProducts()) {
             Product foundProduct = new Product();
             foundProduct.setProductId(product);
             products.add(foundProduct);
         }
-        order.setProducts(products);
+//
+//        Set<Product> products1 = new HashSet<>();
+//        for (Product product : products) {
+//            Integer foundProduct = product.getProductId();
+//            products1.add(productService.getProduct(foundProduct));
+//        }
+//        order.setProducts(products1);
+       order.setProducts(products);
         return order;
     }
 }

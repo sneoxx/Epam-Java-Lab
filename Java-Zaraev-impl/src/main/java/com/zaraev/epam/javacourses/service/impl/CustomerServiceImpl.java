@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer create(Customer customer) {
-       Customer customerCheck = customerRepository.save(customer);
+        Customer customerCheck = customerRepository.save(customer);
         log.debug("create() Объект customer успешно записан в БД: {} ", customerCheck);
         return customerCheck;
     }
@@ -68,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Обновление и запись в БД экземпляра customer
      *
-     * @param id      - id экземпляра customer в базе, который необходимо изменить
+     * @param id       - id экземпляра customer в базе, который необходимо изменить
      * @param customer - экземпляр customer, на который необходимо изменить
      * @return - сustomer обновленный в базе
      */
@@ -77,8 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
         Customer updateCustomer = customerRepository.getOne(id);
         updateCustomer.setCustomerName(customer.getCustomerName());
         updateCustomer.setPhone(customer.getPhone());
-        Customer customerCheck  = customerRepository.save(updateCustomer);
-        log.debug("updateRandomData() Объект customer успешно обновлен в БД: {} ", customerCheck );
+        Customer customerCheck = customerRepository.save(updateCustomer);
+        log.debug("updateRandomData() Объект customer успешно обновлен в БД: {} ", customerCheck);
         return customerCheck;
     }
 
@@ -91,16 +91,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getCustomer(int id) {
         Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
-        log.debug("getCustomer() Объект customer успешно получен из БД: {}", customer );
+        log.debug("getCustomer() Объект customer успешно получен из БД: {}", customer);
         return customer;
-//        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-//        if(optionalCustomer.isPresent()) {
-//            Customer customer = optionalCustomer.get();
-//            log.debug("getCustomer() Объект customer успешно получен из БД: {}", customer );
-//            return customer;
-//        }
-//        log.debug("getProduct() Объект customer не найден, создан новый Customer");
-//        return new Customer();
     }
 
     /**
@@ -151,4 +143,5 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return new String(word);
     }
+
 }

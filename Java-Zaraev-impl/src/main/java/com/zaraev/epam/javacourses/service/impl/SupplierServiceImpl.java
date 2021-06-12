@@ -67,7 +67,7 @@ public class SupplierServiceImpl implements SupplierService {
     /**
      * Обновление и запись в БД экземпляра Supplier
      *
-     * @param id          - id экземпляра supplier в базе, который необходимо изменить
+     * @param id       - id экземпляра supplier в базе, который необходимо изменить
      * @param supplier - экземпляр supplier, на который необходимо изменить
      * @return - supplier обновленый в базе
      */
@@ -92,15 +92,6 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = supplierRepository.findById(id).orElseThrow(RuntimeException::new);
         log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
         return supplier;
-//        Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
-//        if(optionalSupplier.isPresent()) {
-//            Supplier supplier = optionalSupplier.get();
-//            log.debug("getSupplier() Объект supplier успешно получен из БД: {}", supplier);
-//            return optionalSupplier.get();
-//            }
-//        log.debug("getProduct() Объект supplier не найден, создан новый supplier");
-//        return new Supplier();
-//    }
     }
 
     /**
@@ -111,7 +102,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<Supplier> getAllSupplier() {
         List<Supplier> supplierList = supplierRepository.findAll();
-        log.debug("getAllSupplier() Объекты supplier успешно получены из БД: {}",  supplierList);
+        log.debug("getAllSupplier() Объекты supplier успешно получены из БД: {}", supplierList);
         return supplierList;
     }
 
@@ -137,7 +128,6 @@ public class SupplierServiceImpl implements SupplierService {
     public String getRandomNumber() {
         return Integer.toString(1 + (int) (Math.random() * 10000));
     }
-
 
     /**
      * Генерация случайного слова

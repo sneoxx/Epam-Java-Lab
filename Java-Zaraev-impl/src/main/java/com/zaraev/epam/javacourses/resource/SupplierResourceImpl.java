@@ -23,10 +23,6 @@ public class SupplierResourceImpl implements SupplierResource {
 
     private final ConversionService conversionService;
 
-//    private final SupplierDTOFromSupplierConverter supplierDTOFromSupplierConverter;
-//
-//    private final SupplierFromSupplierDTOConverter supplierFromSupplierDTOConverter;
-
     /**
      * Получение поставщика по id переданного в запросе
      *
@@ -37,7 +33,6 @@ public class SupplierResourceImpl implements SupplierResource {
     public SupplierDTO get(int id) {
         Supplier supplierResult = supplierService.getSupplier(id);
         SupplierDTO supplierDTOCheck = conversionService.convert(supplierResult, SupplierDTO.class);
-       // SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.getSupplier(id));
         log.info("get() - Получен supplier: {}", supplierDTOCheck);
         return supplierDTOCheck;
     }
@@ -52,8 +47,7 @@ public class SupplierResourceImpl implements SupplierResource {
         List<Supplier> supplierList = supplierService.getAllSupplier();
         List<SupplierDTO> supplierDTOList = new ArrayList<>();
         for (Supplier supplier : supplierList) {
-            supplierDTOList.add(conversionService.convert(supplier,SupplierDTO.class));
-           // supplierDTOList.add(supplierDTOFromSupplierConverter.convert(supplier));
+            supplierDTOList.add(conversionService.convert(supplier, SupplierDTO.class));
         }
         log.info("getAll()- Получены все supplier");
         return supplierDTOList;
@@ -67,10 +61,9 @@ public class SupplierResourceImpl implements SupplierResource {
      */
     @Override
     public SupplierDTO create(SupplierDTO supplierDTO) {
-        Supplier supplierConvert = conversionService.convert(supplierDTO,Supplier.class);
+        Supplier supplierConvert = conversionService.convert(supplierDTO, Supplier.class);
         Supplier supplierResult = supplierService.create(supplierConvert);
         SupplierDTO supplierDTOCheck = conversionService.convert(supplierResult, SupplierDTO.class);
-        //SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.create(supplierFromSupplierDTOConverter.convert(supplierDTO)));
         log.info("create() - Создан новый supplier {}", supplierDTOCheck);
         return supplierDTOCheck;
     }
@@ -84,16 +77,16 @@ public class SupplierResourceImpl implements SupplierResource {
      */
     @Override
     public SupplierDTO update(int id, SupplierDTO supplierDTO) {
-        Supplier supplierConvert = conversionService.convert(supplierDTO,Supplier.class);
+        Supplier supplierConvert = conversionService.convert(supplierDTO, Supplier.class);
         Supplier supplierResult = supplierService.update(id, supplierConvert);
         SupplierDTO supplierDTOCheck = conversionService.convert(supplierResult, SupplierDTO.class);
-      //  SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.update(id, supplierFromSupplierDTOConverter.convert(supplierDTO)));
         log.info("update() - Обновлен supplier: {}", supplierDTOCheck);
         return supplierDTOCheck;
     }
 
     /**
      * Удаление поставщика по id переданного в запросе
+     *
      * @param id - id удаляемого объекта
      * @return - удаленный объект
      */
@@ -101,7 +94,6 @@ public class SupplierResourceImpl implements SupplierResource {
     public SupplierDTO delete(int id) {
         Supplier supplierResult = supplierService.deleteById(id);
         SupplierDTO supplierDTOCheck = conversionService.convert(supplierResult, SupplierDTO.class);
-      //  SupplierDTO supplierDTO = supplierDTOFromSupplierConverter.convert(supplierService.deleteById(id));
         log.info("delete() - Удален supplier {}", supplierDTOCheck);
         return supplierDTOCheck;
     }

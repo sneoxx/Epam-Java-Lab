@@ -36,7 +36,7 @@ public interface CustomerService {
     /**
      * Обновление и запись в БД экземпляра customer
      *
-     * @param id          - id экземпляра customer в базе, который необходимо изменить
+     * @param id       - id экземпляра customer в базе, который необходимо изменить
      * @param customer - экземпляр customer, на который необходимо изменить
      * @return - сustomer обновленный в базе
      */

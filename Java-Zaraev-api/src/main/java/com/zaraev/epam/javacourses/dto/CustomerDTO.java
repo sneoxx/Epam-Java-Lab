@@ -1,6 +1,5 @@
 package com.zaraev.epam.javacourses.dto;
 
-import com.google.gson.annotations.Expose;
 import lombok.Data;
 
 /**
@@ -9,13 +8,10 @@ import lombok.Data;
 @Data
 public class CustomerDTO {
 
-    @Expose
     private Integer customerId;
 
-    @Expose
     private String customerName;
 
-    @Expose
     private String phone;
 
 }
