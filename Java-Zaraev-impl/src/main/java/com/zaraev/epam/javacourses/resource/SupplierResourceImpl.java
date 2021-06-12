@@ -27,49 +27,70 @@ public class SupplierResourceImpl implements SupplierResource {
     private final SupplierFromSupplierDTOConverter supplierFromSupplierDTOConverter;
 
     /**
-     * Получение поставщика по id переданного в запросе или получение всех поставщиков в случае отсутсвия id
+     * Получение поставщика по id переданного в запросе
+     *
+     * @param id - id из запроса
+     * @return - экземпляр SupplierDTO
      */
     @Override
     public SupplierDTO get(int id) {
-        log.info("get() - Получен supplier по id {}", id);
-        return supplierDTOFromSupplierConverter.convert(supplierService.getSupplier(id));
+        SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.getSupplier(id));
+        log.info("get() - Получен supplier: {}", supplierDTOCheck);
+        return supplierDTOCheck;
     }
 
+    /**
+     * Получение всех заказов
+     *
+     * @return - коллекция List SupplierDTO
+     */
     @Override
-    public List<SupplierDTO> getAll(){
-        log.info("getAll()- Получены все supplier");
+    public List<SupplierDTO> getAll() {
         List<Supplier> supplierList = supplierService.getAllSupplier();
         List<SupplierDTO> supplierDTOList = new ArrayList<>();
         for (Supplier supplier : supplierList) {
             supplierDTOList.add(supplierDTOFromSupplierConverter.convert(supplier));
         }
+        log.info("getAll()- Получены все supplier");
         return supplierDTOList;
     }
 
     /**
-     * Создаем нового поставщика из переданного json в запросе
+     * Создание нового поставщика из переданного json в запросе
+     *
+     * @param supplierDTO - экземпляр customerDTO для создания
+     * @return - созданный supplierDTO
      */
     @Override
     public SupplierDTO create(SupplierDTO supplierDTO) {
-        log.info("create() - Создан новый supplier {}", supplierDTO);
-        return supplierDTOFromSupplierConverter.convert(supplierService.create(supplierFromSupplierDTOConverter.convert(supplierDTO)));
+        SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.create(supplierFromSupplierDTOConverter.convert(supplierDTO)));
+        log.info("create() - Создан новый supplier {}", supplierDTOCheck);
+        return supplierDTOCheck;
     }
 
     /**
-     * Обновление полей поставщика из переданного json в запросе
+     * Обновление полей поставщика с определенным id из запроса по данным переданным в json запроса
+     *
+     * @param id          - id поставщика для обновления
+     * @param supplierDTO - supplierDTO  полученный из json запроса
+     * @return - обновленный supplierDTO
      */
     @Override
-    public SupplierDTO update(int id, SupplierDTO supplierDTO)  {
-        log.info("update() - Обновлен supplier c id {}", id);
-        return supplierDTOFromSupplierConverter.convert(supplierService.update(id, supplierFromSupplierDTOConverter.convert(supplierDTO)));
+    public SupplierDTO update(int id, SupplierDTO supplierDTO) {
+        SupplierDTO supplierDTOCheck = supplierDTOFromSupplierConverter.convert(supplierService.update(id, supplierFromSupplierDTOConverter.convert(supplierDTO)));
+        log.info("update() - Обновлен supplier: {}", supplierDTOCheck);
+        return supplierDTOCheck;
     }
 
     /**
      * Удаление поставщика по id переданного в запросе
+     * @param id - id удаляемого объекта
+     * @return - удаленный объект
      */
     @Override
     public SupplierDTO delete(int id) {
-        log.info("delete() - Удален supplier с id {}", id);
-        return supplierDTOFromSupplierConverter.convert(supplierService.deleteById(id));
+        SupplierDTO supplierDTO = supplierDTOFromSupplierConverter.convert(supplierService.deleteById(id));
+        log.info("delete() - Удален supplier {}", supplierDTO);
+        return supplierDTO;
     }
 }

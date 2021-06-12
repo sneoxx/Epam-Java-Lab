@@ -13,24 +13,24 @@ public interface ProductService {
     /**
      * Создание случайного product и запись в БД
      *
-     * @param supplier - экземпляр supplierDTO
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @param supplier - экземпляр supplier
+     * @return - product записанный в базу
      */
     Product createRandomProduct(Supplier supplier);
 
     /**
      * Создание и запись в БД рандомного Supplier
      *
-     * @param product - Экземпляр productDTO
-     * @return - supplierDTO конвертированный из Supplier записанного в базу
+     * @param product - Экземпляр product
+     * @return - product записанный в базу
      */
     Product create(Product product);
 
     /**
      * Обновление случайными данными и запись в БД екземпляра Product
      *
-     * @param product - экземпляр productDTO, на который необходимо изменить
-     * @return - результат операции productDTO конвертированный из Product полученного из базы
+     * @param product - экземпляр product, на который необходимо изменить
+     * @return - product обновленный в базе
      */
     Product updateRandomData(Product product);
 
@@ -38,8 +38,8 @@ public interface ProductService {
      * Обновление и запись в БД екземпляра product
      *
      * @param id         - id экземпляра product в базе, который необходимо изменить
-     * @param product - экземпляр productDTO, на который необходимо изменить
-     * @return - ProductDTO конвертированный из обновленного Product
+     * @param product - экземпляр product, на который необходимо изменить
+     * @return - product обновленный в базе
      */
     Product update(int id, Product product);
 
@@ -47,14 +47,14 @@ public interface ProductService {
      * Получение Product из базы
      *
      * @param id - id Product, которое необходимло получить
-     * @return - ProductDTO созданный из полченного Customer
+     * @return - Product полученный из базы или новый Product в случае отстутствия такового id в БД
      */
     Product getProduct(int id);
 
     /**
      * Получение всех Product из базы
      *
-     * @return - коллекция ProductDTO конвертированная из полученной коллекции Product
+     * @return - коллекция list Product
      */
     List<Product> getAllProduct();
 
@@ -62,7 +62,7 @@ public interface ProductService {
      * Удаление Product из базы по id
      *
      * @param id - id Product для удаления
-     * @return - ProductDTO конвертированный из удаленного Product
+     * @return - удаленный Product
      */
     Product deleteById(int id);
 

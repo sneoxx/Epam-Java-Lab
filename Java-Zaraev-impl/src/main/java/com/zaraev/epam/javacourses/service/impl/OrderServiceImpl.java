@@ -29,10 +29,10 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     /**
-     * Создание и запись в БД рандомного Supplier
+     * Создание и запись в БД рандомного Order
      *
-     * @param customer - экземпляр customerDTO
-     * @return - OrderDTO конвертированный из Order записанного в базу
+     * @param customer - экземпляр customer для записи
+     * @return - order записанный в базу
      */
     @Override
     public Order createRandomOrder(Customer customer, Integer id) {
@@ -53,8 +53,8 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Создание и запись в БД экземпляра order
      *
-     * @param order - Экземпляр orderDTO
-     * @return - OrderDTO конвертированный из Order записанного в базу
+     * @param order - Экземпляр order для записи
+     * @return - order записанный в базу
      */
     @Override
     public Order create(Order order) {
@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
      * Обновление случайными данными и запись в БД екземпляра Order
      *
      * @param order - экземпляр order, на который необходимо изменить
-     * @return - - результат операции OrderDTO конвертированный из Order полученного из базы
+     * @return - order обновленный в базе
      */
     @Override
     public Order updateRandomData(Order order) {
@@ -80,9 +80,9 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Обновление и запись в БД  order
      *
-     * @param id       - id экземпляра order в базе, который необходимо изменить
-     * @param order - экземпляр orderDTO, на который необходимо изменить
-     * @return - OrderDTO конвертированный из обновленного Order
+     * @param id    - id экземпляра order в базе, который необходимо изменить
+     * @param order - экземпляр order, на который необходимо изменить
+     * @return - order обновленный в базе
      */
     @Override
     public Order update(int id, Order order) {
@@ -100,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
      * Получение Order из базы
      *
      * @param id - id Order, которое необходимло получить
-     * @return - OrderDTO созданный из полученного Order
+     * @return - order полученный из базы или новый order в случае отстутствия такового id в БД
      */
     @Override
     public Order getOrder(int id) {
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Получение всех Order из базы
      *
-     * @return - коллекция CustomerDTO конвертированная из полученной коллекции Customer
+     * @return - коллекция list Customer
      */
     @Override
     public List<Order> getAllOrder() {
@@ -130,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
      * Удаление Order из базы по id
      *
      * @param id - id Order для удаления
-     * @return - OrderDTO конвертированный из удаленного Order
+     * @return - удаленный Order
      */
     @Override
     public Order deleteById(int id) {

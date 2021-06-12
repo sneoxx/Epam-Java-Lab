@@ -29,13 +29,14 @@ public class CustomerResourceImpl implements CustomerResource {
     /**
      * Получение клиента по id переданного в запросе
      *
-     * @param id - id запроса
+     * @param id - id из запроса
      * @return - экземпляр CustomerDTO
      */
     @Override
     public CustomerDTO get(int id) {
-        log.info("get() - Получен customer по id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.getCustomer(id));
+        CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.getCustomer(id));
+        log.info("get() - Получен customer: {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
@@ -44,12 +45,12 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public List<CustomerDTO> getAll() {
-        log.info("getAll()- Получены все customer");
         List<Customer> customerList = customerService.getAllCustomer();
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for (Customer customer : customerList) {
             customerDTOList.add(customerDTOfromCustomerConverter.convert(customer));
         }
+        log.info("getAll()- Получены все customer");
         return customerDTOList;
     }
 
@@ -60,8 +61,9 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
-        log.info("create() - Создан новый customer {}", customerDTO);
-        return customerDTOfromCustomerConverter.convert(customerService.create(customerFromCustomerDTOConverter.convert(customerDTO)));
+        CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.create(customerFromCustomerDTOConverter.convert(customerDTO)));
+        log.info("create() - Создан новый customer {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
@@ -72,16 +74,20 @@ public class CustomerResourceImpl implements CustomerResource {
      */
     @Override
     public CustomerDTO update(int id, CustomerDTO customerDTO) {
-        log.info("update() - Обновлен customer c id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.update(id, customerFromCustomerDTOConverter.convert(customerDTO)));
+        CustomerDTO customerDTOCheck = customerDTOfromCustomerConverter.convert(customerService.update(id, customerFromCustomerDTOConverter.convert(customerDTO)));
+        log.info("update() - Обновлен customer: {}", customerDTOCheck);
+        return customerDTOCheck;
     }
 
     /**
-     * Удаление клиента по id переданного в запросе
+     * Удаление заказа по id переданного в запросе
+     * @param id - id удаляемого объекта
+     * @return - удаленный объект
      */
     @Override
     public CustomerDTO delete(int id) {
-        log.info("delete() - Удален customer с id {}", id);
-        return customerDTOfromCustomerConverter.convert(customerService.deleteById(id));
+        CustomerDTO customerDTO = customerDTOfromCustomerConverter.convert(customerService.deleteById(id));
+        log.info("delete() - Удален customer: {}", customerDTO);
+        return customerDTO;
     }
 }

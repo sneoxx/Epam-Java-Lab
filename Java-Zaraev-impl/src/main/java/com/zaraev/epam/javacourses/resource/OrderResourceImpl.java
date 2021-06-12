@@ -23,56 +23,74 @@ public class OrderResourceImpl implements OrderResource {
     private final OrderService orderService;
 
     private final OrderDTOFromOrderConverter orderDTOFromOrderConverter;
-    
+
     private final OrderFromOrderDTOConverter orderFromOrderDTOConverter;
 
     /**
      * Получение заказа по id переданного в запросе
+     *
+     * @param id - id из запроса
+     * @return - экземпляр OrderDTO
      */
     @Override
     public OrderDTO get(int id) {
-        log.info("get() - Получен order по id {}", id);
-        return orderDTOFromOrderConverter.convert(orderService.getOrder(id));
+        OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.getOrder(id));
+        log.info("get() - Получен order: {}", orderDTOCheck);
+        return orderDTOCheck;
     }
 
     /**
      * Получение всех заказов
+     *
+     * @return - коллекция List orderDTO
      */
     @Override
     public List<OrderDTO> getAll() {
-        log.info("getAll()- Получены все order");
         List<Order> orderList = orderService.getAllOrder();
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Order order : orderList) {
             orderDTOList.add(orderDTOFromOrderConverter.convert(order));
         }
+        log.info("getAll()- Получены все order");
         return orderDTOList;
     }
 
     /**
      * Создание нового заказа из переданного json в запросе
+     *
+     * @param orderDTO - экземпляр customerDTO для создания
+     * @return - созданный customerDTO
      */
     @Override
-    public OrderDTO create(OrderDTO orderDTO)  {
-        log.info("create() - Создан новый order {}", orderDTO);
-        return  orderDTOFromOrderConverter.convert(orderService.create(orderFromOrderDTOConverter.convert(orderDTO)));
+    public OrderDTO create(OrderDTO orderDTO) {
+        OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.create(orderFromOrderDTOConverter.convert(orderDTO)));
+        log.info("create() - Создан новый order {}", orderDTOCheck);
+        return orderDTOCheck;
     }
 
     /**
-     * Обновление полей заказа из переданного json в запросе
+     * Обновление полей заказа с определенным id из запроса по данным переданным в json запроса
+     *
+     * @param id       - id заказа для обновления
+     * @param orderDTO - orderDTO  полученный из json запроса
+     * @return - обновленный orderDTO
      */
     @Override
     public OrderDTO update(int id, OrderDTO orderDTO) {
-        log.info("update() - Обновлен order c id {}", id);
-        return  orderDTOFromOrderConverter.convert(orderService.update(id, orderFromOrderDTOConverter.convert(orderDTO)));
+        OrderDTO orderDTOCheck = orderDTOFromOrderConverter.convert(orderService.update(id, orderFromOrderDTOConverter.convert(orderDTO)));
+        log.info("update() - Обновлен order: {}", orderDTOCheck);
+        return orderDTOCheck;
     }
 
     /**
      * Удаление заказа по id переданного в запросе
+     * @param id - id удаляемого объекта
+     * @return - удаленный объект
      */
     @Override
     public OrderDTO delete(int id) {
-            log.info("delete() - Удален customer с id {}", id);
-            return  orderDTOFromOrderConverter.convert(orderService.deleteById(id));
+        OrderDTO orderDTO = orderDTOFromOrderConverter.convert(orderService.deleteById(id));
+        log.info("delete() - Удален order: {}", orderDTO);
+        return orderDTO;
     }
 }

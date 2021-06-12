@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Создание и запись в БД рандомного Customer
      *
-     * @return - сustomer конвертированный из Customer записанного в базу
+     * @return - сustomer записанный в базу
      */
     @Override
     public Customer createRandomCustomer() {
@@ -42,8 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Создание и запись в БД екземпляра customer
      *
-     * @param customer - Экземпляр customerDTO
-     * @return - сustomerDTO конвертированный из Customer записанного в базу
+     * @param customer - Экземпляр customer
+     * @return - сustomer записанный в базу
      */
     @Override
     public Customer create(Customer customer) {
@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
      * Обновление случайными данными и запись в БД екземпляра Customer
      *
      * @param customer - экземпляр customer, на который необходимо изменить
-     * @return - результат операции сustomerDTO конвертированный из Customer полученного из базы
+     * @return - сustomer обновленный в базе
      */
     @Override
     public Customer updateRandomData(Customer customer) {
@@ -69,9 +69,9 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Обновление и запись в БД экземпляра customer
      *
-     * @param id          - id экземпляра customer в базе, который необходимо изменить
+     * @param id      - id экземпляра customer в базе, который необходимо изменить
      * @param customer - экземпляр customer, на который необходимо изменить
-     * @return - CustomerDTO конвертированный из обновленного Customer
+     * @return - сustomer обновленный в базе
      */
     @Override
     public Customer update(int id, Customer customer) {
@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
      * Получение Customer из базы
      *
      * @param id - id Customer, которое необходимло получить
-     * @return - CustomerDTO созданный из полученного Customer
+     * @return - сustomer полученный из базы или новый сustomer в случае отстутствия такового id в БД
      */
     @Override
     public Customer getCustomer(int id) {
@@ -104,7 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Получение всех Customer из базы
      *
-     * @return - коллекция CustomerDTO конвертированная из полученного коллекции Customer
+     * @return - коллекция list Customer
      */
     @Override
     public List<Customer> getAllCustomer() {
@@ -117,7 +117,7 @@ public class CustomerServiceImpl implements CustomerService {
      * Удаление Customer из базы по id
      *
      * @param id - id Customer для удаления
-     * @return - CustomerDTO конвертированный из удаленного Customer
+     * @return - удаленный Customer
      */
     @Override
     public Customer deleteById(int id) {

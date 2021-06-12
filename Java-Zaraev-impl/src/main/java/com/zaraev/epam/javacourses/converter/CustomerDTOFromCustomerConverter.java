@@ -5,6 +5,9 @@ import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Конвертер из CustomerDTO в Customer
+ */
 @Component
 public class CustomerDTOFromCustomerConverter implements Converter<Customer, CustomerDTO> {
 
