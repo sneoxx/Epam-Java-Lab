@@ -20,8 +20,7 @@ public class LoggingImpl {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
-        System.out.println("Метод " + methodName + " класса " + className + " с входными параметрами " + methodArgs + " выполнен за " + executionTime + "мс");
-       // log.info("Метод " + methodName + " класса " + className + " с входными параметрами " + methodArgs + " выполнен за " + executionTime + "мс");
+        log.info("Метод " + methodName + " класса " + className + " с входными параметрами " + methodArgs + " выполнен за " + executionTime + "мс");
         return proceed;
     }
     }
