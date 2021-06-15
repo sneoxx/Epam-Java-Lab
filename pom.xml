@@ -19,7 +19,6 @@
         <module>Java-Zaraev-api</module>
         <module>Java-Zaraev-db</module>
         <module>Java-Zaraev-impl</module>
-        <module>spam</module>
         <module>logging</module>
     </modules>
     <name>Java Zaraev</name>
