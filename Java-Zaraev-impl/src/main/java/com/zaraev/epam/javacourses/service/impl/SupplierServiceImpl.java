@@ -73,7 +73,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public Supplier update(int id, Supplier supplier) {
-        Supplier updateSupplier = supplierRepository.getOne(id);
+        Supplier updateSupplier = supplierRepository.getById(id);
         updateSupplier.setCompanyName(supplier.getCompanyName());
         updateSupplier.setPhone(supplier.getPhone());
         Supplier supplierCheck = supplierRepository.save(updateSupplier);
@@ -114,7 +114,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public Supplier deleteById(int id) {
-        Supplier supplier = supplierRepository.getOne(id);
+        Supplier supplier = supplierRepository.getById(id);
         supplierRepository.deleteById(id);
         log.debug("deleteById() Объект supplier успешно удален из БД: {}", supplier);
         return supplier;

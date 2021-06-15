@@ -2,8 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <packaging>war</packaging>
-
     <parent>
         <artifactId>java-courses</artifactId>
         <groupId>com.zaraev.epam</groupId>
@@ -26,24 +24,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-        <!-- tests-->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- postgresql-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -57,6 +37,43 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <!-- spring boot tests-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>2.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Рантайм БД -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <!-- spring aop - аспекты-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!-- мои зависимости-->
         <dependency>
             <groupId>com.zaraev.epam</groupId>
@@ -66,137 +83,26 @@
         </dependency>
         <dependency>
             <groupId>com.zaraev.epam</groupId>
-            <artifactId>spam</artifactId>
+            <artifactId>logging</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
-
-    <!--        <dependency>-->
-    <!--            <groupId>com.google.code.gson</groupId>-->
-    <!--            <artifactId>gson</artifactId>-->
-    <!--        </dependency>-->
-
-
-
-    <!--        <dependency>-->
-    <!--            <groupId>org.hibernate</groupId>-->
-    <!--            <artifactId>hibernate-core</artifactId>-->
-    <!--        </dependency>-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.hibernate</groupId>-->
-    <!--            <artifactId>hibernate-entitymanager</artifactId>-->
-    <!--        </dependency>-->
-
-
-
-
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-core</artifactId>-->
-    <!--        </dependency>-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-context</artifactId>-->
-    <!--        </dependency>-->
-
-
-
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework.data</groupId>-->
-    <!--            <artifactId>spring-data-jpa</artifactId>-->
-    <!--        </dependency>-->
-
-
-    <!--        &lt;!&ndash; Spring Web MVC основные для спринг web&ndash;&gt;-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-webmvc</artifactId>-->
-    <!--        </dependency>-->
-    <!--        <dependency>-->
-    <!--            <groupId>javax.servlet</groupId>-->
-    <!--            <artifactId>javax.servlet-api</artifactId>-->
-    <!--            <scope>provided</scope>-->
-    <!--        </dependency>-->
-
-    <!--        &lt;!&ndash; Для маппинга в JSON для преобразования из обьектов в json и обратно&ndash;&gt;-->
-    <!--        <dependency>-->
-    <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-    <!--            <artifactId>jackson-databind</artifactId>-->
-    <!--        </dependency>-->
-
-    <!--        &lt;!&ndash; JSR 349  Валидация&ndash;&gt;-->
-    <!--        <dependency>-->
-    <!--            <groupId>javax.validation</groupId>-->
-    <!--            <artifactId>validation-api</artifactId>-->
-    <!--        </dependency>-->
-
-    <!--        &lt;!&ndash; Рантайм БД &ndash;&gt;-->
-    <!--        <dependency>-->
-    <!--            <groupId>com.h2database</groupId>-->
-    <!--            <artifactId>h2</artifactId>-->
-    <!--            <scope>runtime</scope>-->
-    <!--        </dependency>-->
-
-
-
-
-
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-orm</artifactId>-->
-    <!--        </dependency>-->
-
-
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-jdo</artifactId>-->
-    <!--        </dependency>-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-web</artifactId>-->
-    <!--        </dependency>-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.springframework</groupId>-->
-    <!--            <artifactId>spring-webmvc</artifactId>-->
-    <!--        </dependency>-->
-
-
 
     <build>
         <finalName>WebAppZaraev</finalName>
-
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-            <!--                <version>3.8.1</version>-->
-            <!--                <configuration>-->
-            <!--                    <source>11</source>-->
-            <!--                    <target>11</target>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.8.2</version>
-                <configuration>
-                    <outputEncoding>UTF-8</outputEncoding>
-                </configuration>
             </plugin>
-
-            <!--                <plugin>-->
-            <!--                    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                    <artifactId>maven-war-plugin</artifactId>-->
-            <!--                    <configuration>-->
-            <!--                        <failOnMissingWebXml>false</failOnMissingWebXml>-->
-            <!--                    </configuration>-->
-            <!--                </plugin>-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.tomcat.maven</groupId>-->
-            <!--                <artifactId>tomcat7-maven-plugin</artifactId>-->
-            <!--                <version>2.2</version>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 </project>

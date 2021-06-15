@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@Table
+@Table(schema = "zaraev")
 public class Order {
 
     @Id

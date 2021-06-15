@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.resource;
 
+import com.zaraev.epam.javacourses.Logging;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.dto.CustomerDTO;
 import com.zaraev.epam.javacourses.service.CustomerService;
@@ -29,6 +30,7 @@ public class CustomerResourceImpl implements CustomerResource {
      * @param id - id из запроса
      * @return - экземпляр CustomerDTO
      */
+    @Logging
     @Override
     public CustomerDTO get(int id) {
         Customer customerResult = customerService.getCustomer(id);
@@ -42,6 +44,7 @@ public class CustomerResourceImpl implements CustomerResource {
      *
      * @return - коллекция List customerDTO
      */
+    @Logging
     @Override
     public List<CustomerDTO> getAll() {
         List<Customer> customerList = customerService.getAllCustomer();
@@ -59,6 +62,7 @@ public class CustomerResourceImpl implements CustomerResource {
      * @param customerDTO - экземпляр customerDTO для создания
      * @return - созданный customerDTO
      */
+    @Logging
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
         Customer customerConvert = conversionService.convert(customerDTO, Customer.class);
@@ -75,6 +79,7 @@ public class CustomerResourceImpl implements CustomerResource {
      * @param customerDTO - customerDTO полученный из json запроса
      * @return - обновленный customerDTO
      */
+    @Logging
     @Override
     public CustomerDTO update(int id, CustomerDTO customerDTO) {
         Customer customerConvert = conversionService.convert(customerDTO, Customer.class);
@@ -90,6 +95,7 @@ public class CustomerResourceImpl implements CustomerResource {
      * @param id - id удаляемого объекта
      * @return - удаленный объект CustomerDTO
      */
+    @Logging
     @Override
     public CustomerDTO delete(int id) {
         Customer customerResult = customerService.deleteById(id);

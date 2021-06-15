@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.resource;
 
+import com.zaraev.epam.javacourses.Logging;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.dto.SupplierDTO;
 import com.zaraev.epam.javacourses.service.SupplierService;
@@ -29,6 +30,7 @@ public class SupplierResourceImpl implements SupplierResource {
      * @param id - id из запроса
      * @return - экземпляр SupplierDTO
      */
+    @Logging
     @Override
     public SupplierDTO get(int id) {
         Supplier supplierResult = supplierService.getSupplier(id);
@@ -42,6 +44,7 @@ public class SupplierResourceImpl implements SupplierResource {
      *
      * @return - коллекция List SupplierDTO
      */
+    @Logging
     @Override
     public List<SupplierDTO> getAll() {
         List<Supplier> supplierList = supplierService.getAllSupplier();
@@ -59,6 +62,7 @@ public class SupplierResourceImpl implements SupplierResource {
      * @param supplierDTO - экземпляр customerDTO для создания
      * @return - созданный supplierDTO
      */
+    @Logging
     @Override
     public SupplierDTO create(SupplierDTO supplierDTO) {
         Supplier supplierConvert = conversionService.convert(supplierDTO, Supplier.class);
@@ -75,6 +79,7 @@ public class SupplierResourceImpl implements SupplierResource {
      * @param supplierDTO - supplierDTO  полученный из json запроса
      * @return - обновленный supplierDTO
      */
+    @Logging
     @Override
     public SupplierDTO update(int id, SupplierDTO supplierDTO) {
         Supplier supplierConvert = conversionService.convert(supplierDTO, Supplier.class);
@@ -90,6 +95,7 @@ public class SupplierResourceImpl implements SupplierResource {
      * @param id - id удаляемого объекта
      * @return - удаленный объект
      */
+    @Logging
     @Override
     public SupplierDTO delete(int id) {
         Supplier supplierResult = supplierService.deleteById(id);

@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/epamcourses?currentSchema=zaraev
+    username: usr
+    password: pass
+
+logger:
+  enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans,info,env
