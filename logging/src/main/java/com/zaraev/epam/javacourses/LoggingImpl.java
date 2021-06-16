@@ -8,10 +8,19 @@ import org.aspectj.lang.annotation.Aspect;
 import java.util.Arrays;
 
 
+/**
+ * Класс логгер, работающий при навешивании аннотации @Logging на методе и выводящий в лог:
+ * название метода, входные параметры и время выполнения метода
+ */
 @Aspect
 @Slf4j
 public class LoggingImpl {
 
+    /**
+     *
+     * @param joinPoint - точка соединения
+     * @return - результат выполнения метода
+     */
     @Around("@annotation(Logging)")
     public Object logMethodInfo(ProceedingJoinPoint joinPoint) throws Throwable {
         String className = joinPoint.getThis().getClass().getSimpleName().split("\\$")[0];
@@ -21,6 +30,7 @@ public class LoggingImpl {
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
         log.info("Метод " + methodName + " класса " + className + " с входными параметрами " + methodArgs + " выполнен за " + executionTime + "мс");
+        log.info(proceed.toString());
         return proceed;
     }
-    }
+}
