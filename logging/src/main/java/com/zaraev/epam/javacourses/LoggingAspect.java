@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 @Aspect
 @Slf4j
-public class LoggingImpl {
+public class LoggingAspect {
 
     /**
      *
@@ -30,7 +30,6 @@ public class LoggingImpl {
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
         log.info("Метод " + methodName + " класса " + className + " с входными параметрами " + methodArgs + " выполнен за " + executionTime + "мс");
-        log.info(proceed.toString());
         return proceed;
     }
 }

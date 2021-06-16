@@ -16,8 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class LoggerConfiguration {
 
     @Bean
-    public LoggingImpl loggingImpl(){
-        return new LoggingImpl();
+    public LoggingAspect loggingImpl(){
+        return new LoggingAspect();
     }
 
 }
