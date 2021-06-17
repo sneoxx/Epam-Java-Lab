@@ -60,6 +60,7 @@ public class OrderResourceImplTest {
         Customer customer = entityFactory.createRandomCustomer();
         Customer customer2 = entityFactory.createRandomCustomer();
         Order order = entityFactory.createRandomOrder(customer);
+        order.setOrderNumber("158742");
         Order order2 = entityFactory.createRandomOrder(customer2);
         List<Order> OrderList = new ArrayList<>();
         OrderList.add(order);
@@ -67,7 +68,8 @@ public class OrderResourceImplTest {
         when(orderService.getAllOrder()).thenReturn(OrderList);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/order"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].orderNumber").value("158742"));
     }
 
     @Test

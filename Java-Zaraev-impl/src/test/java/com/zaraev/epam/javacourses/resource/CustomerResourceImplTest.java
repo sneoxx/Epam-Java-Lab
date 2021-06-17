@@ -52,6 +52,7 @@ public class CustomerResourceImplTest {
     @Test()
     public void testGetAllCustomer() throws Exception {
         Customer customer = entityFactory.createRandomCustomer();
+        customer.setCustomerName("Michail");
         Customer customer2 = entityFactory.createRandomCustomer();
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customer);
@@ -59,7 +60,8 @@ public class CustomerResourceImplTest {
         when(customerService.getAllCustomer()).thenReturn(customerList);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/customer"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].customerName").value("Michail"));
     }
 
     @Test()

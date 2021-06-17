@@ -52,6 +52,7 @@ public class SupplierResourceImplTest {
     @Test
     public void testGetAllsupplier() throws Exception {
         Supplier supplier = entityFactory.createRandomSupplier();
+        supplier.setCompanyName("Rabbit");
         Supplier supplier2 = entityFactory.createRandomSupplier();
         List<Supplier> supplierList = new ArrayList<>();
         supplierList.add(supplier);
@@ -59,7 +60,8 @@ public class SupplierResourceImplTest {
         when(supplierService.getAllSupplier()).thenReturn(supplierList);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/supplier"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].companyName").value("Rabbit"));
     }
 
     @Test
