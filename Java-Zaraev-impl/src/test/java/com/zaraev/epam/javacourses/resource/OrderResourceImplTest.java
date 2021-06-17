@@ -5,6 +5,7 @@ import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.service.OrderService;
 import com.zaraev.epam.javacourses.service.ProductService;
+import com.zaraev.epam.javacourses.util.EntityFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(OrderResource.class)
@@ -40,19 +40,27 @@ public class OrderResourceImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private EntityFactory entityFactory = new EntityFactory();
+
     @Test
     public void testGetOrder() throws Exception {
-        Order order = createOrder();
+        Customer customer = entityFactory.createRandomCustomer();
+        Order order = entityFactory.createRandomOrder(customer);
+        order.setOrderNumber("158742");
         when(orderService.getOrder(1)).thenReturn(order);
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/order/1"))
-                .andExpect(status().isOk());
+                MockMvcRequestBuilders.get("/order/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderNumber").value("158742"));
     }
 
     @Test
     public void testGetAllOrder() throws Exception {
-        Order order = createOrder();
-        Order order2 = createOrder();
+        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer2 = entityFactory.createRandomCustomer();
+        Order order = entityFactory.createRandomOrder(customer);
+        Order order2 = entityFactory.createRandomOrder(customer2);
         List<Order> OrderList = new ArrayList<>();
         OrderList.add(order);
         OrderList.add(order2);
@@ -64,7 +72,9 @@ public class OrderResourceImplTest {
 
     @Test
     public void testCreateOrder() throws Exception {
-        Order order = createOrder();
+        Customer customer = entityFactory.createRandomCustomer();
+        Order order = entityFactory.createRandomOrder(customer);
+        order.setOrderNumber("158742");
         given(this.orderService.create(order)).willReturn(order);
         mockMvc.perform(
                 MockMvcRequestBuilders
@@ -72,25 +82,31 @@ public class OrderResourceImplTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(order))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderNumber").value("158742"));
     }
 
     @Test
     public void testUpdateOrder() throws Exception {
-        Order order = createOrder();
+        Customer customer = entityFactory.createRandomCustomer();
+        Order order = entityFactory.createRandomOrder(customer);
+        order.setOrderNumber("158742");
         given(this.orderService.update(1, order)).willReturn(order);
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .put("/order/2")
+                        .put("/order/1")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(order))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderNumber").value("158742"));
     }
 
     @Test
     public void testDeleteByIdOrder() throws Exception {
-        Order order = createOrder();
+        Customer customer = entityFactory.createRandomCustomer();
+        Order order = entityFactory.createRandomOrder(customer);
+        order.setOrderNumber("158742");
         given(orderService.deleteById(1)).willReturn(order);
         mockMvc.perform(
                 MockMvcRequestBuilders
@@ -98,18 +114,8 @@ public class OrderResourceImplTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(order))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderNumber").value("158742"));
     }
 
-    public Order createOrder() {
-        Order order = new Order();
-        Customer customer = new Customer();
-        customer.setCustomerId(1);
-        order.setOrderId(1);
-        order.setOrderNumber("11");
-        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-        order.setTotalAmount(BigDecimal.valueOf(100));
-        order.setCustomer(customer);
-        return order;
-    }
 }

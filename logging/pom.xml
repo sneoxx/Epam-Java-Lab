@@ -22,11 +22,6 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- логгирование-->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
         <!-- spring aop - аспекты-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
