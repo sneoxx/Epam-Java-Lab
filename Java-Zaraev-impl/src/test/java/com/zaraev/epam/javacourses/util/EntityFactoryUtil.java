@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Random;
 
-public class EntityFactory {
+public final class EntityFactoryUtil {
 
     /**
      * Создание и запись в БД рандомного Customer
@@ -17,7 +17,7 @@ public class EntityFactory {
      * @return - сustomer записанный в базу
      */
 
-    public Customer createRandomCustomer() {
+    public static Customer createRandomCustomer() {
         Customer customer = new Customer();
         customer.setCustomerName(generateRandomWord());
         customer.setPhone(getRandomNumber());
@@ -30,7 +30,7 @@ public class EntityFactory {
      * @param customer - экземпляр customer для записи
      * @return - order записанный в базу
      */
-    public Order createRandomOrder(Customer customer) {
+    public static Order createRandomOrder(Customer customer) {
         Order order = new Order();
         order.setOrderNumber(getRandomNumber());
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
@@ -45,7 +45,7 @@ public class EntityFactory {
      * @param supplier - экземпляр supplier для записи
      * @return - product записанный в базу
      */
-    public Product createRandomProduct(Supplier supplier) {
+    public static Product createRandomProduct(Supplier supplier) {
         Product product = new Product();
         product.setProductName(generateRandomWord());
         product.setDiscountinued(true);
@@ -59,7 +59,7 @@ public class EntityFactory {
      *
      * @return - supplier записанный в базу
      */
-    public Supplier createRandomSupplier() {
+    public static Supplier createRandomSupplier() {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(generateRandomWord());
         supplier.setPhone(getRandomNumber());
@@ -71,7 +71,7 @@ public class EntityFactory {
      *
      * @return - случайное число
      */
-    public String getRandomNumber() {
+    public static String getRandomNumber() {
         return Integer.toString(1 + (int) (Math.random() * 10000));
     }
 
@@ -80,7 +80,7 @@ public class EntityFactory {
      *
      * @return - случайное слово
      */
-    public String generateRandomWord() {
+    public static String generateRandomWord() {
         Random random = new Random();
         char[] word = new char[random.nextInt(2) + 3];
         for (int j = 0; j < word.length; j++) {

@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.service.CustomerService;
-import com.zaraev.epam.javacourses.util.EntityFactory;
+import com.zaraev.epam.javacourses.util.EntityFactoryUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +35,25 @@ public class CustomerResourceImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private EntityFactory entityFactory = new EntityFactory();
-
     @Test
     public void testGetCustomer() throws Exception {
-        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer = EntityFactoryUtil.createRandomCustomer();
         customer.setCustomerName("Michail");
         when(customerService.getCustomer(1)).thenReturn(customer);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/customer/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customerName").value("Michail"));
+                .andExpect(jsonPath("$.customerName").value(customer.getCustomerName()));
     }
+
+
 
     @Test()
     public void testGetAllCustomer() throws Exception {
-        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer = EntityFactoryUtil.createRandomCustomer();
         customer.setCustomerName("Michail");
-        Customer customer2 = entityFactory.createRandomCustomer();
+        Customer customer2 = EntityFactoryUtil.createRandomCustomer();
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customer);
         customerList.add(customer2);
@@ -61,12 +61,12 @@ public class CustomerResourceImplTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/customer"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].customerName").value("Michail"));
+                .andExpect(jsonPath("$[0].customerName").value(customer.getCustomerName()));
     }
 
     @Test()
     public void testCreateCustomer() throws Exception {
-        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer = EntityFactoryUtil.createRandomCustomer();
         customer.setCustomerName("Michail");
         given(this.customerService.create(customer)).willReturn(customer);
         mockMvc.perform(
@@ -76,12 +76,12 @@ public class CustomerResourceImplTest {
                         .content(objectMapper.writeValueAsString(customer))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customerName").value("Michail"));
+                .andExpect(jsonPath("$.customerName").value(customer.getCustomerName()));
     }
 
     @Test()
     public void testUpdateCustomer() throws Exception {
-        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer = EntityFactoryUtil.createRandomCustomer();
         customer.setCustomerName("Michail");
         given(customerService.update(2, customer)).willReturn(customer);
         mockMvc.perform(
@@ -91,12 +91,12 @@ public class CustomerResourceImplTest {
                         .content(objectMapper.writeValueAsString(customer))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customerName").value("Michail"));
+                .andExpect(jsonPath("$.customerName").value(customer.getCustomerName()));
     }
 
     @Test()
     public void testDeleteByIdCustomer() throws Exception {
-        Customer customer = entityFactory.createRandomCustomer();
+        Customer customer = EntityFactoryUtil.createRandomCustomer();
         customer.setCustomerName("Michail");
         given(customerService.deleteById(2)).willReturn(customer);
         mockMvc.perform(
@@ -104,7 +104,7 @@ public class CustomerResourceImplTest {
                         .delete("/customer/2")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customerName").value("Michail"));
+                .andExpect(jsonPath("$.customerName").value(customer.getCustomerName()));
     }
 
 }

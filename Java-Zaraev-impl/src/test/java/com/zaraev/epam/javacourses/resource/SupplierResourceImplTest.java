@@ -3,7 +3,7 @@ package com.zaraev.epam.javacourses.resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.service.SupplierService;
-import com.zaraev.epam.javacourses.util.EntityFactory;
+import com.zaraev.epam.javacourses.util.EntityFactoryUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +35,23 @@ public class SupplierResourceImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private EntityFactory entityFactory = new EntityFactory();
-
     @Test
     public void testGetsupplier() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
         supplier.setCompanyName("Rabbit");
         when(supplierService.getSupplier(1)).thenReturn(supplier);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/supplier/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName").value("Rabbit"));
+                .andExpect(jsonPath("$.companyName").value(supplier.getCompanyName()));
     }
 
     @Test
     public void testGetAllsupplier() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
         supplier.setCompanyName("Rabbit");
-        Supplier supplier2 = entityFactory.createRandomSupplier();
+        Supplier supplier2 = EntityFactoryUtil.createRandomSupplier();
         List<Supplier> supplierList = new ArrayList<>();
         supplierList.add(supplier);
         supplierList.add(supplier2);
@@ -61,12 +59,12 @@ public class SupplierResourceImplTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/supplier"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyName").value("Rabbit"));
+                .andExpect(jsonPath("$[0].companyName").value(supplier.getCompanyName()));
     }
 
     @Test
     public void testCreatesupplier() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
         supplier.setCompanyName("Rabbit");
         given(this.supplierService.create(supplier)).willReturn(supplier);
         mockMvc.perform(
@@ -76,12 +74,12 @@ public class SupplierResourceImplTest {
                         .content(objectMapper.writeValueAsString(supplier))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName").value("Rabbit"));
+                .andExpect(jsonPath("$.companyName").value(supplier.getCompanyName()));
     }
 
     @Test
     public void testUpdateSupplier() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
         supplier.setCompanyName("Rabbit");
         given(supplierService.update(1, supplier)).willReturn(supplier);
         mockMvc.perform(
@@ -91,12 +89,12 @@ public class SupplierResourceImplTest {
                         .content(objectMapper.writeValueAsString(supplier))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName").value("Rabbit"));
+                .andExpect(jsonPath("$.companyName").value(supplier.getCompanyName()));
     }
 
     @Test
     public void testDeleteByIdsupplier() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
         supplier.setCompanyName("Rabbit");
         given(supplierService.deleteById(1)).willReturn(supplier);
         mockMvc.perform(
@@ -106,7 +104,7 @@ public class SupplierResourceImplTest {
                         .content(objectMapper.writeValueAsString(supplier))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName").value("Rabbit"));
+                .andExpect(jsonPath("$.companyName").value(supplier.getCompanyName()));
     }
 
 }

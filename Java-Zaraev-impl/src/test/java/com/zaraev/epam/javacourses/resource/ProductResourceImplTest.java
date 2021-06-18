@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.domain.entity.Supplier;
 import com.zaraev.epam.javacourses.service.ProductService;
-import com.zaraev.epam.javacourses.util.EntityFactory;
+import com.zaraev.epam.javacourses.util.EntityFactoryUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,25 +33,23 @@ public class ProductResourceImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private EntityFactory entityFactory = new EntityFactory();
-
     @Test
     public void testGetProduct() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
-        Product product = entityFactory.createRandomProduct(supplier);
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
+        Product product = EntityFactoryUtil.createRandomProduct(supplier);
         product.setProductName("Car");
         when(productService.getProduct(1)).thenReturn(product);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/product/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Car"));
+                .andExpect(jsonPath("$.productName").value(product.getProductName()));
     }
 
     @Test
     public void testCreateProduct() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
-        Product product = entityFactory.createRandomProduct(supplier);
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
+        Product product = EntityFactoryUtil.createRandomProduct(supplier);
         product.setProductName("Car");
         given(productService.create(product)).willReturn(product);
         mockMvc.perform(
@@ -61,13 +59,13 @@ public class ProductResourceImplTest {
                         .content(objectMapper.writeValueAsString(product))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Car"));
+                .andExpect(jsonPath("$.productName").value(product.getProductName()));
     }
 
     @Test
     public void testUpdateProduct() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
-        Product product = entityFactory.createRandomProduct(supplier);
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
+        Product product = EntityFactoryUtil.createRandomProduct(supplier);
         product.setProductName("Car");
         given(productService.update(1, product)).willReturn(product);
         mockMvc.perform(
@@ -77,13 +75,13 @@ public class ProductResourceImplTest {
                         .content(objectMapper.writeValueAsString(product))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Car"));
+                .andExpect(jsonPath("$.productName").value(product.getProductName()));
     }
 
     @Test
     public void testDeleteByIdProduct() throws Exception {
-        Supplier supplier = entityFactory.createRandomSupplier();
-        Product product = entityFactory.createRandomProduct(supplier);
+        Supplier supplier = EntityFactoryUtil.createRandomSupplier();
+        Product product = EntityFactoryUtil.createRandomProduct(supplier);
         product.setProductName("Car");
         given(productService.deleteById(1)).willReturn(product);
         mockMvc.perform(
@@ -93,7 +91,7 @@ public class ProductResourceImplTest {
                         .content(objectMapper.writeValueAsString(product))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Car"));
+                .andExpect(jsonPath("$.productName").value(product.getProductName()));
     }
 
 }
