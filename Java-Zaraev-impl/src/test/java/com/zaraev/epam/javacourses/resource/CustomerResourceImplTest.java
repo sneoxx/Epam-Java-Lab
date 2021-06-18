@@ -47,8 +47,6 @@ public class CustomerResourceImplTest {
                 .andExpect(jsonPath("$.customerName").value(customer.getCustomerName()));
     }
 
-
-
     @Test()
     public void testGetAllCustomer() throws Exception {
         Customer customer = EntityFactoryUtil.createRandomCustomer();
