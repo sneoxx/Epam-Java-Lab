@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(BigDecimal.valueOf(100));
         order.setCustomer(customer);
         Set<Product> products = new HashSet<>();
-        Product product = productRepository.getOne(id);
+        Product product = productRepository.getById(id);
         products.add(product);
         order.setProducts(products);
         Order ordercheck = orderRepository.save(order);
@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order update(int id, Order order) {
-        Order updateOrder = orderRepository.getOne(id);
+        Order updateOrder = orderRepository.getById(id);
         updateOrder.setOrderNumber(order.getOrderNumber());
         updateOrder.setOrderDate(order.getOrderDate());
         updateOrder.setTotalAmount(order.getTotalAmount());
@@ -131,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order deleteById(int id) {
-        Order orderCheck = orderRepository.getOne(id);
+        Order orderCheck = orderRepository.getById(id);
         orderRepository.deleteById(id);
         log.debug("deleteById() Объект order успешно удален из БД: {}", orderCheck);
         return orderCheck;

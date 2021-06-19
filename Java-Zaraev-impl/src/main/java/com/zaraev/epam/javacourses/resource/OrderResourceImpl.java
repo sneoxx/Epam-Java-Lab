@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.resource;
 
+import com.zaraev.epam.javacourses.Logging;
 import com.zaraev.epam.javacourses.domain.entity.Order;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.dto.OrderDTO;
@@ -35,6 +36,7 @@ public class OrderResourceImpl implements OrderResource {
      * @param id - id из запроса
      * @return - экземпляр OrderDTO
      */
+    @Logging
     @Override
     public OrderDTO get(int id) {
         Order orderResult = orderService.getOrder(id);
@@ -48,6 +50,7 @@ public class OrderResourceImpl implements OrderResource {
      *
      * @return - коллекция List orderDTO
      */
+    @Logging
     @Override
     public List<OrderDTO> getAll() {
         List<Order> orderList = orderService.getAllOrder();
@@ -65,6 +68,7 @@ public class OrderResourceImpl implements OrderResource {
      * @param orderDTO - экземпляр customerDTO для создания
      * @return - созданный customerDTO
      */
+    @Logging
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
         Order orderConvert = conversionService.convert(orderDTO, Order.class);
@@ -87,6 +91,7 @@ public class OrderResourceImpl implements OrderResource {
      * @param orderDTO - orderDTO  полученный из json запроса
      * @return - обновленный orderDTO
      */
+    @Logging
     @Override
     public OrderDTO update(int id, OrderDTO orderDTO) {
         Order orderConvert = conversionService.convert(orderDTO, Order.class);
@@ -108,6 +113,7 @@ public class OrderResourceImpl implements OrderResource {
      * @param id - id удаляемого объекта
      * @return - удаленный объект orderDTO
      */
+    @Logging
     @Override
     public OrderDTO delete(int id) {
         Order orderResult = orderService.deleteById(id);

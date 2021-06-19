@@ -1,6 +1,7 @@
 package com.zaraev.epam.javacourses.service.impl;
 
 
+import com.zaraev.epam.javacourses.Logging;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
 import com.zaraev.epam.javacourses.repository.CustomerRepository;
 import com.zaraev.epam.javacourses.service.CustomerService;
@@ -74,7 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer update(int id, Customer customer) {
-        Customer updateCustomer = customerRepository.getOne(id);
+        Customer updateCustomer = customerRepository.getById(id);
         updateCustomer.setCustomerName(customer.getCustomerName());
         updateCustomer.setPhone(customer.getPhone());
         Customer customerCheck = customerRepository.save(updateCustomer);
@@ -88,6 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param id - id Customer, которое необходимло получить
      * @return - сustomer полученный из базы или новый сustomer в случае отстутствия такового id в БД
      */
+    @Logging
     @Override
     public Customer getCustomer(int id) {
         Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -115,7 +117,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer deleteById(int id) {
-        Customer customer = customerRepository.getOne(id);
+        Customer customer = customerRepository.getById(id);
         customerRepository.deleteById(id);
         log.debug("deleteById() Объект customer успешно удален из БД: {}", customer);
         return customer;

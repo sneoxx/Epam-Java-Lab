@@ -1,5 +1,6 @@
 package com.zaraev.epam.javacourses.resource;
 
+import com.zaraev.epam.javacourses.Logging;
 import com.zaraev.epam.javacourses.domain.entity.Product;
 import com.zaraev.epam.javacourses.dto.ProductDTO;
 import com.zaraev.epam.javacourses.service.ProductService;
@@ -29,6 +30,7 @@ public class ProductResourceImpl implements ProductResource {
      * @param id - id из запроса
      * @return - экземпляр ProductDTO
      */
+    @Logging
     @Override
     public ProductDTO get(int id) {
         Product productResult = productService.getProduct(id);
@@ -42,6 +44,7 @@ public class ProductResourceImpl implements ProductResource {
      *
      * @return - коллекция List productDTO
      */
+    @Logging
     @Override
     public List<ProductDTO> getAll() {
         List<Product> productList = productService.getAllProduct();
@@ -59,6 +62,7 @@ public class ProductResourceImpl implements ProductResource {
      * @param productDTO - экземпляр customerDTO для создания
      * @return - созданный productDTO
      */
+    @Logging
     @Override
     public ProductDTO create(ProductDTO productDTO) {
         Product productConvert = conversionService.convert(productDTO, Product.class);
@@ -75,6 +79,7 @@ public class ProductResourceImpl implements ProductResource {
      * @param productDTO - productDTO полученный из json запроса
      * @return - обновленный productDTO
      */
+    @Logging
     @Override
     public ProductDTO update(int id, ProductDTO productDTO) {
         Product productConvert = conversionService.convert(productDTO, Product.class);
@@ -90,6 +95,7 @@ public class ProductResourceImpl implements ProductResource {
      * @param id - id удаляемого объекта
      * @return - удаленный объект ProductDTO
      */
+    @Logging
     @Override
     public ProductDTO delete(int id) {
         Product productResult = productService.deleteById(id);

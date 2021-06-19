@@ -1,13 +1,11 @@
 # Project exclude paths
 /target/
-
 ### IntelliJ IDEA ###
 .idea
 *.iml
 /Java-Zaraev-impl/target/
 /Java-Zaraev-db/target/
 /Java-Zaraev-api/target/
-
 /Java-Zaraev-impl/src/main/resources/logs/
 /Java-Zaraev-db/src/main/resources/logs/
 /Java-Zaraev-api/src/main/resources/logs/

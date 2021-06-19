@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product update(int id, Product product) {
-        Product updateProduct = productRepository.getOne(id);
+        Product updateProduct = productRepository.getById(id);
         updateProduct.setProductName(product.getProductName());
         updateProduct.setUnitPrice(product.getUnitPrice());
         updateProduct.setDiscountinued(product.isDiscountinued());
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product deleteById(int id) {
-        Product productCheck = productRepository.getOne(id);
+        Product productCheck = productRepository.getById(id);
         productRepository.deleteById(id);
         log.debug("deleteById() Объект product успешно удален из БД: {}", productCheck);
         return productCheck;
