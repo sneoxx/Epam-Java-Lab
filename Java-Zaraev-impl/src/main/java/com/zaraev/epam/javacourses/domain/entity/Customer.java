@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,12 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
 
+    @NotBlank(message = "Необходимо указать имя")
     private String customerName;
 
     private String phone;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private static List<Order> orders = new ArrayList<>();    // клиент один а заказов много
+    private List<Order> orders = new ArrayList<>();    // клиент один а заказов много
 
 }
