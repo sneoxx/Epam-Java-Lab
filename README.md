@@ -71,8 +71,11 @@ http://localhost:8080/product/11 - метод get + id - получить тов
 http://localhost:8080/product - метод post - создать новый товар
 http://localhost:8080/product/11 - метод put + id - редактирование товара
 http://localhost:8080/product/11 - метод delete + id - удаление товара
+
 Запросы к остальный сущностям проходят аналогично
+
 Для отправки json запросов можно использовать postman
+
 
 Поднят актуатор
 http://localhost:8080/actuator/
