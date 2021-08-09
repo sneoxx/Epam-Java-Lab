@@ -67,10 +67,15 @@ http://localhost:8080/product
 
 Примеры запросов:
 http://localhost:8080/product/ - метод get - получить список всех товаров
+
 http://localhost:8080/product/11 - метод get + id - получить товар по ид
+
 http://localhost:8080/product - метод post - создать новый товар
+
 http://localhost:8080/product/11 - метод put + id - редактирование товара
+
 http://localhost:8080/product/11 - метод delete + id - удаление товара
+
 
 Запросы к остальный сущностям проходят аналогично
 
