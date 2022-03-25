@@ -12,7 +12,6 @@ public class Human {
     @Value(valueInt = 1)
     private int age;
 
-
     private String name;
 
     public int getAge() {
