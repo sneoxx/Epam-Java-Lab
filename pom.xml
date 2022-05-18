@@ -131,6 +131,12 @@
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
             </dependency>
+            <!-- -->
+            <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>4.5</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
