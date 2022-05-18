@@ -6,6 +6,7 @@ import com.zaraev.epam.javacourses.repository.CustomerCsvRepository;
 import com.zaraev.epam.javacourses.service.CustomerCsvService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +31,10 @@ public class CustomerCsvServiceImpl implements CustomerCsvService {
  //       customerList.add(new CustomerCsv(1111, "Jack Lee", "jack@example.com", orders));
   //      customerList.add(new CustomerCsv(2222, "Jovan Srovoki", "jovan@srovoki.me", orders));
   //      customerList.add(new CustomerCsv(3333, "Atta", "atta@gmail.com", orders));
-        customerList = customerCsvRepository.findAll();
+        customerList = customerCsvRepository.findAll(Sort.by(Sort.Direction.ASC, "customerId"));
         return customerList;
       //  return customerList;
-       // return customerCsvRepository.findAll(Sort.by(Sort.Direction.ASC, "Id"));
+      //  return customerCsvRepository.findAll(Sort.by(Sort.Direction.ASC, "Id"));
     }
 
 }

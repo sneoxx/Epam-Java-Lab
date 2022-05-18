@@ -37,7 +37,7 @@ public class CustomerCsvResourceImpl implements CustomerCsvResource{
                 .build();
 
         List<Customer> customerList = customerCsvService.getAllCustomer();
-        //write all users to csv file
+        //write all customer to csv file
         writer.write(customerList);
 
     }
