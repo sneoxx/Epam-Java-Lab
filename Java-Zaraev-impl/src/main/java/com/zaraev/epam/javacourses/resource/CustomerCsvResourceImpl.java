@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.zaraev.epam.javacourses.domain.entity.Customer;
+import com.zaraev.epam.javacourses.repository.CustomerCsvJDBC;
 import com.zaraev.epam.javacourses.service.CustomerCsvService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import java.util.List;
 public class CustomerCsvResourceImpl implements CustomerCsvResource{
 
     private final CustomerCsvService customerCsvService;
+
+    private final CustomerCsvJDBC customerCsvJDBC;// = new CustomerCsvJDBC();
 
     @Override
     public void export(HttpServletResponse response) throws Exception {
@@ -36,7 +39,8 @@ public class CustomerCsvResourceImpl implements CustomerCsvResource{
                 .withOrderedResults(false)
                 .build();
 
-        List<Customer> customerList = customerCsvService.getAllCustomer();
+       // List<Customer> customerList = customerCsvService.getAllCustomer();
+        List<Customer> customerList = customerCsvJDBC.getAllCustomer();
         //write all customer to csv file
         writer.write(customerList);
 
