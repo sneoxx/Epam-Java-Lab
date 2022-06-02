@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 
-@RequestMapping("/customercsv")
+@RequestMapping("/customer-csv")
 public interface CustomerCsvResource {
 
     @GetMapping("/export")
